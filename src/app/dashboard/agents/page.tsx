@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Bot, Activity, AlertCircle, CheckCircle } from 'lucide-react';
 import { AgentCard } from '@/components/agents/AgentCard';
+import { EditAgentDialog } from '@/components/agents/EditAgentDialog';
 import type { Agent } from '@/lib/agents/types';
 
 interface AgentWithMetrics extends Agent {
@@ -22,6 +23,7 @@ export default function AgentsPage() {
   const [agents, setAgents] = useState<AgentWithMetrics[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingAgent, setEditingAgent] = useState<Agent | null>(null);
 
   useEffect(() => {
     fetchAgents();
@@ -106,8 +108,7 @@ export default function AgentsPage() {
   };
 
   const handleEditAgent = (agent: Agent) => {
-    // TODO: Implement edit modal/form
-    console.log('Edit agent:', agent);
+    setEditingAgent(agent);
   };
 
   const getStats = () => {
@@ -235,6 +236,20 @@ export default function AgentsPage() {
             />
           ))}
         </div>
+      )}
+
+      {/* Edit Agent Dialog */}
+      {editingAgent && (
+        <EditAgentDialog
+          agent={editingAgent}
+          open={!!editingAgent}
+          onOpenChange={(open) => {
+            if (!open) {
+              setEditingAgent(null);
+              fetchAgents(); // Refresh agents after closing
+            }
+          }}
+        />
       )}
     </div>
   );
