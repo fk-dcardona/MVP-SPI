@@ -1,0 +1,669 @@
+# Finkargo Analytics MVP - Complete Implementation Prompt
+
+## Executive Summary
+Build a production-ready inventory analytics platform for import companies that transforms CSV data into strategic insights using the Supply Chain Triangle framework (Service-Cost-Capital optimization). Core user: Import managers who need to prevent stockouts, optimize working capital, and improve supplier negotiations.
+
+## Technical Architecture
+
+### Core Tech Stack
+```yaml
+Frontend:
+  - Framework: Next.js 14 (App Router)
+  - UI: Tailwind CSS + shadcn/ui
+  - Charts: Recharts for analytics visualization
+  - State: Zustand for global state management
+  - Forms: React Hook Form + Zod validation
+
+Backend & Database:
+  - Database: Supabase (PostgreSQL + Real-time subscriptions)
+  - Authentication: Supabase Auth (email/password + WhatsApp OTP)
+  - API: Supabase Client + Edge Functions
+  - File Processing: Papa Parse for CSV handling
+  - Real-time: Supabase subscriptions for live updates
+
+External Integrations:
+  - Currency API: ExchangeRate-API (free tier: 1500 calls/month)
+  - WhatsApp: Twilio WhatsApp API for notifications
+  - Deployment: Vercel (seamless Next.js integration)
+```
+
+### Project Structure
+```
+finkargo-analytics/
+├── src/
+│   ├── app/                    # Next.js 14 app router
+│   │   ├── (auth)/            # Authentication group
+│   │   │   ├── login/         # Login with WhatsApp verification
+│   │   │   └── register/      # Company registration
+│   │   ├── (dashboard)/       # Protected dashboard routes
+│   │   │   ├── page.tsx       # Executive overview dashboard
+│   │   │   ├── inventory/     # Inventory management
+│   │   │   ├── suppliers/     # Supplier performance
+│   │   │   ├── financial/     # Financial optimization
+│   │   │   ├── upload/        # CSV data upload
+│   │   │   └── settings/      # User preferences
+│   │   ├── api/               # API routes (if needed)
+│   │   └── globals.css        # Global styles
+│   ├── components/            # React components
+│   │   ├── ui/               # shadcn/ui base components
+│   │   ├── charts/           # Custom chart components
+│   │   ├── dashboard/        # Dashboard-specific widgets
+│   │   └── upload/           # CSV upload components
+│   ├── lib/                  # Utility functions
+│   │   ├── supabase/         # Supabase client configuration
+│   │   ├── calculations/     # Business logic (Triangle scores, ROCE)
+│   │   ├── validations/      # Zod schemas
+│   │   └── utils/            # Helper functions
+│   ├── hooks/                # Custom React hooks
+│   ├── stores/               # Zustand stores
+│   └── types/                # TypeScript definitions
+├── supabase/                 # Supabase configuration
+│   ├── migrations/           # Database migrations
+│   └── functions/            # Edge functions
+└── public/                   # Static assets
+```
+
+## Database Schema (Supabase)
+
+### Authentication & User Management
+```sql
+-- Companies table
+CREATE TABLE companies (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  industry TEXT,
+  country TEXT DEFAULT 'Colombia',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Users table (extends Supabase auth.users)
+CREATE TABLE user_profiles (
+  id UUID REFERENCES auth.users(id) PRIMARY KEY,
+  company_id UUID REFERENCES companies(id),
+  full_name TEXT,
+  role TEXT DEFAULT 'manager',
+  phone TEXT,
+  whatsapp_verified BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+### Core Data Models
+```sql
+-- Inventory items (from CSV uploads)
+CREATE TABLE inventory_items (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  company_id UUID REFERENCES companies(id),
+  sku TEXT NOT NULL,
+  description TEXT,
+  category TEXT,
+  subcategory TEXT,
+  current_stock DECIMAL DEFAULT 0,
+  average_cost DECIMAL DEFAULT 0,
+  last_cost DECIMAL DEFAULT 0,
+  total_value DECIMAL DEFAULT 0,
+  unit_type TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(company_id, sku)
+);
+
+-- Sales transactions (from CSV uploads)
+CREATE TABLE sales_transactions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  company_id UUID REFERENCES companies(id),
+  sku TEXT,
+  date DATE,
+  quantity DECIMAL,
+  net_value DECIMAL, -- V_NETA column
+  customer_name TEXT,
+  customer_type TEXT, -- distributor, rematero, etc.
+  salesperson TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  FOREIGN KEY (company_id, sku) REFERENCES inventory_items(company_id, sku)
+);
+
+-- Suppliers (calculated from data)
+CREATE TABLE suppliers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  company_id UUID REFERENCES companies(id),
+  name TEXT NOT NULL,
+  service_score DECIMAL DEFAULT 0, -- Supply Chain Triangle
+  cost_score DECIMAL DEFAULT 0,
+  capital_score DECIMAL DEFAULT 0,
+  overall_score DECIMAL DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- CSV upload tracking
+CREATE TABLE data_uploads (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  company_id UUID REFERENCES companies(id),
+  file_name TEXT,
+  file_type TEXT, -- 'inventory' or 'sales'
+  records_processed INTEGER,
+  status TEXT DEFAULT 'processing', -- processing, completed, failed
+  error_message TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+## Core Business Logic Implementation
+
+### 1. Supply Chain Triangle Calculator
+```typescript
+// src/lib/calculations/triangle-score.ts
+export interface TriangleScore {
+  service: number;
+  cost: number;
+  capital: number;
+  overall: number;
+}
+
+export interface InventoryAnalysis {
+  sku: string;
+  description: string;
+  currentStock: number;
+  salesVelocity: number; // units per day
+  daysOnHand: number;
+  marginPercent: number;
+  turnoverRate: number;
+  stockoutRisk: 'critical' | 'high' | 'medium' | 'low';
+  reorderPoint: number;
+}
+
+export function calculateInventoryAnalysis(
+  inventoryItem: InventoryItem,
+  salesData: SalesTransaction[]
+): InventoryAnalysis {
+  // Filter sales for this SKU in last 90 days
+  const recentSales = salesData.filter(sale => 
+    sale.sku === inventoryItem.sku && 
+    sale.date >= subDays(new Date(), 90)
+  );
+  
+  // Calculate sales velocity (units per day)
+  const totalQuantitySold = recentSales.reduce((sum, sale) => sum + sale.quantity, 0);
+  const salesVelocity = totalQuantitySold / 90;
+  
+  // Days on hand
+  const daysOnHand = salesVelocity > 0 ? inventoryItem.currentStock / salesVelocity : 999;
+  
+  // Margin calculation
+  const totalRevenue = recentSales.reduce((sum, sale) => sum + sale.netValue, 0);
+  const cogs = totalQuantitySold * inventoryItem.averageCost;
+  const marginPercent = totalRevenue > 0 ? ((totalRevenue - cogs) / totalRevenue) * 100 : 0;
+  
+  // Turnover rate (annual)
+  const turnoverRate = salesVelocity > 0 ? (salesVelocity * 365) / inventoryItem.currentStock : 0;
+  
+  // Stockout risk assessment
+  const leadTimeDays = 30; // Default lead time for imports
+  let stockoutRisk: 'critical' | 'high' | 'medium' | 'low';
+  
+  if (daysOnHand < leadTimeDays * 0.5) stockoutRisk = 'critical';
+  else if (daysOnHand < leadTimeDays) stockoutRisk = 'high';
+  else if (daysOnHand < leadTimeDays * 1.5) stockoutRisk = 'medium';
+  else stockoutRisk = 'low';
+  
+  // Reorder point calculation
+  const safetyStock = salesVelocity * (leadTimeDays * 0.5); // 50% safety buffer
+  const reorderPoint = (salesVelocity * leadTimeDays) + safetyStock;
+  
+  return {
+    sku: inventoryItem.sku,
+    description: inventoryItem.description,
+    currentStock: inventoryItem.currentStock,
+    salesVelocity,
+    daysOnHand,
+    marginPercent,
+    turnoverRate,
+    stockoutRisk,
+    reorderPoint
+  };
+}
+
+export function calculateTriangleScore(analysis: InventoryAnalysis[]): TriangleScore {
+  // Service Score: Based on stockout prevention and inventory availability
+  const serviceMetrics = analysis.map(item => {
+    if (item.stockoutRisk === 'critical') return 20;
+    if (item.stockoutRisk === 'high') return 50;
+    if (item.stockoutRisk === 'medium') return 75;
+    return 90;
+  });
+  const serviceScore = serviceMetrics.reduce((sum, score) => sum + score, 0) / serviceMetrics.length;
+  
+  // Cost Score: Based on margin efficiency and inventory carrying costs
+  const avgMargin = analysis.reduce((sum, item) => sum + item.marginPercent, 0) / analysis.length;
+  const costScore = Math.min(90, Math.max(10, avgMargin * 2)); // Scale margin to 0-90 range
+  
+  // Capital Score: Based on inventory turnover and working capital efficiency
+  const avgTurnover = analysis.reduce((sum, item) => sum + item.turnoverRate, 0) / analysis.length;
+  const capitalScore = Math.min(90, Math.max(10, avgTurnover * 10)); // Scale turnover to 0-90 range
+  
+  const overallScore = (serviceScore * 0.4) + (costScore * 0.35) + (capitalScore * 0.25);
+  
+  return {
+    service: Math.round(serviceScore),
+    cost: Math.round(costScore),
+    capital: Math.round(capitalScore),
+    overall: Math.round(overallScore)
+  };
+}
+```
+
+### 2. CSV Data Processing Engine
+```typescript
+// src/lib/data-processing.ts
+import Papa from 'papaparse';
+
+export interface InventoryCSVRow {
+  k_sc_codigo_articulo: string;
+  sc_detalle_articulo: string;
+  sc_detalle_grupo: string;
+  sc_detalle_subgrupo: string;
+  n_saldo_actual: string;
+  n_costo_promedio: string;
+  n_ultimo_costo: string;
+  sc_tipo_unidad: string;
+}
+
+export interface SalesCSVRow {
+  k_sc_codigo_articulo: string;
+  d_fecha_documento: string;
+  n_cantidad: string;
+  'V_NETA': string; // Note: exact column name from feedback
+  sc_nombre: string;
+  NOMBRE_VENDEDOR: string;
+  ZONA: string;
+  CIUDAD: string;
+}
+
+export async function processInventoryCSV(file: File): Promise<InventoryItem[]> {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      complete: (results) => {
+        try {
+          const processedData = results.data
+            .filter((row: any) => {
+              // Critical fix: Remove "por unidad" entries per feedback
+              return row.sc_tipo_unidad && 
+                     !row.sc_tipo_unidad.toLowerCase().includes('unidad') &&
+                     row.k_sc_codigo_articulo &&
+                     row.n_saldo_actual;
+            })
+            .map((row: any) => ({
+              sku: row.k_sc_codigo_articulo.trim(),
+              description: row.sc_detalle_articulo?.trim() || '',
+              category: row.sc_detalle_grupo?.trim() || '',
+              subcategory: row.sc_detalle_subgrupo?.trim() || '',
+              currentStock: parseFloat(row.n_saldo_actual) || 0,
+              averageCost: parseFloat(row.n_costo_promedio) || 0, // Use average cost per feedback
+              lastCost: parseFloat(row.n_ultimo_costo) || 0,
+              unitType: row.sc_tipo_unidad?.trim() || '',
+              totalValue: (parseFloat(row.n_saldo_actual) || 0) * (parseFloat(row.n_costo_promedio) || 0)
+            }));
+          
+          resolve(processedData);
+        } catch (error) {
+          reject(error);
+        }
+      },
+      error: (error) => reject(error)
+    });
+  });
+}
+
+export async function processSalesCSV(file: File): Promise<SalesTransaction[]> {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      complete: (results) => {
+        try {
+          const processedData = results.data
+            .filter((row: any) => {
+              return row.k_sc_codigo_articulo && 
+                     row.d_fecha_documento && 
+                     row['V_NETA']; // Use V_NETA per feedback
+            })
+            .map((row: any) => ({
+              sku: row.k_sc_codigo_articulo.trim(),
+              date: new Date(row.d_fecha_documento),
+              quantity: parseFloat(row.n_cantidad) || 0,
+              netValue: parseFloat(row['V_NETA']) || 0, // Critical: Use V_NETA column
+              customerName: row.sc_nombre?.trim() || '',
+              salesperson: row.NOMBRE_VENDEDOR?.trim() || '',
+              zone: row.ZONA?.trim() || '',
+              city: row.CIUDAD?.trim() || ''
+            }));
+          
+          resolve(processedData);
+        } catch (error) {
+          reject(error);
+        }
+      },
+      error: (error) => reject(error)
+    });
+  });
+}
+```
+
+## Implementation Requirements
+
+### Phase 1: MVP Core (7 Days)
+
+#### Day 1-2: Project Setup & Authentication
+```typescript
+// Key files to create:
+// 1. Next.js project setup with TypeScript
+// 2. Supabase configuration
+// 3. Authentication flow with WhatsApp verification
+
+// src/lib/supabase.ts
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// src/app/(auth)/login/page.tsx
+'use client'
+import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [step, setStep] = useState<'email' | 'phone' | 'verify'>('email')
+
+  const handleEmailLogin = async () => {
+    const { error } = await supabase.auth.signInWithOtp({ email })
+    if (!error) setStep('verify')
+  }
+
+  const handleWhatsAppVerify = async () => {
+    // Implement WhatsApp OTP verification
+    // Use Twilio WhatsApp API for sending verification codes
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      {/* Login form implementation */}
+    </div>
+  )
+}
+```
+
+#### Day 3-4: Core Dashboard & Data Upload
+```typescript
+// src/app/(dashboard)/page.tsx - Executive Dashboard
+'use client'
+import { useEffect, useState } from 'react'
+import { TriangleChart } from '@/components/charts/triangle-chart'
+import { MetricsGrid } from '@/components/dashboard/metrics-grid'
+import { AlertsPanel } from '@/components/dashboard/alerts-panel'
+
+export default function DashboardPage() {
+  const [triangleScore, setTriangleScore] = useState<TriangleScore>()
+  const [inventoryAnalysis, setInventoryAnalysis] = useState<InventoryAnalysis[]>([])
+  const [alerts, setAlerts] = useState<Alert[]>([])
+
+  // Load data and calculate metrics
+  useEffect(() => {
+    loadDashboardData()
+  }, [])
+
+  return (
+    <div className="space-y-6">
+      {/* Executive Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TriangleChart score={triangleScore} />
+        <MetricsGrid analysis={inventoryAnalysis} />
+      </div>
+      
+      {/* Critical Alerts */}
+      <AlertsPanel alerts={alerts} />
+    </div>
+  )
+}
+
+// src/app/(dashboard)/upload/page.tsx - CSV Upload Interface
+'use client'
+import { useDropzone } from 'react-dropzone'
+import { processInventoryCSV, processSalesCSV } from '@/lib/data-processing'
+
+export default function UploadPage() {
+  const [uploading, setUploading] = useState(false)
+
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    for (const file of acceptedFiles) {
+      setUploading(true)
+      try {
+        if (file.name.toLowerCase().includes('inventory')) {
+          const data = await processInventoryCSV(file)
+          await uploadToSupabase('inventory_items', data)
+        } else if (file.name.toLowerCase().includes('sales')) {
+          const data = await processSalesCSV(file)
+          await uploadToSupabase('sales_transactions', data)
+        }
+      } catch (error) {
+        console.error('Upload error:', error)
+      } finally {
+        setUploading(false)
+      }
+    }
+  }, [])
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop })
+
+  return (
+    <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-8">
+      <input {...getInputProps()} />
+      <p>Drag & drop CSV files here, or click to select files</p>
+    </div>
+  )
+}
+```
+
+#### Day 5-6: Analytics Implementation
+```typescript
+// src/components/charts/triangle-chart.tsx
+'use client'
+import { ResponsiveRadar } from '@nivo/radar'
+
+interface TriangleChartProps {
+  score?: TriangleScore
+}
+
+export function TriangleChart({ score }: TriangleChartProps) {
+  if (!score) return <div>Loading...</div>
+
+  const data = [
+    { metric: 'Service', value: score.service },
+    { metric: 'Cost', value: score.cost },
+    { metric: 'Capital', value: score.capital }
+  ]
+
+  return (
+    <div className="h-96 bg-white rounded-lg shadow p-6">
+      <h3 className="text-lg font-semibold mb-4">Supply Chain Triangle</h3>
+      <ResponsiveRadar
+        data={data}
+        keys={['value']}
+        indexBy="metric"
+        maxValue={100}
+        colors={['#3B82F6']}
+        // Additional chart configuration
+      />
+    </div>
+  )
+}
+
+// src/components/dashboard/metrics-grid.tsx
+export function MetricsGrid({ analysis }: { analysis: InventoryAnalysis[] }) {
+  const criticalItems = analysis.filter(item => item.stockoutRisk === 'critical').length
+  const avgMargin = analysis.reduce((sum, item) => sum + item.marginPercent, 0) / analysis.length
+  const totalInventoryValue = analysis.reduce((sum, item) => sum + (item.currentStock * item.averageCost), 0)
+
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      <MetricCard
+        title="Critical Alerts"
+        value={criticalItems}
+        subtitle="Items need immediate attention"
+        color="red"
+      />
+      <MetricCard
+        title="Average Margin"
+        value={`${avgMargin.toFixed(1)}%`}
+        subtitle="Gross profit margin"
+        color="green"
+      />
+      <MetricCard
+        title="Inventory Value"
+        value={formatCurrency(totalInventoryValue)}
+        subtitle="Total stock value"
+        color="blue"
+      />
+      <MetricCard
+        title="Products Tracked"
+        value={analysis.length}
+        subtitle="SKUs in system"
+        color="purple"
+      />
+    </div>
+  )
+}
+```
+
+#### Day 7: Currency Integration & WhatsApp Notifications
+```typescript
+// src/lib/currency-api.ts
+export async function getCurrentExchangeRate(from: string = 'USD', to: string = 'COP'): Promise<number> {
+  try {
+    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`)
+    const data = await response.json()
+    return data.rates[to]
+  } catch (error) {
+    console.error('Currency API error:', error)
+    return 4000 // Fallback rate
+  }
+}
+
+// src/lib/whatsapp-notifications.ts
+export async function sendWhatsAppAlert(phone: string, message: string) {
+  // Implement Twilio WhatsApp API integration
+  try {
+    const response = await fetch('/api/whatsapp/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, message })
+    })
+    return response.ok
+  } catch (error) {
+    console.error('WhatsApp notification error:', error)
+    return false
+  }
+}
+
+// Example alert trigger
+export function checkStockoutAlerts(analysis: InventoryAnalysis[]) {
+  const criticalItems = analysis.filter(item => item.stockoutRisk === 'critical')
+  
+  if (criticalItems.length > 0) {
+    const message = `🚨 ALERTA CRÍTICA: ${criticalItems.length} productos en riesgo de agotamiento. Revisar inventario inmediatamente.`
+    
+    // Send to all managers
+    criticalItems.forEach(item => {
+      sendWhatsAppAlert(userPhone, `⚠️ ${item.description} - Stock crítico: ${item.currentStock} unidades`)
+    })
+  }
+}
+```
+
+## Environment Configuration
+
+### Required Environment Variables
+```bash
+# .env.local
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_key
+
+# Twilio WhatsApp
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_WHATSAPP_NUMBER=whatsapp:+1234567890
+
+# Currency API (Free tier)
+EXCHANGE_RATE_API_KEY=your_api_key
+
+# Deployment
+NEXT_PUBLIC_APP_URL=https://your-app.vercel.app
+```
+
+### Deployment Commands
+```bash
+# Development
+npm run dev
+
+# Production build
+npm run build
+npm start
+
+# Deploy to Vercel
+vercel --prod
+
+# Supabase deployment
+npx supabase db push
+npx supabase functions deploy
+```
+
+## Success Metrics & Validation
+
+### Technical KPIs
+- CSV processing time: < 30 seconds for 10,000 records
+- Dashboard load time: < 3 seconds
+- Real-time updates: < 1 second latency
+- Mobile responsiveness: 100% functional on mobile devices
+
+### Business KPIs
+- Data accuracy: 99%+ (validated against actual sales)
+- User adoption: Daily active usage by managers
+- Alert effectiveness: 90%+ critical alerts acted upon
+- ROI calculation: Track inventory optimization savings
+
+### User Acceptance Criteria
+- [x] Upload inventory and sales CSV files
+- [x] View Supply Chain Triangle scores
+- [x] Receive stockout alerts via WhatsApp
+- [x] Access real-time currency exchange rates/TRM
+- [x] Generate actionable purchase recommendations
+- [x] Mobile-responsive dashboard access
+
+## Implementation Checklist
+
+### Week 1 (MVP Launch)
+- [ ] Supabase project setup and schema migration
+- [ ] Next.js project with TypeScript configuration
+- [ ] Authentication system with email + WhatsApp verification
+- [ ] CSV upload and processing functionality
+- [ ] Core dashboard with Triangle visualization
+- [ ] Critical alerts system
+- [ ] Currency API integration
+- [ ] WhatsApp notifications setup
+- [ ] Vercel deployment and domain configuration
+
+### Post-Launch (Continuous Improvement)
+- [ ] Advanced analytics (supplier performance, client segmentation)
+- [ ] Purchase request module with TRM tracking
+- [ ] PDF processing for invoices and purchase orders
+- [ ] ERP integration planning
+- [ ] Mobile app development (React Native)
+
+This implementation provides a production-ready MVP that addresses all critical feedback points while establishing a foundation for future enhancements. The focus is on data accuracy, real-time insights, and actionable alerts that directly impact business operations.
