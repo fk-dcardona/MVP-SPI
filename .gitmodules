@@ -1,0 +1,3 @@
+[submodule "mvp-spi"]
+	path = mvp-spi
+	url = https://github.com/fk-dcardona/MVP-SPI.git
