@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "analyze": "ANALYZE=true next build",
+    "analyze:server": "BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "BUNDLE_ANALYZE=browser next build",
     "agents:start": "node .cursor/launch-agents.js",
     "agents:status": "node .cursor/status.js",
     "agents:stop": "node .cursor/stop-agents.js",
@@ -50,6 +53,7 @@
     "zustand": "^4.0.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.2.30",
     "@types/node": "^20.0.0",
     "@types/papaparse": "^5.0.0",
     "@types/react": "^18.0.0",

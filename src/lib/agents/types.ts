@@ -85,9 +85,11 @@ export interface InventoryMonitorConfig {
   thresholds: {
     low: number;
     critical: number;
+    excess: number;
   };
   checkInterval: number; // minutes
   itemsToMonitor?: string[];
+  leadTime?: number; // days
 }
 
 export interface AlertGeneratorConfig {
@@ -124,7 +126,7 @@ export interface OptimizationEngineConfig {
 }
 
 export interface NotificationDispatcherConfig {
-  channels: Array<'email' | 'sms' | 'webhook' | 'in-app'>;
+  channels: Array<'email' | 'sms' | 'whatsapp' | 'webhook' | 'in-app'>;
   templates: Record<string, string>;
   retryAttempts: number;
   retryDelay: number; // seconds

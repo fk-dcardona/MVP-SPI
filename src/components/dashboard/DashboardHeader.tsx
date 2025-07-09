@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { getRoleBadgeColor, getRoleDisplayName, formatUserInitials } from "@/lib/auth/utils";
+import { NotificationCenter } from "@/components/notifications/NotificationCenter";
 
 export default function DashboardHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,10 +56,18 @@ export default function DashboardHeader() {
             >
               Settings
             </Link>
+            <Link
+              href="/dashboard/analytics"
+              className="text-sm font-medium text-gray-700 hover:text-gray-900"
+            >
+              Analytics
+            </Link>
           </nav>
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
+            {/* Notification Center */}
+            <NotificationCenter />
             {userProfile && (
               <div className="hidden md:flex items-center space-x-3">
                 <div className="text-right">
