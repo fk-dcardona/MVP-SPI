@@ -88,10 +88,24 @@ function log(agent, message, type = 'info') {
   const color = type === 'error' ? colors.red : 
                 type === 'success' ? colors.green :
                 type === 'warning' ? colors.yellow : colors.blue;
-  
+  const logLine = `[${timestamp}] ${agentInfo.emoji} ${agentInfo.name} ${type.toUpperCase()}: ${message}\n`;
+
+  // Console output
   console.log(
     `${colors.dim}[${timestamp}]${colors.reset} ${agentInfo.emoji} ${colors.bright}${agentInfo.name}${colors.reset} ${color}${message}${colors.reset}`
   );
+
+  // File-based logging
+  try {
+    const logDir = path.join(process.cwd(), '.cursor', 'logs');
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+    const logFile = path.join(logDir, 'agent.log');
+    fs.appendFileSync(logFile, logLine);
+  } catch (err) {
+    // Fail silently for file logging errors
+  }
 }
 
 // Dashboard display
