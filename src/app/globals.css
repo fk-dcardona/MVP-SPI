@@ -4,26 +4,62 @@
 
 @layer base {
   :root {
+    /* Core Palette */
+    --primary: 222 89% 60%; /* #3B82F6 */
+    --success: 158 94% 29%; /* #059669 */
+    --warning: 36 89% 44%; /* #D97706 */
+    --error: 0 82% 52%; /* #DC2626 */
+    --deep-red: 0 81% 30%; /* #991B1B */
+    --status-critical: 0 81% 30%; /* #991B1B */
+    --status-warning: 0 82% 52%; /* #DC2626 */
+    --status-caution: 36 89% 44%; /* #D97706 */
+    --status-success: 158 94% 29%; /* #059669 */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --secondary: 210 20% 98%; /* #F9FAFB */
+    --accent: 210 16% 96%; /* #F3F4F6 */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%; /* #111827 */
+    --muted-foreground: 220 9% 46%; /* #6B7280 */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --popover-foreground: 222 47% 11%;
+    --destructive: 0 82% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 16% 93%; /* #E5E7EB */
+    --input: 210 16% 93%;
+    --ring: 222 47% 11%;
+    /* Chart Colors */
+    --chart-primary: 222 89% 60%;
+    --chart-secondary: 160 84% 36%; /* #10B981 */
+    --chart-accent: 42 96% 53%; /* #F59E0B */
+    --chart-grid: 210 16% 93%;
+    /* Typography Scale */
+    --font-hero: 2rem; /* 32px */
+    --font-section: 1.5rem; /* 24px */
+    --font-subsection: 1.25rem; /* 20px */
+    --font-body: 0.875rem; /* 14px */
+    --font-detail: 0.75rem; /* 12px */
+    /* Spacing System */
+    --space-xs: 0.25rem;  /* 4px */
+    --space-sm: 0.5rem;   /* 8px */
+    --space-md: 1rem;     /* 16px */
+    --space-lg: 1.5rem;   /* 24px */
+    --space-xl: 2rem;     /* 32px */
+    /* Border Radius */
+    --radius-sm: 0.25rem; /* 4px */
+    --radius-md: 0.5rem;  /* 8px */
+    --radius-lg: 0.75rem; /* 12px */
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    /* Animation/Transition */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.6, 1);
+    --transition-normal: 200ms ease;
+    --transition-slow: 300ms ease-in-out;
+    /* Breakpoints (for reference) */
+    --breakpoint-mobile: 768px;
+    --breakpoint-tablet: 1024px;
+    --breakpoint-desktop: 1280px;
   }
 
   .dark {
@@ -42,10 +78,14 @@
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-primary: 220 70% 50%;
+    --chart-secondary: 160 60% 45%;
+    --chart-accent: 30 80% 55%;
+    --chart-grid: 210 16% 93%;
   }
 }
 

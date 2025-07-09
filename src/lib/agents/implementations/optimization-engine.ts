@@ -11,10 +11,8 @@ export class OptimizationEngine extends BaseAgent {
       // Run optimization algorithm
       const optimizationResult = await this.optimize(currentState, config);
       
-      // Apply optimizations if auto-apply is enabled
-      if (config.autoApply) {
-        await this.applyOptimizations(optimizationResult);
-      }
+      // For now, we don't auto-apply optimizations
+      // This could be made configurable in the future
       
       return {
         success: true,
