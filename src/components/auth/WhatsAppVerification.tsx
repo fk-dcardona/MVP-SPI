@@ -115,7 +115,7 @@ export default function WhatsAppVerification({
           <CardTitle>WhatsApp Verification</CardTitle>
         </div>
         <CardDescription>
-          We've sent a verification code to your WhatsApp
+          We&apos;ve sent a verification code to your WhatsApp
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -203,8 +203,8 @@ export default function WhatsAppVerification({
         )}
 
         <div className="text-center text-xs text-gray-500">
-          <p>Didn't receive the code? Check your WhatsApp messages</p>
-          <p className="mt-1">Make sure you've joined our WhatsApp sandbox</p>
+          <p>Didn&apos;t receive the code? Check your WhatsApp messages</p>
+          <p className="mt-1">Make sure you&apos;ve joined our WhatsApp sandbox</p>
         </div>
       </CardContent>
     </Card>
