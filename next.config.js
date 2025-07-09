@@ -15,8 +15,8 @@ const nextConfig = {
   
   // Enable experimental features for better performance
   experimental: {
-    // Optimize CSS
-    optimizeCss: true,
+    // Disable optimizeCss due to webpack issues
+    // optimizeCss: true,
     // Enable server components optimization
     serverComponentsExternalPackages: ['@tremor/react'],
   },
