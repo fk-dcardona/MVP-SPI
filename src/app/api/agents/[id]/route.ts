@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createServerClient } from '@/lib/supabase/server';
 import { AgentFactory } from '@/lib/agents/factory';
 import { AgentManager } from '@/lib/agents/manager';
 
@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createClient();
+    const supabase = createServerClient();
     
     // Get user session
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -69,7 +69,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createClient();
+    const supabase = createServerClient();
     
     // Get user session
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -137,7 +137,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createClient();
+    const supabase = createServerClient();
     
     // Get user session
     const { data: { user }, error: authError } = await supabase.auth.getUser();

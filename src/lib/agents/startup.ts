@@ -1,10 +1,9 @@
-import { createClient } from '@/lib/supabase/server'
-import { createDefaultAgents } from './factory'
+import { createServerClient } from '@/lib/supabase/server'
 import { AgentManager } from './manager'
 
 export async function initializeAgentSystem() {
   try {
-    const supabase = createClient()
+    const supabase = createServerClient()
     const manager = AgentManager.getInstance()
     
     // Get all companies
@@ -24,22 +23,21 @@ export async function initializeAgentSystem() {
     let initialized = 0
     const errors: string[] = []
     
-    // Initialize default agents for each company
-    for (const company of companies) {
-      try {
-        await createDefaultAgents(company.id)
-        initialized++
-      } catch (error) {
-        const errorMessage = `Failed to initialize agents for company ${company.id}: ${error instanceof Error ? error.message : 'Unknown error'}`
-        console.error(errorMessage)
-        errors.push(errorMessage)
-      }
+    // For now, we don't auto-create default agents
+    // Companies will create agents as needed through the UI
+    console.log(`Found ${companies.length} companies`)
+    
+    // Run any scheduled agents
+    try {
+      await manager.runScheduledAgents()
+      console.log('Scheduled agents check completed')
+    } catch (error) {
+      const errorMessage = `Failed to run scheduled agents: ${error instanceof Error ? error.message : 'Unknown error'}`
+      console.error(errorMessage)
+      errors.push(errorMessage)
     }
     
-    // Start all agents
-    await manager.startAllAgents()
-    
-    return { initialized, errors }
+    return { initialized: companies.length, errors }
   } catch (error) {
     console.error('Failed to initialize agent system:', error)
     throw error

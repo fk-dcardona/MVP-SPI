@@ -80,7 +80,7 @@ export class ReportGenerator extends BaseAgent {
     // TODO: Implement actual report generation
     // This would use libraries like PDFKit, ExcelJS, etc.
     
-    const report = {
+    const report: any = {
       id: `report_${Date.now()}`,
       type: config.reportType,
       format: config.format,
