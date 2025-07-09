@@ -81,6 +81,37 @@ const agents = {
 let currentPhase = 0;
 let isRunning = true;
 
+// Persistent checkpointing helpers
+const checkpointDir = path.join(process.cwd(), '.cursor', 'checkpoints');
+const checkpointFile = path.join(checkpointDir, 'phase.json');
+
+function saveCheckpoint() {
+  try {
+    if (!fs.existsSync(checkpointDir)) {
+      fs.mkdirSync(checkpointDir, { recursive: true });
+    }
+    fs.writeFileSync(checkpointFile, JSON.stringify({ currentPhase }), 'utf-8');
+  } catch (err) {
+    // Fail silently for checkpoint errors
+  }
+}
+
+function loadCheckpoint() {
+  try {
+    if (fs.existsSync(checkpointFile)) {
+      const data = JSON.parse(fs.readFileSync(checkpointFile, 'utf-8'));
+      if (typeof data.currentPhase === 'number' && data.currentPhase >= 0 && data.currentPhase <= 4) {
+        currentPhase = data.currentPhase;
+      }
+    }
+  } catch (err) {
+    // Ignore corrupt checkpoint files
+  }
+}
+
+// Load checkpoint on startup
+loadCheckpoint();
+
 // Helper functions
 function log(agent, message, type = 'info') {
   const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
@@ -155,6 +186,7 @@ async function simulateAgentWork() {
   log('orchestrator', 'Phase 1 complete! Ready for Phase 2 when you are.', 'success');
   agents['phase1-auth'].status = 'completed';
   currentPhase = 1;
+  saveCheckpoint();
 }
 
 // Helper sleep function
@@ -176,6 +208,7 @@ function setupCommands() {
         if (currentPhase < 4) {
           console.log(`\n${colors.green}▶ Advancing to Phase ${currentPhase + 2}...${colors.reset}`);
           currentPhase++;
+          saveCheckpoint();
         }
         break;
       case 'stop':
