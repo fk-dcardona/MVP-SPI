@@ -47,8 +47,6 @@ export function FinancialMetrics({ companyId }: FinancialMetricsProps) {
 
       // Create dashboard data
       const dashboardData: DashboardType = {
-        company_id: companyId,
-        calculated_at: new Date().toISOString(),
         current_metrics: {
           working_capital: workingCapital,
           inventory_value: inventoryValue,
@@ -60,10 +58,20 @@ export function FinancialMetrics({ companyId }: FinancialMetricsProps) {
           cash_conversion_cycle: 30, // DIO + DSO - DPO
           current_ratio: (inventoryValue + accountsReceivable) / accountsPayable,
           quick_ratio: accountsReceivable / accountsPayable,
+          cash_ratio: (accountsReceivable * 0.8) / accountsPayable, // Estimate based on quick ratio
           inventory_turnover: 8.5,
           receivables_turnover: 12,
-          payables_turnover: 8
+          payables_turnover: 8,
+          asset_turnover: 2.5, // Industry average estimate
+          gross_margin: 0.25, // 25% estimate
+          operating_margin: 0.15, // 15% estimate
+          net_margin: 0.10, // 10% estimate
+          return_on_assets: 0.12, // 12% estimate
+          return_on_equity: 0.18, // 18% estimate
+          period_start: new Date(new Date().getFullYear(), 0, 1), // Start of current year
+          period_end: new Date() // Current date
         },
+        historical_metrics: [], // Empty for now, would be populated with historical data
         optimization_potential: {
           total_opportunity: workingCapital * 0.15,
           inventory_reduction: inventoryValue * 0.1,
