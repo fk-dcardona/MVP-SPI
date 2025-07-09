@@ -44,7 +44,7 @@ export default function DashboardHeader() {
               Dashboard
             </Link>
             <Link
-              href="/dashboard/upload"
+              href="/dashboard/data"
               className="text-sm font-medium text-gray-700 hover:text-gray-900"
             >
               Upload Data
@@ -123,7 +123,7 @@ export default function DashboardHeader() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/upload"
+                href="/dashboard/data"
                 className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                 onClick={() => setIsMenuOpen(false)}
               >
