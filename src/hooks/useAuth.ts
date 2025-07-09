@@ -5,14 +5,18 @@ import { createClient } from '@/lib/supabase/client'
 interface UserProfile {
   id: string
   full_name: string | null
-  role: string
+  role: 'admin' | 'manager' | 'analyst'
   company_id: string | null
+  phone_number?: string | null
+  whatsapp_verified?: boolean
 }
 
 interface Company {
   id: string
   name: string
   industry: string
+  country?: string | null
+  currency?: string | null
 }
 
 export function useAuth() {
