@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createServerClient } from '@/lib/supabase/server';
 import { AgentFactory } from '@/lib/agents/factory';
 import { AgentManager } from '@/lib/agents/manager';
 import type { Agent } from '@/lib/agents/types';
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = await createServerClient();
     
     // Get user session
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = await createServerClient();
     
     // Get user session
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -83,42 +83,29 @@ export async function POST(request: NextRequest) {
     }
 
     // Create agent using factory
-    let agent: Agent;
+    let agent: Agent = {
+      id: crypto.randomUUID(),
+      company_id: profile.company_id,
+      type,
+      name,
+      config,
+      status: 'inactive',
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
     try {
-      switch (type) {
-        case 'inventory_monitor':
-          agent = AgentFactory.createInventoryMonitorAgent(name, profile.company_id, config);
-          break;
-        case 'alert_generator':
-          agent = AgentFactory.createAlertGeneratorAgent(name, profile.company_id, config);
-          break;
-        case 'data_processor':
-          agent = AgentFactory.createDataProcessorAgent(name, profile.company_id, config);
-          break;
-        case 'report_generator':
-          agent = AgentFactory.createReportGeneratorAgent(name, profile.company_id, config);
-          break;
-        case 'optimization_engine':
-          agent = AgentFactory.createOptimizationEngineAgent(name, profile.company_id, config);
-          break;
-        case 'notification_dispatcher':
-          agent = AgentFactory.createNotificationDispatcherAgent(name, profile.company_id, config);
-          break;
-        default:
-          return NextResponse.json({ error: 'Invalid agent type' }, { status: 400 });
+      // Validate agent configuration
+      const isValid = AgentFactory.getInstance().validateConfig(type, config);
+      if (!isValid) {
+        return NextResponse.json({ 
+          error: 'Invalid agent configuration',
+        }, { status: 400 });
       }
+      // Create agent instance (not used further here, but for completeness)
+      AgentFactory.getInstance().createAgent(agent);
     } catch (error) {
       console.error('Error creating agent:', error);
       return NextResponse.json({ error: 'Failed to create agent' }, { status: 500 });
-    }
-
-    // Validate agent configuration
-    const validation = AgentFactory.validateAgentConfig(agent);
-    if (!validation.isValid) {
-      return NextResponse.json({ 
-        error: 'Invalid agent configuration', 
-        details: validation.errors 
-      }, { status: 400 });
     }
 
     // Insert agent into database
@@ -131,8 +118,7 @@ export async function POST(request: NextRequest) {
         status: agent.status,
         config: agent.config,
         company_id: profile.company_id,
-        last_run: agent.lastRun?.toISOString(),
-        next_run: agent.nextRun?.toISOString()
+        next_run: agent.next_run?.toISOString(),
       })
       .select()
       .single();
@@ -141,10 +127,6 @@ export async function POST(request: NextRequest) {
       console.error('Error inserting agent:', insertError);
       return NextResponse.json({ error: 'Failed to create agent' }, { status: 500 });
     }
-
-    // Initialize agent manager if not already running
-    const agentManager = AgentManager.getInstance();
-    await agentManager.initialize();
 
     return NextResponse.json({ 
       agent: insertedAgent,
