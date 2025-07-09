@@ -15,13 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectOption } from '@/components/ui/select';
 import { 
   Bell, 
   Plus, 
@@ -273,33 +267,29 @@ export function AlertRulesManager({
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="severity">Severity</Label>
-                  <Select defaultValue={editingRule?.severity || 'medium'}>
-                    <SelectTrigger id="severity">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="critical">Critical</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="low">Low</SelectItem>
-                    </SelectContent>
+                  <Select 
+                    id="severity"
+                    defaultValue={editingRule?.severity || 'medium'}
+                  >
+                    <SelectOption value="critical">Critical</SelectOption>
+                    <SelectOption value="high">High</SelectOption>
+                    <SelectOption value="medium">Medium</SelectOption>
+                    <SelectOption value="low">Low</SelectOption>
                   </Select>
                 </div>
                 
                 <div className="grid gap-2">
                   <Label htmlFor="frequency">Check Frequency</Label>
-                  <Select defaultValue={editingRule?.check_frequency || 'every_15_minutes'}>
-                    <SelectTrigger id="frequency">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="real_time">Real Time</SelectItem>
-                      <SelectItem value="every_5_minutes">Every 5 Minutes</SelectItem>
-                      <SelectItem value="every_15_minutes">Every 15 Minutes</SelectItem>
-                      <SelectItem value="every_30_minutes">Every 30 Minutes</SelectItem>
-                      <SelectItem value="hourly">Hourly</SelectItem>
-                      <SelectItem value="daily">Daily</SelectItem>
-                    </SelectContent>
+                  <Select 
+                    id="frequency"
+                    defaultValue={editingRule?.check_frequency || 'every_15_minutes'}
+                  >
+                    <SelectOption value="real_time">Real Time</SelectOption>
+                    <SelectOption value="every_5_minutes">Every 5 Minutes</SelectOption>
+                    <SelectOption value="every_15_minutes">Every 15 Minutes</SelectOption>
+                    <SelectOption value="every_30_minutes">Every 30 Minutes</SelectOption>
+                    <SelectOption value="hourly">Hourly</SelectOption>
+                    <SelectOption value="daily">Daily</SelectOption>
                   </Select>
                 </div>
               </div>
