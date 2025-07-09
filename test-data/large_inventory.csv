@@ -1,0 +1,1001 @@
+sku,name,unit,qty,supplier,leadtime,precio-unitario,total-costo
+SKU0001,Product 1,cajas,586,Supplier B,30,5.48,3211.28
+SKU0002,Product 2,cajas,515,Supplier D,23,87.79,45211.85
+SKU0003,Product 3,piezas,984,Supplier E,17,68.14,67049.76
+SKU0004,Product 4,cajas,516,Supplier B,21,34.63,17869.08
+SKU0005,Product 5,unidades,259,Supplier A,26,79.44,20574.96
+SKU0006,Product 6,litros,973,Supplier D,21,2.61,2539.53
+SKU0007,Product 7,cajas,743,Supplier C,20,27.01,20068.43
+SKU0008,Product 8,cajas,662,Supplier C,24,94.22,62373.64
+SKU0009,Product 9,kg,855,Supplier A,27,22.29,19057.95
+SKU0010,Product 10 por unidad,piezas,46,Supplier B,14,65.42,3009.32
+SKU0011,Product 11,cajas,653,Supplier C,26,17.58,11479.74
+SKU0012,Product 12,kg,843,Supplier E,13,49.77,41956.11
+SKU0013,Product 13,litros,492,Supplier C,12,60.34,29687.28
+SKU0014,Product 14,litros,132,Supplier D,16,78.51,10363.32
+SKU0015,Product 15,kg,22,Supplier D,30,30.05,661.10
+SKU0016,Product 16,kg,271,Supplier E,16,1.30,352.30
+SKU0017,Product 17,piezas,315,Supplier D,11,88.48,27871.20
+SKU0018,Product 18,litros,971,Supplier C,12,40.98,39791.58
+SKU0019,Product 19,piezas,306,Supplier B,29,34.49,10553.94
+SKU0020,Product 20 por unidad,piezas,951,Supplier C,19,70.33,66883.83
+SKU0021,Product 21,cajas,118,Supplier A,25,57.04,6730.72
+SKU0022,Product 22,unidades,27,Supplier D,26,88.02,2376.54
+SKU0023,Product 23,litros,713,Supplier C,15,19.57,13953.41
+SKU0024,Product 24,litros,480,Supplier B,11,58.16,27916.80
+SKU0025,Product 25,unidades,354,Supplier E,20,25.03,8860.62
+SKU0026,Product 26,kg,882,Supplier E,30,60.48,53343.36
+SKU0027,Product 27,cajas,176,Supplier B,18,2.96,520.96
+SKU0028,Product 28,kg,181,Supplier A,24,92.03,16657.43
+SKU0029,Product 29,cajas,16,Supplier C,8,25.31,404.96
+SKU0030,Product 30 por unidad,piezas,11,Supplier E,8,97.85,1076.35
+SKU0031,Product 31,litros,33,Supplier D,7,95.83,3162.39
+SKU0032,Product 32,kg,61,Supplier E,29,38.98,2377.78
+SKU0033,Product 33,kg,179,Supplier E,25,83.82,15003.78
+SKU0034,Product 34,piezas,583,Supplier B,18,83.08,48435.64
+SKU0035,Product 35,piezas,645,Supplier B,21,75.40,48633.00
+SKU0036,Product 36,piezas,24,Supplier E,26,77.03,1848.72
+SKU0037,Product 37,litros,991,Supplier B,19,3.27,3240.57
+SKU0038,Product 38,piezas,991,Supplier A,11,13.65,13527.15
+SKU0039,Product 39,cajas,90,Supplier D,19,61.80,5562.00
+SKU0040,Product 40 por unidad,piezas,621,Supplier E,14,87.01,54033.21
+SKU0041,Product 41,cajas,654,Supplier E,22,49.50,32373.00
+SKU0042,Product 42,litros,443,Supplier B,13,71.02,31461.86
+SKU0043,Product 43,litros,324,Supplier E,8,41.91,13578.84
+SKU0044,Product 44,cajas,341,Supplier A,25,5.10,1739.10
+SKU0045,Product 45,piezas,477,Supplier D,7,54.45,25972.65
+SKU0046,Product 46,kg,502,Supplier D,16,96.12,48252.24
+SKU0047,Product 47,litros,89,Supplier D,15,42.88,3816.32
+SKU0048,Product 48,litros,831,Supplier E,10,54.49,45281.19
+SKU0049,Product 49,litros,544,Supplier D,15,17.02,9258.88
+SKU0050,Product 50 por unidad,unidades,428,Supplier D,13,51.69,22123.32
+SKU0051,Product 51,litros,576,Supplier B,14,25.73,14820.48
+SKU0052,Product 52,kg,255,Supplier E,26,90.82,23159.10
+SKU0053,Product 53,kg,584,Supplier D,19,29.37,17152.08
+SKU0054,Product 54,kg,205,Supplier D,9,81.24,16654.20
+SKU0055,Product 55,kg,263,Supplier C,26,44.97,11827.11
+SKU0056,Product 56,kg,528,Supplier D,30,16.11,8506.08
+SKU0057,Product 57,cajas,83,Supplier C,7,16.77,1391.91
+SKU0058,Product 58,litros,698,Supplier A,10,18.38,12829.24
+SKU0059,Product 59,litros,173,Supplier E,24,35.11,6074.03
+SKU0060,Product 60 por unidad,piezas,702,Supplier E,17,60.73,42632.46
+SKU0061,Product 61,unidades,237,Supplier D,29,9.73,2306.01
+SKU0062,Product 62,litros,226,Supplier B,7,83.13,18787.38
+SKU0063,Product 63,kg,794,Supplier B,13,23.35,18539.90
+SKU0064,Product 64,cajas,560,Supplier A,21,30.20,16912.00
+SKU0065,Product 65,piezas,480,Supplier C,18,4.47,2145.60
+SKU0066,Product 66,piezas,856,Supplier E,27,96.41,82526.96
+SKU0067,Product 67,piezas,336,Supplier C,23,82.93,27864.48
+SKU0068,Product 68,unidades,601,Supplier B,8,17.22,10349.22
+SKU0069,Product 69,cajas,196,Supplier B,18,85.73,16803.08
+SKU0070,Product 70 por unidad,cajas,757,Supplier C,30,33.83,25609.31
+SKU0071,Product 71,kg,893,Supplier D,9,31.92,28504.56
+SKU0072,Product 72,litros,752,Supplier D,9,52.98,39840.96
+SKU0073,Product 73,cajas,721,Supplier C,24,61.34,44226.14
+SKU0074,Product 74,litros,976,Supplier C,18,68.09,66455.84
+SKU0075,Product 75,litros,117,Supplier A,27,24.22,2833.74
+SKU0076,Product 76,cajas,70,Supplier B,30,85.70,5999.00
+SKU0077,Product 77,piezas,921,Supplier C,27,27.17,25023.57
+SKU0078,Product 78,kg,624,Supplier C,14,34.73,21671.52
+SKU0079,Product 79,kg,381,Supplier C,28,25.44,9692.64
+SKU0080,Product 80 por unidad,kg,71,Supplier A,28,26.97,1914.87
+SKU0081,Product 81,kg,628,Supplier B,9,54.25,34069.00
+SKU0082,Product 82,kg,991,Supplier C,23,19.55,19374.05
+SKU0083,Product 83,kg,37,Supplier A,23,4.80,177.60
+SKU0084,Product 84,kg,832,Supplier C,28,51.91,43189.12
+SKU0085,Product 85,litros,498,Supplier C,12,5.88,2928.24
+SKU0086,Product 86,cajas,398,Supplier E,23,38.69,15398.62
+SKU0087,Product 87,unidades,737,Supplier C,21,94.51,69653.87
+SKU0088,Product 88,unidades,996,Supplier C,12,87.85,87498.60
+SKU0089,Product 89,kg,952,Supplier A,10,27.69,26360.88
+SKU0090,Product 90 por unidad,piezas,342,Supplier D,24,85.37,29196.54
+SKU0091,Product 91,piezas,205,Supplier D,23,4.70,963.50
+SKU0092,Product 92,kg,29,Supplier C,17,65.70,1905.30
+SKU0093,Product 93,cajas,420,Supplier A,25,14.64,6148.80
+SKU0094,Product 94,cajas,891,Supplier E,20,52.99,47214.09
+SKU0095,Product 95,piezas,425,Supplier D,22,13.65,5801.25
+SKU0096,Product 96,litros,647,Supplier E,7,96.82,62642.54
+SKU0097,Product 97,unidades,830,Supplier E,26,90.19,74857.70
+SKU0098,Product 98,piezas,65,Supplier B,27,99.52,6468.80
+SKU0099,Product 99,litros,509,Supplier E,7,59.89,30484.01
+SKU0100,Product 100 por unidad,piezas,233,Supplier A,18,78.44,18276.52
+SKU0101,Product 101,piezas,525,Supplier A,30,68.66,36046.50
+SKU0102,Product 102,piezas,566,Supplier B,17,87.99,49802.34
+SKU0103,Product 103,piezas,180,Supplier C,28,97.27,17508.60
+SKU0104,Product 104,kg,648,Supplier E,7,63.83,41361.84
+SKU0105,Product 105,kg,765,Supplier D,14,25.69,19652.85
+SKU0106,Product 106,litros,141,Supplier B,14,63.59,8966.19
+SKU0107,Product 107,litros,698,Supplier E,7,58.32,40707.36
+SKU0108,Product 108,kg,86,Supplier C,23,90.57,7789.02
+SKU0109,Product 109,piezas,365,Supplier A,18,94.05,34328.25
+SKU0110,Product 110 por unidad,kg,307,Supplier C,8,77.54,23804.78
+SKU0111,Product 111,piezas,694,Supplier D,20,75.03,52070.82
+SKU0112,Product 112,kg,946,Supplier A,20,93.05,88025.30
+SKU0113,Product 113,cajas,157,Supplier D,14,56.58,8883.06
+SKU0114,Product 114,cajas,95,Supplier A,20,37.31,3544.45
+SKU0115,Product 115,litros,933,Supplier E,18,16.01,14937.33
+SKU0116,Product 116,cajas,671,Supplier B,16,30.96,20774.16
+SKU0117,Product 117,unidades,922,Supplier B,20,30.36,27991.92
+SKU0118,Product 118,litros,603,Supplier C,25,99.95,60269.85
+SKU0119,Product 119,kg,660,Supplier A,28,9.88,6520.80
+SKU0120,Product 120 por unidad,cajas,220,Supplier D,13,89.83,19762.60
+SKU0121,Product 121,piezas,183,Supplier A,29,39.10,7155.30
+SKU0122,Product 122,kg,407,Supplier C,19,19.16,7798.12
+SKU0123,Product 123,litros,338,Supplier E,30,23.90,8078.20
+SKU0124,Product 124,piezas,916,Supplier A,30,18.41,16863.56
+SKU0125,Product 125,cajas,536,Supplier C,15,96.00,51456.00
+SKU0126,Product 126,kg,893,Supplier E,24,24.68,22039.24
+SKU0127,Product 127,unidades,38,Supplier C,27,13.80,524.40
+SKU0128,Product 128,litros,783,Supplier B,11,34.10,26700.30
+SKU0129,Product 129,unidades,532,Supplier E,19,13.46,7160.72
+SKU0130,Product 130 por unidad,litros,105,Supplier D,8,80.77,8480.85
+SKU0131,Product 131,litros,127,Supplier C,24,47.57,6041.39
+SKU0132,Product 132,kg,644,Supplier C,27,57.44,36991.36
+SKU0133,Product 133,kg,444,Supplier E,8,74.19,32940.36
+SKU0134,Product 134,litros,85,Supplier D,9,75.28,6398.80
+SKU0135,Product 135,kg,586,Supplier C,27,91.81,53800.66
+SKU0136,Product 136,cajas,203,Supplier B,16,89.47,18162.41
+SKU0137,Product 137,unidades,425,Supplier C,27,14.75,6268.75
+SKU0138,Product 138,cajas,838,Supplier D,25,22.91,19198.58
+SKU0139,Product 139,litros,354,Supplier C,20,39.57,14007.78
+SKU0140,Product 140 por unidad,piezas,147,Supplier D,19,23.80,3498.60
+SKU0141,Product 141,piezas,870,Supplier A,7,18.24,15868.80
+SKU0142,Product 142,kg,96,Supplier D,25,90.98,8734.08
+SKU0143,Product 143,litros,615,Supplier B,28,22.28,13702.20
+SKU0144,Product 144,unidades,329,Supplier D,22,74.09,24375.61
+SKU0145,Product 145,piezas,574,Supplier A,27,61.12,35082.88
+SKU0146,Product 146,kg,183,Supplier B,21,96.17,17599.11
+SKU0147,Product 147,unidades,758,Supplier B,26,90.45,68561.10
+SKU0148,Product 148,piezas,892,Supplier E,24,63.40,56552.80
+SKU0149,Product 149,piezas,59,Supplier B,16,90.86,5360.74
+SKU0150,Product 150 por unidad,unidades,84,Supplier E,11,54.14,4547.76
+SKU0151,Product 151,unidades,538,Supplier D,7,90.30,48581.40
+SKU0152,Product 152,cajas,577,Supplier D,17,70.13,40465.01
+SKU0153,Product 153,unidades,276,Supplier B,13,94.94,26203.44
+SKU0154,Product 154,cajas,751,Supplier A,10,7.33,5504.83
+SKU0155,Product 155,piezas,307,Supplier E,28,37.33,11460.31
+SKU0156,Product 156,cajas,334,Supplier B,9,10.61,3543.74
+SKU0157,Product 157,piezas,90,Supplier C,30,92.87,8358.30
+SKU0158,Product 158,cajas,80,Supplier B,24,58.94,4715.20
+SKU0159,Product 159,litros,660,Supplier D,27,5.92,3907.20
+SKU0160,Product 160 por unidad,litros,66,Supplier E,20,71.01,4686.66
+SKU0161,Product 161,piezas,727,Supplier E,23,56.94,41395.38
+SKU0162,Product 162,litros,524,Supplier B,15,94.73,49638.52
+SKU0163,Product 163,kg,800,Supplier E,21,96.25,77000.00
+SKU0164,Product 164,kg,429,Supplier D,13,64.19,27537.51
+SKU0165,Product 165,litros,801,Supplier B,13,92.58,74156.58
+SKU0166,Product 166,litros,486,Supplier A,23,14.86,7221.96
+SKU0167,Product 167,litros,936,Supplier E,18,64.18,60072.48
+SKU0168,Product 168,unidades,470,Supplier A,8,67.88,31903.60
+SKU0169,Product 169,unidades,880,Supplier E,18,8.85,7788.00
+SKU0170,Product 170 por unidad,piezas,789,Supplier B,29,28.86,22770.54
+SKU0171,Product 171,kg,178,Supplier C,20,91.46,16279.88
+SKU0172,Product 172,unidades,116,Supplier B,15,85.74,9945.84
+SKU0173,Product 173,kg,550,Supplier A,28,38.04,20922.00
+SKU0174,Product 174,piezas,227,Supplier E,12,65.57,14884.39
+SKU0175,Product 175,litros,66,Supplier A,17,20.42,1347.72
+SKU0176,Product 176,kg,782,Supplier D,26,69.26,54161.32
+SKU0177,Product 177,piezas,459,Supplier C,7,81.33,37330.47
+SKU0178,Product 178,kg,931,Supplier D,20,8.24,7671.44
+SKU0179,Product 179,piezas,904,Supplier E,23,56.65,51211.60
+SKU0180,Product 180 por unidad,kg,122,Supplier A,26,44.05,5374.10
+SKU0181,Product 181,litros,914,Supplier C,17,72.52,66283.28
+SKU0182,Product 182,unidades,551,Supplier E,26,39.64,21841.64
+SKU0183,Product 183,kg,796,Supplier D,21,7.13,5675.48
+SKU0184,Product 184,kg,913,Supplier C,10,77.35,70620.55
+SKU0185,Product 185,kg,487,Supplier E,16,70.33,34250.71
+SKU0186,Product 186,cajas,860,Supplier E,9,93.76,80633.60
+SKU0187,Product 187,litros,700,Supplier C,7,19.00,13300.00
+SKU0188,Product 188,kg,590,Supplier E,18,2.12,1250.80
+SKU0189,Product 189,unidades,847,Supplier C,11,61.75,52302.25
+SKU0190,Product 190 por unidad,unidades,104,Supplier B,29,96.82,10069.28
+SKU0191,Product 191,cajas,825,Supplier C,20,57.89,47759.25
+SKU0192,Product 192,kg,431,Supplier B,15,97.23,41906.13
+SKU0193,Product 193,kg,496,Supplier A,24,22.82,11318.72
+SKU0194,Product 194,unidades,933,Supplier B,25,23.05,21505.65
+SKU0195,Product 195,piezas,375,Supplier C,21,79.05,29643.75
+SKU0196,Product 196,kg,361,Supplier E,13,36.60,13212.60
+SKU0197,Product 197,kg,740,Supplier B,29,30.30,22422.00
+SKU0198,Product 198,litros,908,Supplier C,16,46.35,42085.80
+SKU0199,Product 199,cajas,11,Supplier A,11,22.58,248.38
+SKU0200,Product 200 por unidad,litros,337,Supplier A,28,70.27,23680.99
+SKU0201,Product 201,unidades,799,Supplier A,15,29.99,23962.01
+SKU0202,Product 202,kg,573,Supplier A,11,22.29,12772.17
+SKU0203,Product 203,kg,996,Supplier C,30,79.74,79421.04
+SKU0204,Product 204,piezas,780,Supplier E,18,78.43,61175.40
+SKU0205,Product 205,unidades,837,Supplier D,17,42.74,35773.38
+SKU0206,Product 206,unidades,473,Supplier B,10,48.68,23025.64
+SKU0207,Product 207,kg,415,Supplier B,9,89.82,37275.30
+SKU0208,Product 208,cajas,694,Supplier C,21,62.10,43097.40
+SKU0209,Product 209,cajas,46,Supplier B,16,25.69,1181.74
+SKU0210,Product 210 por unidad,cajas,975,Supplier D,29,76.76,74841.00
+SKU0211,Product 211,litros,590,Supplier E,29,64.11,37824.90
+SKU0212,Product 212,kg,732,Supplier B,27,45.48,33291.36
+SKU0213,Product 213,unidades,209,Supplier A,9,43.65,9122.85
+SKU0214,Product 214,unidades,77,Supplier A,25,54.62,4205.74
+SKU0215,Product 215,unidades,757,Supplier C,27,27.48,20802.36
+SKU0216,Product 216,unidades,142,Supplier B,18,84.78,12038.76
+SKU0217,Product 217,unidades,651,Supplier C,12,59.56,38773.56
+SKU0218,Product 218,cajas,699,Supplier E,8,73.51,51383.49
+SKU0219,Product 219,piezas,401,Supplier E,28,42.97,17230.97
+SKU0220,Product 220 por unidad,piezas,891,Supplier E,18,14.23,12678.93
+SKU0221,Product 221,cajas,36,Supplier A,19,96.54,3475.44
+SKU0222,Product 222,unidades,594,Supplier B,13,12.44,7389.36
+SKU0223,Product 223,kg,101,Supplier A,28,42.43,4285.43
+SKU0224,Product 224,piezas,897,Supplier D,26,59.84,53676.48
+SKU0225,Product 225,unidades,895,Supplier B,21,81.64,73067.80
+SKU0226,Product 226,kg,722,Supplier D,27,75.39,54431.58
+SKU0227,Product 227,litros,755,Supplier E,19,25.65,19365.75
+SKU0228,Product 228,litros,904,Supplier E,11,74.11,66995.44
+SKU0229,Product 229,cajas,127,Supplier B,12,63.54,8069.58
+SKU0230,Product 230 por unidad,cajas,214,Supplier E,23,78.39,16775.46
+SKU0231,Product 231,litros,631,Supplier B,11,46.73,29486.63
+SKU0232,Product 232,unidades,651,Supplier E,7,91.67,59677.17
+SKU0233,Product 233,cajas,63,Supplier A,11,96.72,6093.36
+SKU0234,Product 234,unidades,620,Supplier B,22,51.28,31793.60
+SKU0235,Product 235,unidades,533,Supplier B,28,89.21,47548.93
+SKU0236,Product 236,piezas,433,Supplier C,26,6.84,2961.72
+SKU0237,Product 237,kg,909,Supplier A,21,80.92,73556.28
+SKU0238,Product 238,piezas,759,Supplier D,11,56.11,42587.49
+SKU0239,Product 239,cajas,604,Supplier B,18,98.53,59512.12
+SKU0240,Product 240 por unidad,kg,306,Supplier D,24,3.02,924.12
+SKU0241,Product 241,cajas,673,Supplier B,21,16.28,10956.44
+SKU0242,Product 242,kg,448,Supplier B,25,95.73,42887.04
+SKU0243,Product 243,piezas,431,Supplier E,12,45.05,19416.55
+SKU0244,Product 244,litros,470,Supplier B,9,30.09,14142.30
+SKU0245,Product 245,unidades,929,Supplier C,7,72.23,67101.67
+SKU0246,Product 246,cajas,328,Supplier D,11,59.48,19509.44
+SKU0247,Product 247,unidades,526,Supplier B,15,23.19,12197.94
+SKU0248,Product 248,kg,190,Supplier C,9,91.65,17413.50
+SKU0249,Product 249,cajas,524,Supplier E,17,7.19,3767.56
+SKU0250,Product 250 por unidad,piezas,916,Supplier B,25,23.07,21132.12
+SKU0251,Product 251,cajas,368,Supplier D,12,74.36,27364.48
+SKU0252,Product 252,kg,756,Supplier C,8,85.54,64668.24
+SKU0253,Product 253,litros,550,Supplier A,24,64.24,35332.00
+SKU0254,Product 254,cajas,23,Supplier D,9,42.82,984.86
+SKU0255,Product 255,litros,605,Supplier C,18,12.45,7532.25
+SKU0256,Product 256,cajas,618,Supplier D,10,35.81,22130.58
+SKU0257,Product 257,piezas,400,Supplier D,22,11.33,4532.00
+SKU0258,Product 258,cajas,861,Supplier D,10,86.61,74571.21
+SKU0259,Product 259,kg,673,Supplier D,14,59.76,40218.48
+SKU0260,Product 260 por unidad,kg,196,Supplier D,27,35.00,6860.00
+SKU0261,Product 261,litros,456,Supplier B,13,63.55,28978.80
+SKU0262,Product 262,piezas,278,Supplier B,20,85.26,23702.28
+SKU0263,Product 263,cajas,976,Supplier A,27,43.35,42309.60
+SKU0264,Product 264,unidades,472,Supplier B,19,21.99,10379.28
+SKU0265,Product 265,piezas,135,Supplier E,22,32.72,4417.20
+SKU0266,Product 266,cajas,92,Supplier C,11,63.95,5883.40
+SKU0267,Product 267,kg,430,Supplier C,24,42.27,18176.10
+SKU0268,Product 268,piezas,995,Supplier A,20,61.40,61093.00
+SKU0269,Product 269,piezas,299,Supplier C,23,62.76,18765.24
+SKU0270,Product 270 por unidad,piezas,786,Supplier A,18,19.37,15224.82
+SKU0271,Product 271,litros,24,Supplier E,13,1.55,37.20
+SKU0272,Product 272,piezas,641,Supplier D,27,95.97,61516.77
+SKU0273,Product 273,cajas,357,Supplier D,30,67.59,24129.63
+SKU0274,Product 274,unidades,106,Supplier C,19,95.50,10123.00
+SKU0275,Product 275,piezas,763,Supplier C,13,46.80,35708.40
+SKU0276,Product 276,kg,661,Supplier B,14,43.45,28720.45
+SKU0277,Product 277,litros,384,Supplier A,24,51.67,19841.28
+SKU0278,Product 278,litros,994,Supplier A,19,15.83,15735.02
+SKU0279,Product 279,unidades,570,Supplier B,10,95.65,54520.50
+SKU0280,Product 280 por unidad,unidades,450,Supplier A,12,84.73,38128.50
+SKU0281,Product 281,piezas,500,Supplier E,9,49.59,24795.00
+SKU0282,Product 282,piezas,696,Supplier A,27,54.37,37841.52
+SKU0283,Product 283,unidades,207,Supplier B,19,17.24,3568.68
+SKU0284,Product 284,piezas,778,Supplier E,29,95.73,74477.94
+SKU0285,Product 285,litros,434,Supplier D,8,33.40,14495.60
+SKU0286,Product 286,piezas,530,Supplier A,23,85.09,45097.70
+SKU0287,Product 287,kg,300,Supplier E,12,44.17,13251.00
+SKU0288,Product 288,unidades,278,Supplier D,8,73.47,20424.66
+SKU0289,Product 289,cajas,250,Supplier E,30,11.63,2907.50
+SKU0290,Product 290 por unidad,unidades,250,Supplier D,10,46.33,11582.50
+SKU0291,Product 291,unidades,511,Supplier C,24,90.07,46025.77
+SKU0292,Product 292,piezas,917,Supplier D,20,2.65,2430.05
+SKU0293,Product 293,litros,194,Supplier E,12,50.69,9833.86
+SKU0294,Product 294,litros,242,Supplier C,28,73.78,17854.76
+SKU0295,Product 295,unidades,397,Supplier E,24,87.53,34749.41
+SKU0296,Product 296,piezas,635,Supplier A,12,12.65,8032.75
+SKU0297,Product 297,cajas,969,Supplier B,19,92.18,89322.42
+SKU0298,Product 298,litros,515,Supplier A,28,68.60,35329.00
+SKU0299,Product 299,cajas,346,Supplier E,24,84.62,29278.52
+SKU0300,Product 300 por unidad,unidades,407,Supplier A,10,51.78,21074.46
+SKU0301,Product 301,litros,721,Supplier A,17,72.15,52020.15
+SKU0302,Product 302,kg,194,Supplier C,12,52.16,10119.04
+SKU0303,Product 303,kg,769,Supplier B,20,92.00,70748.00
+SKU0304,Product 304,piezas,252,Supplier E,17,27.93,7038.36
+SKU0305,Product 305,litros,383,Supplier D,18,98.58,37756.14
+SKU0306,Product 306,unidades,529,Supplier A,16,60.43,31967.47
+SKU0307,Product 307,litros,102,Supplier C,25,34.64,3533.28
+SKU0308,Product 308,litros,78,Supplier B,14,95.73,7466.94
+SKU0309,Product 309,litros,485,Supplier B,13,97.17,47127.45
+SKU0310,Product 310 por unidad,kg,165,Supplier B,25,76.17,12568.05
+SKU0311,Product 311,piezas,86,Supplier A,15,98.86,8501.96
+SKU0312,Product 312,unidades,292,Supplier A,17,45.30,13227.60
+SKU0313,Product 313,kg,556,Supplier B,11,75.67,42072.52
+SKU0314,Product 314,cajas,375,Supplier A,14,10.85,4068.75
+SKU0315,Product 315,litros,588,Supplier D,27,67.85,39895.80
+SKU0316,Product 316,kg,215,Supplier D,17,57.06,12267.90
+SKU0317,Product 317,piezas,133,Supplier E,12,2.50,332.50
+SKU0318,Product 318,kg,342,Supplier B,23,18.67,6385.14
+SKU0319,Product 319,piezas,54,Supplier E,22,15.64,844.56
+SKU0320,Product 320 por unidad,cajas,50,Supplier A,17,93.90,4695.00
+SKU0321,Product 321,kg,358,Supplier A,18,43.30,15501.40
+SKU0322,Product 322,cajas,954,Supplier A,23,97.79,93291.66
+SKU0323,Product 323,cajas,534,Supplier E,7,89.85,47979.90
+SKU0324,Product 324,unidades,608,Supplier E,18,65.03,39538.24
+SKU0325,Product 325,unidades,478,Supplier A,26,53.51,25577.78
+SKU0326,Product 326,cajas,121,Supplier B,7,75.02,9077.42
+SKU0327,Product 327,unidades,256,Supplier D,30,58.37,14942.72
+SKU0328,Product 328,kg,445,Supplier D,20,48.65,21649.25
+SKU0329,Product 329,cajas,659,Supplier C,9,98.99,65234.41
+SKU0330,Product 330 por unidad,cajas,269,Supplier E,7,20.24,5444.56
+SKU0331,Product 331,kg,995,Supplier A,7,92.49,92027.55
+SKU0332,Product 332,cajas,839,Supplier D,13,21.12,17719.68
+SKU0333,Product 333,unidades,128,Supplier C,14,28.11,3598.08
+SKU0334,Product 334,litros,559,Supplier D,15,32.03,17904.77
+SKU0335,Product 335,cajas,659,Supplier C,15,35.37,23308.83
+SKU0336,Product 336,unidades,834,Supplier D,12,53.90,44952.60
+SKU0337,Product 337,litros,857,Supplier D,17,24.94,21373.58
+SKU0338,Product 338,litros,375,Supplier A,27,45.50,17062.50
+SKU0339,Product 339,cajas,675,Supplier B,17,42.22,28498.50
+SKU0340,Product 340 por unidad,unidades,692,Supplier C,16,91.39,63241.88
+SKU0341,Product 341,cajas,877,Supplier D,13,83.19,72957.63
+SKU0342,Product 342,piezas,124,Supplier E,30,54.01,6697.24
+SKU0343,Product 343,litros,763,Supplier C,22,32.94,25133.22
+SKU0344,Product 344,cajas,145,Supplier D,23,62.57,9072.65
+SKU0345,Product 345,cajas,524,Supplier A,23,60.74,31827.76
+SKU0346,Product 346,litros,187,Supplier A,19,98.46,18412.02
+SKU0347,Product 347,litros,561,Supplier D,23,79.69,44706.09
+SKU0348,Product 348,piezas,842,Supplier D,26,74.09,62383.78
+SKU0349,Product 349,litros,892,Supplier C,13,19.38,17286.96
+SKU0350,Product 350 por unidad,cajas,528,Supplier C,19,96.28,50835.84
+SKU0351,Product 351,unidades,313,Supplier D,20,59.75,18701.75
+SKU0352,Product 352,litros,612,Supplier D,22,93.37,57142.44
+SKU0353,Product 353,piezas,785,Supplier C,20,58.05,45569.25
+SKU0354,Product 354,kg,174,Supplier A,25,77.94,13561.56
+SKU0355,Product 355,piezas,227,Supplier D,14,27.79,6308.33
+SKU0356,Product 356,kg,798,Supplier A,20,48.07,38359.86
+SKU0357,Product 357,kg,390,Supplier E,25,93.11,36312.90
+SKU0358,Product 358,litros,890,Supplier D,9,98.71,87851.90
+SKU0359,Product 359,piezas,444,Supplier B,18,64.04,28433.76
+SKU0360,Product 360 por unidad,unidades,174,Supplier D,7,57.92,10078.08
+SKU0361,Product 361,piezas,962,Supplier B,14,24.27,23347.74
+SKU0362,Product 362,piezas,530,Supplier E,15,82.61,43783.30
+SKU0363,Product 363,unidades,111,Supplier D,12,85.27,9464.97
+SKU0364,Product 364,litros,107,Supplier D,10,38.22,4089.54
+SKU0365,Product 365,piezas,393,Supplier A,23,45.74,17975.82
+SKU0366,Product 366,unidades,664,Supplier D,22,32.13,21334.32
+SKU0367,Product 367,cajas,337,Supplier A,12,3.72,1253.64
+SKU0368,Product 368,unidades,164,Supplier E,24,2.69,441.16
+SKU0369,Product 369,kg,227,Supplier B,27,89.04,20212.08
+SKU0370,Product 370 por unidad,piezas,53,Supplier E,26,82.54,4374.62
+SKU0371,Product 371,kg,85,Supplier D,7,31.82,2704.70
+SKU0372,Product 372,cajas,824,Supplier D,28,54.82,45171.68
+SKU0373,Product 373,piezas,880,Supplier E,8,3.00,2640.00
+SKU0374,Product 374,litros,930,Supplier D,22,64.96,60412.80
+SKU0375,Product 375,litros,975,Supplier A,25,82.22,80164.50
+SKU0376,Product 376,cajas,372,Supplier B,9,75.79,28193.88
+SKU0377,Product 377,unidades,633,Supplier D,23,18.19,11514.27
+SKU0378,Product 378,cajas,367,Supplier A,23,53.87,19770.29
+SKU0379,Product 379,cajas,646,Supplier A,30,65.59,42371.14
+SKU0380,Product 380 por unidad,kg,773,Supplier A,11,26.27,20306.71
+SKU0381,Product 381,kg,643,Supplier D,16,1.31,842.33
+SKU0382,Product 382,litros,686,Supplier B,7,78.94,54152.84
+SKU0383,Product 383,litros,895,Supplier D,7,40.99,36686.05
+SKU0384,Product 384,kg,997,Supplier B,30,47.43,47287.71
+SKU0385,Product 385,piezas,674,Supplier D,17,89.25,60154.50
+SKU0386,Product 386,cajas,805,Supplier A,9,21.53,17331.65
+SKU0387,Product 387,unidades,77,Supplier A,16,32.25,2483.25
+SKU0388,Product 388,cajas,567,Supplier D,22,27.27,15462.09
+SKU0389,Product 389,unidades,450,Supplier B,10,68.71,30919.50
+SKU0390,Product 390 por unidad,cajas,736,Supplier B,14,60.20,44307.20
+SKU0391,Product 391,kg,157,Supplier A,29,98.97,15538.29
+SKU0392,Product 392,unidades,552,Supplier B,21,74.77,41273.04
+SKU0393,Product 393,piezas,120,Supplier E,15,8.62,1034.40
+SKU0394,Product 394,kg,721,Supplier D,18,67.37,48573.77
+SKU0395,Product 395,litros,296,Supplier B,17,48.78,14438.88
+SKU0396,Product 396,unidades,900,Supplier D,24,71.26,64134.00
+SKU0397,Product 397,cajas,334,Supplier D,22,69.92,23353.28
+SKU0398,Product 398,litros,978,Supplier C,25,78.59,76861.02
+SKU0399,Product 399,piezas,948,Supplier B,11,23.02,21822.96
+SKU0400,Product 400 por unidad,piezas,817,Supplier D,28,32.86,26846.62
+SKU0401,Product 401,piezas,72,Supplier E,14,34.43,2478.96
+SKU0402,Product 402,litros,598,Supplier C,12,50.16,29995.68
+SKU0403,Product 403,unidades,852,Supplier B,11,20.78,17704.56
+SKU0404,Product 404,unidades,373,Supplier B,23,18.59,6934.07
+SKU0405,Product 405,litros,942,Supplier D,13,87.09,82038.78
+SKU0406,Product 406,litros,47,Supplier A,7,65.63,3084.61
+SKU0407,Product 407,piezas,149,Supplier D,19,13.96,2080.04
+SKU0408,Product 408,litros,607,Supplier E,12,69.42,42137.94
+SKU0409,Product 409,litros,378,Supplier D,14,59.08,22332.24
+SKU0410,Product 410 por unidad,cajas,54,Supplier B,26,93.16,5030.64
+SKU0411,Product 411,cajas,749,Supplier D,7,39.15,29323.35
+SKU0412,Product 412,piezas,244,Supplier A,20,81.66,19925.04
+SKU0413,Product 413,piezas,141,Supplier B,24,29.35,4138.35
+SKU0414,Product 414,kg,112,Supplier D,7,19.31,2162.72
+SKU0415,Product 415,unidades,305,Supplier E,22,13.37,4077.85
+SKU0416,Product 416,unidades,53,Supplier A,20,52.49,2781.97
+SKU0417,Product 417,unidades,698,Supplier B,20,41.15,28722.70
+SKU0418,Product 418,litros,566,Supplier B,23,62.62,35442.92
+SKU0419,Product 419,kg,145,Supplier E,16,34.70,5031.50
+SKU0420,Product 420 por unidad,kg,851,Supplier A,14,58.71,49962.21
+SKU0421,Product 421,cajas,898,Supplier B,29,3.92,3520.16
+SKU0422,Product 422,litros,133,Supplier D,11,90.94,12095.02
+SKU0423,Product 423,kg,956,Supplier B,30,65.33,62455.48
+SKU0424,Product 424,litros,143,Supplier A,15,9.97,1425.71
+SKU0425,Product 425,cajas,98,Supplier C,16,79.95,7835.10
+SKU0426,Product 426,piezas,793,Supplier B,9,55.32,43868.76
+SKU0427,Product 427,litros,944,Supplier A,12,1.16,1095.04
+SKU0428,Product 428,kg,749,Supplier B,9,57.82,43307.18
+SKU0429,Product 429,kg,17,Supplier E,25,56.07,953.19
+SKU0430,Product 430 por unidad,cajas,388,Supplier A,11,64.86,25165.68
+SKU0431,Product 431,litros,604,Supplier E,14,51.96,31383.84
+SKU0432,Product 432,cajas,790,Supplier C,25,34.37,27152.30
+SKU0433,Product 433,litros,744,Supplier C,30,4.04,3005.76
+SKU0434,Product 434,piezas,430,Supplier A,23,73.60,31648.00
+SKU0435,Product 435,piezas,731,Supplier E,10,15.09,11030.79
+SKU0436,Product 436,unidades,219,Supplier E,12,10.86,2378.34
+SKU0437,Product 437,piezas,310,Supplier A,13,25.48,7898.80
+SKU0438,Product 438,unidades,735,Supplier D,27,4.68,3439.80
+SKU0439,Product 439,cajas,941,Supplier A,29,93.90,88359.90
+SKU0440,Product 440 por unidad,piezas,486,Supplier B,7,80.81,39273.66
+SKU0441,Product 441,kg,364,Supplier E,22,99.37,36170.68
+SKU0442,Product 442,kg,771,Supplier C,15,44.61,34394.31
+SKU0443,Product 443,cajas,902,Supplier A,19,24.25,21873.50
+SKU0444,Product 444,kg,913,Supplier E,18,60.59,55318.67
+SKU0445,Product 445,litros,780,Supplier B,21,61.80,48204.00
+SKU0446,Product 446,unidades,639,Supplier C,16,82.27,52570.53
+SKU0447,Product 447,cajas,397,Supplier B,11,96.60,38350.20
+SKU0448,Product 448,unidades,324,Supplier C,16,36.98,11981.52
+SKU0449,Product 449,cajas,328,Supplier E,24,35.61,11680.08
+SKU0450,Product 450 por unidad,litros,884,Supplier C,27,62.59,55329.56
+SKU0451,Product 451,kg,930,Supplier A,9,27.37,25454.10
+SKU0452,Product 452,cajas,342,Supplier E,29,11.81,4039.02
+SKU0453,Product 453,litros,226,Supplier B,13,20.14,4551.64
+SKU0454,Product 454,litros,735,Supplier E,13,19.00,13965.00
+SKU0455,Product 455,litros,894,Supplier D,14,2.12,1895.28
+SKU0456,Product 456,cajas,692,Supplier A,28,48.08,33271.36
+SKU0457,Product 457,unidades,741,Supplier E,11,71.69,53122.29
+SKU0458,Product 458,piezas,582,Supplier E,22,90.30,52554.60
+SKU0459,Product 459,kg,186,Supplier B,25,36.93,6868.98
+SKU0460,Product 460 por unidad,kg,793,Supplier A,19,76.74,60854.82
+SKU0461,Product 461,litros,460,Supplier B,25,68.62,31565.20
+SKU0462,Product 462,unidades,742,Supplier E,30,97.32,72211.44
+SKU0463,Product 463,cajas,284,Supplier E,14,67.47,19161.48
+SKU0464,Product 464,kg,108,Supplier E,24,50.11,5411.88
+SKU0465,Product 465,litros,696,Supplier B,10,41.34,28772.64
+SKU0466,Product 466,litros,967,Supplier C,17,47.67,46096.89
+SKU0467,Product 467,piezas,641,Supplier A,19,1.23,788.43
+SKU0468,Product 468,kg,650,Supplier C,14,5.18,3367.00
+SKU0469,Product 469,piezas,361,Supplier D,28,58.45,21100.45
+SKU0470,Product 470 por unidad,unidades,644,Supplier D,8,73.50,47334.00
+SKU0471,Product 471,cajas,528,Supplier D,30,76.69,40492.32
+SKU0472,Product 472,litros,618,Supplier D,12,81.64,50453.52
+SKU0473,Product 473,cajas,853,Supplier C,9,54.53,46514.09
+SKU0474,Product 474,cajas,956,Supplier C,26,38.08,36404.48
+SKU0475,Product 475,piezas,753,Supplier C,22,67.64,50932.92
+SKU0476,Product 476,unidades,555,Supplier A,7,23.84,13231.20
+SKU0477,Product 477,unidades,829,Supplier E,17,59.74,49524.46
+SKU0478,Product 478,unidades,376,Supplier C,25,65.76,24725.76
+SKU0479,Product 479,piezas,973,Supplier C,29,67.12,65307.76
+SKU0480,Product 480 por unidad,unidades,608,Supplier D,11,16.52,10044.16
+SKU0481,Product 481,litros,771,Supplier E,12,88.22,68017.62
+SKU0482,Product 482,piezas,411,Supplier E,9,35.83,14726.13
+SKU0483,Product 483,litros,21,Supplier B,16,11.29,237.09
+SKU0484,Product 484,unidades,593,Supplier E,19,16.43,9742.99
+SKU0485,Product 485,kg,934,Supplier B,13,45.43,42431.62
+SKU0486,Product 486,piezas,44,Supplier E,22,90.55,3984.20
+SKU0487,Product 487,cajas,992,Supplier D,21,41.10,40771.20
+SKU0488,Product 488,piezas,10,Supplier D,30,80.03,800.30
+SKU0489,Product 489,piezas,379,Supplier C,24,4.93,1868.47
+SKU0490,Product 490 por unidad,piezas,471,Supplier E,15,95.51,44985.21
+SKU0491,Product 491,unidades,883,Supplier D,30,57.81,51046.23
+SKU0492,Product 492,litros,638,Supplier B,16,52.07,33220.66
+SKU0493,Product 493,unidades,470,Supplier C,24,6.02,2829.40
+SKU0494,Product 494,cajas,116,Supplier C,16,30.92,3586.72
+SKU0495,Product 495,piezas,961,Supplier E,21,53.66,51567.26
+SKU0496,Product 496,unidades,126,Supplier D,25,36.75,4630.50
+SKU0497,Product 497,unidades,955,Supplier D,11,84.10,80315.50
+SKU0498,Product 498,litros,370,Supplier E,25,56.37,20856.90
+SKU0499,Product 499,litros,345,Supplier C,14,9.51,3280.95
+SKU0500,Product 500 por unidad,cajas,10,Supplier D,14,76.53,765.30
+SKU0501,Product 501,litros,340,Supplier B,19,3.33,1132.20
+SKU0502,Product 502,cajas,148,Supplier E,13,75.44,11165.12
+SKU0503,Product 503,cajas,860,Supplier D,28,29.66,25507.60
+SKU0504,Product 504,cajas,924,Supplier E,20,67.37,62249.88
+SKU0505,Product 505,kg,315,Supplier A,17,30.64,9651.60
+SKU0506,Product 506,kg,958,Supplier E,25,98.43,94295.94
+SKU0507,Product 507,piezas,392,Supplier C,8,97.48,38212.16
+SKU0508,Product 508,litros,465,Supplier A,23,24.68,11476.20
+SKU0509,Product 509,cajas,671,Supplier D,27,94.82,63624.22
+SKU0510,Product 510 por unidad,cajas,857,Supplier C,9,28.64,24544.48
+SKU0511,Product 511,unidades,211,Supplier C,14,25.81,5445.91
+SKU0512,Product 512,unidades,892,Supplier E,26,24.72,22050.24
+SKU0513,Product 513,cajas,261,Supplier B,9,2.35,613.35
+SKU0514,Product 514,litros,904,Supplier D,29,23.68,21406.72
+SKU0515,Product 515,unidades,870,Supplier B,24,39.74,34573.80
+SKU0516,Product 516,unidades,849,Supplier C,20,52.57,44631.93
+SKU0517,Product 517,litros,176,Supplier E,15,77.95,13719.20
+SKU0518,Product 518,kg,467,Supplier E,22,88.25,41212.75
+SKU0519,Product 519,litros,295,Supplier C,9,43.58,12856.10
+SKU0520,Product 520 por unidad,litros,90,Supplier A,29,4.46,401.40
+SKU0521,Product 521,cajas,204,Supplier C,23,71.46,14577.84
+SKU0522,Product 522,kg,660,Supplier D,24,68.45,45177.00
+SKU0523,Product 523,cajas,884,Supplier C,13,67.29,59484.36
+SKU0524,Product 524,piezas,432,Supplier E,8,74.10,32011.20
+SKU0525,Product 525,unidades,814,Supplier E,20,46.88,38160.32
+SKU0526,Product 526,cajas,593,Supplier C,17,59.90,35520.70
+SKU0527,Product 527,cajas,556,Supplier A,23,4.80,2668.80
+SKU0528,Product 528,litros,603,Supplier E,30,30.24,18234.72
+SKU0529,Product 529,kg,704,Supplier A,19,61.45,43260.80
+SKU0530,Product 530 por unidad,unidades,845,Supplier B,18,29.63,25037.35
+SKU0531,Product 531,unidades,326,Supplier B,23,45.03,14679.78
+SKU0532,Product 532,kg,957,Supplier D,12,54.59,52242.63
+SKU0533,Product 533,unidades,273,Supplier A,14,45.21,12342.33
+SKU0534,Product 534,litros,649,Supplier D,8,15.11,9806.39
+SKU0535,Product 535,litros,846,Supplier A,13,66.55,56301.30
+SKU0536,Product 536,litros,53,Supplier B,16,24.46,1296.38
+SKU0537,Product 537,litros,305,Supplier E,23,53.67,16369.35
+SKU0538,Product 538,piezas,203,Supplier E,8,89.55,18178.65
+SKU0539,Product 539,litros,485,Supplier D,9,47.09,22838.65
+SKU0540,Product 540 por unidad,litros,564,Supplier C,11,92.84,52361.76
+SKU0541,Product 541,piezas,216,Supplier B,23,73.40,15854.40
+SKU0542,Product 542,litros,373,Supplier D,8,83.58,31175.34
+SKU0543,Product 543,unidades,152,Supplier B,15,54.82,8332.64
+SKU0544,Product 544,unidades,671,Supplier B,11,78.70,52807.70
+SKU0545,Product 545,piezas,656,Supplier B,27,42.81,28083.36
+SKU0546,Product 546,unidades,854,Supplier C,8,53.10,45347.40
+SKU0547,Product 547,kg,998,Supplier C,23,36.48,36407.04
+SKU0548,Product 548,kg,770,Supplier E,24,44.72,34434.40
+SKU0549,Product 549,unidades,267,Supplier E,11,16.20,4325.40
+SKU0550,Product 550 por unidad,litros,610,Supplier E,30,48.08,29328.80
+SKU0551,Product 551,kg,385,Supplier E,10,9.10,3503.50
+SKU0552,Product 552,kg,823,Supplier D,17,84.64,69658.72
+SKU0553,Product 553,kg,396,Supplier A,9,44.17,17491.32
+SKU0554,Product 554,cajas,276,Supplier D,26,57.96,15996.96
+SKU0555,Product 555,cajas,71,Supplier C,16,22.20,1576.20
+SKU0556,Product 556,litros,587,Supplier A,9,59.10,34691.70
+SKU0557,Product 557,cajas,954,Supplier E,19,11.25,10732.50
+SKU0558,Product 558,litros,621,Supplier C,18,43.41,26957.61
+SKU0559,Product 559,litros,994,Supplier B,23,20.00,19880.00
+SKU0560,Product 560 por unidad,cajas,750,Supplier D,14,31.39,23542.50
+SKU0561,Product 561,piezas,73,Supplier A,9,11.40,832.20
+SKU0562,Product 562,cajas,113,Supplier B,8,87.77,9918.01
+SKU0563,Product 563,unidades,163,Supplier E,30,49.70,8101.10
+SKU0564,Product 564,cajas,106,Supplier E,12,76.04,8060.24
+SKU0565,Product 565,litros,534,Supplier A,19,64.10,34229.40
+SKU0566,Product 566,piezas,709,Supplier E,8,81.76,57967.84
+SKU0567,Product 567,piezas,607,Supplier A,19,16.71,10142.97
+SKU0568,Product 568,litros,894,Supplier E,28,68.69,61408.86
+SKU0569,Product 569,piezas,935,Supplier C,16,47.38,44300.30
+SKU0570,Product 570 por unidad,kg,171,Supplier D,21,85.57,14632.47
+SKU0571,Product 571,unidades,673,Supplier D,20,35.70,24026.10
+SKU0572,Product 572,litros,879,Supplier C,22,35.60,31292.40
+SKU0573,Product 573,cajas,240,Supplier B,29,53.08,12739.20
+SKU0574,Product 574,kg,638,Supplier C,13,33.01,21060.38
+SKU0575,Product 575,unidades,14,Supplier E,28,97.16,1360.24
+SKU0576,Product 576,piezas,948,Supplier D,28,72.26,68502.48
+SKU0577,Product 577,kg,123,Supplier A,20,9.94,1222.62
+SKU0578,Product 578,litros,491,Supplier D,28,96.07,47170.37
+SKU0579,Product 579,cajas,546,Supplier A,30,80.10,43734.60
+SKU0580,Product 580 por unidad,cajas,655,Supplier B,12,45.09,29533.95
+SKU0581,Product 581,piezas,715,Supplier A,21,45.68,32661.20
+SKU0582,Product 582,unidades,366,Supplier A,11,38.30,14017.80
+SKU0583,Product 583,unidades,309,Supplier A,18,50.63,15644.67
+SKU0584,Product 584,unidades,631,Supplier A,22,9.37,5912.47
+SKU0585,Product 585,unidades,909,Supplier B,28,35.39,32169.51
+SKU0586,Product 586,litros,233,Supplier A,8,69.25,16135.25
+SKU0587,Product 587,kg,61,Supplier A,9,74.78,4561.58
+SKU0588,Product 588,piezas,42,Supplier C,23,7.60,319.20
+SKU0589,Product 589,unidades,237,Supplier D,12,67.62,16025.94
+SKU0590,Product 590 por unidad,unidades,34,Supplier E,10,77.20,2624.80
+SKU0591,Product 591,piezas,175,Supplier B,19,17.11,2994.25
+SKU0592,Product 592,litros,904,Supplier A,25,57.44,51925.76
+SKU0593,Product 593,unidades,835,Supplier D,8,27.10,22628.50
+SKU0594,Product 594,litros,249,Supplier B,29,77.93,19404.57
+SKU0595,Product 595,litros,421,Supplier C,25,8.84,3721.64
+SKU0596,Product 596,cajas,228,Supplier D,14,92.10,20998.80
+SKU0597,Product 597,litros,513,Supplier E,27,64.44,33057.72
+SKU0598,Product 598,piezas,836,Supplier D,30,65.30,54590.80
+SKU0599,Product 599,cajas,827,Supplier A,21,65.17,53895.59
+SKU0600,Product 600 por unidad,kg,703,Supplier D,8,56.62,39803.86
+SKU0601,Product 601,kg,720,Supplier E,9,83.32,59990.40
+SKU0602,Product 602,unidades,483,Supplier C,11,63.95,30887.85
+SKU0603,Product 603,piezas,690,Supplier E,11,6.91,4767.90
+SKU0604,Product 604,unidades,885,Supplier E,27,72.47,64135.95
+SKU0605,Product 605,kg,76,Supplier A,27,15.18,1153.68
+SKU0606,Product 606,kg,425,Supplier D,20,38.33,16290.25
+SKU0607,Product 607,piezas,280,Supplier B,13,91.94,25743.20
+SKU0608,Product 608,piezas,576,Supplier C,10,49.66,28604.16
+SKU0609,Product 609,litros,979,Supplier B,29,9.16,8967.64
+SKU0610,Product 610 por unidad,litros,256,Supplier A,9,56.18,14382.08
+SKU0611,Product 611,kg,449,Supplier E,23,33.28,14942.72
+SKU0612,Product 612,piezas,923,Supplier D,26,35.14,32434.22
+SKU0613,Product 613,piezas,211,Supplier C,23,51.77,10923.47
+SKU0614,Product 614,cajas,738,Supplier C,14,43.43,32051.34
+SKU0615,Product 615,cajas,671,Supplier D,10,38.56,25873.76
+SKU0616,Product 616,cajas,972,Supplier D,20,13.08,12713.76
+SKU0617,Product 617,litros,505,Supplier C,13,71.01,35860.05
+SKU0618,Product 618,cajas,38,Supplier B,7,26.21,995.98
+SKU0619,Product 619,litros,270,Supplier A,22,53.08,14331.60
+SKU0620,Product 620 por unidad,piezas,382,Supplier D,29,69.90,26701.80
+SKU0621,Product 621,piezas,999,Supplier B,19,27.45,27422.55
+SKU0622,Product 622,kg,563,Supplier D,11,72.39,40755.57
+SKU0623,Product 623,litros,444,Supplier B,29,41.79,18554.76
+SKU0624,Product 624,litros,291,Supplier C,10,46.84,13630.44
+SKU0625,Product 625,piezas,603,Supplier D,14,55.54,33490.62
+SKU0626,Product 626,cajas,300,Supplier D,14,43.79,13137.00
+SKU0627,Product 627,cajas,154,Supplier C,17,77.24,11894.96
+SKU0628,Product 628,unidades,524,Supplier E,16,58.50,30654.00
+SKU0629,Product 629,litros,100,Supplier E,27,28.85,2885.00
+SKU0630,Product 630 por unidad,piezas,907,Supplier A,26,11.26,10212.82
+SKU0631,Product 631,piezas,567,Supplier B,17,56.17,31848.39
+SKU0632,Product 632,kg,176,Supplier E,24,77.17,13581.92
+SKU0633,Product 633,unidades,566,Supplier A,19,11.31,6401.46
+SKU0634,Product 634,piezas,472,Supplier D,16,37.80,17841.60
+SKU0635,Product 635,piezas,202,Supplier E,19,78.25,15806.50
+SKU0636,Product 636,kg,818,Supplier C,23,17.79,14552.22
+SKU0637,Product 637,litros,123,Supplier C,9,52.83,6498.09
+SKU0638,Product 638,unidades,841,Supplier C,8,73.89,62141.49
+SKU0639,Product 639,cajas,500,Supplier B,13,61.39,30695.00
+SKU0640,Product 640 por unidad,piezas,764,Supplier D,9,84.83,64810.12
+SKU0641,Product 641,kg,299,Supplier E,8,91.13,27247.87
+SKU0642,Product 642,kg,758,Supplier C,9,50.38,38188.04
+SKU0643,Product 643,cajas,734,Supplier A,19,20.88,15325.92
+SKU0644,Product 644,litros,226,Supplier A,17,3.47,784.22
+SKU0645,Product 645,cajas,261,Supplier D,20,31.44,8205.84
+SKU0646,Product 646,piezas,486,Supplier D,13,90.61,44036.46
+SKU0647,Product 647,piezas,610,Supplier E,14,89.74,54741.40
+SKU0648,Product 648,litros,732,Supplier D,14,75.60,55339.20
+SKU0649,Product 649,kg,932,Supplier B,9,62.50,58250.00
+SKU0650,Product 650 por unidad,kg,396,Supplier A,19,28.46,11270.16
+SKU0651,Product 651,litros,462,Supplier C,10,66.21,30589.02
+SKU0652,Product 652,unidades,998,Supplier C,19,42.52,42434.96
+SKU0653,Product 653,unidades,446,Supplier D,8,82.44,36768.24
+SKU0654,Product 654,litros,52,Supplier D,7,81.86,4256.72
+SKU0655,Product 655,piezas,888,Supplier E,16,35.80,31790.40
+SKU0656,Product 656,kg,171,Supplier A,11,29.66,5071.86
+SKU0657,Product 657,cajas,329,Supplier E,19,80.93,26625.97
+SKU0658,Product 658,litros,489,Supplier A,12,29.36,14357.04
+SKU0659,Product 659,cajas,575,Supplier A,24,4.39,2524.25
+SKU0660,Product 660 por unidad,piezas,573,Supplier A,29,22.45,12863.85
+SKU0661,Product 661,litros,341,Supplier B,16,51.87,17687.67
+SKU0662,Product 662,cajas,27,Supplier C,9,51.09,1379.43
+SKU0663,Product 663,piezas,714,Supplier C,22,99.01,70693.14
+SKU0664,Product 664,unidades,36,Supplier D,18,22.12,796.32
+SKU0665,Product 665,piezas,68,Supplier A,13,62.46,4247.28
+SKU0666,Product 666,cajas,163,Supplier B,12,43.11,7026.93
+SKU0667,Product 667,cajas,768,Supplier C,7,85.72,65832.96
+SKU0668,Product 668,cajas,849,Supplier B,24,18.97,16105.53
+SKU0669,Product 669,unidades,529,Supplier D,10,86.80,45917.20
+SKU0670,Product 670 por unidad,kg,218,Supplier B,10,59.77,13029.86
+SKU0671,Product 671,litros,910,Supplier D,12,34.78,31649.80
+SKU0672,Product 672,unidades,671,Supplier A,16,34.28,23001.88
+SKU0673,Product 673,unidades,713,Supplier D,14,59.39,42345.07
+SKU0674,Product 674,kg,631,Supplier E,19,50.51,31871.81
+SKU0675,Product 675,kg,279,Supplier C,22,29.85,8328.15
+SKU0676,Product 676,piezas,542,Supplier D,22,84.10,45582.20
+SKU0677,Product 677,piezas,735,Supplier A,8,13.37,9826.95
+SKU0678,Product 678,piezas,525,Supplier E,20,88.95,46698.75
+SKU0679,Product 679,cajas,431,Supplier D,22,26.14,11266.34
+SKU0680,Product 680 por unidad,piezas,47,Supplier C,15,14.99,704.53
+SKU0681,Product 681,litros,947,Supplier C,13,6.75,6392.25
+SKU0682,Product 682,kg,23,Supplier B,15,22.37,514.51
+SKU0683,Product 683,kg,114,Supplier C,17,58.25,6640.50
+SKU0684,Product 684,unidades,410,Supplier E,25,22.92,9397.20
+SKU0685,Product 685,unidades,947,Supplier C,28,56.13,53155.11
+SKU0686,Product 686,unidades,758,Supplier E,18,92.55,70152.90
+SKU0687,Product 687,piezas,53,Supplier D,22,84.09,4456.77
+SKU0688,Product 688,cajas,480,Supplier E,28,75.77,36369.60
+SKU0689,Product 689,kg,96,Supplier D,27,93.43,8969.28
+SKU0690,Product 690 por unidad,litros,765,Supplier C,23,82.34,62990.10
+SKU0691,Product 691,kg,419,Supplier B,21,89.62,37550.78
+SKU0692,Product 692,piezas,405,Supplier D,29,6.29,2547.45
+SKU0693,Product 693,unidades,476,Supplier B,15,95.87,45634.12
+SKU0694,Product 694,unidades,270,Supplier B,18,43.25,11677.50
+SKU0695,Product 695,piezas,610,Supplier E,16,47.32,28865.20
+SKU0696,Product 696,piezas,467,Supplier B,23,7.03,3283.01
+SKU0697,Product 697,litros,954,Supplier B,24,35.05,33437.70
+SKU0698,Product 698,piezas,503,Supplier D,9,15.23,7660.69
+SKU0699,Product 699,litros,123,Supplier B,22,55.37,6810.51
+SKU0700,Product 700 por unidad,cajas,423,Supplier D,11,83.60,35362.80
+SKU0701,Product 701,unidades,331,Supplier D,8,62.47,20677.57
+SKU0702,Product 702,cajas,654,Supplier B,25,68.30,44668.20
+SKU0703,Product 703,kg,633,Supplier A,29,70.95,44911.35
+SKU0704,Product 704,litros,156,Supplier D,16,86.75,13533.00
+SKU0705,Product 705,kg,123,Supplier B,14,75.15,9243.45
+SKU0706,Product 706,unidades,158,Supplier D,19,39.45,6233.10
+SKU0707,Product 707,kg,632,Supplier C,18,33.00,20856.00
+SKU0708,Product 708,cajas,519,Supplier A,20,1.65,856.35
+SKU0709,Product 709,cajas,139,Supplier D,14,16.72,2324.08
+SKU0710,Product 710 por unidad,litros,51,Supplier A,23,5.64,287.64
+SKU0711,Product 711,piezas,795,Supplier B,29,42.00,33390.00
+SKU0712,Product 712,litros,537,Supplier A,30,63.92,34325.04
+SKU0713,Product 713,cajas,828,Supplier D,28,24.91,20625.48
+SKU0714,Product 714,cajas,86,Supplier B,10,28.96,2490.56
+SKU0715,Product 715,piezas,471,Supplier A,15,95.46,44961.66
+SKU0716,Product 716,kg,797,Supplier D,27,77.55,61807.35
+SKU0717,Product 717,cajas,816,Supplier E,11,35.68,29114.88
+SKU0718,Product 718,piezas,617,Supplier E,10,91.41,56399.97
+SKU0719,Product 719,unidades,679,Supplier C,22,23.55,15990.45
+SKU0720,Product 720 por unidad,kg,715,Supplier D,10,31.22,22322.30
+SKU0721,Product 721,cajas,624,Supplier B,7,57.64,35967.36
+SKU0722,Product 722,litros,219,Supplier C,17,87.81,19230.39
+SKU0723,Product 723,piezas,395,Supplier B,23,71.70,28321.50
+SKU0724,Product 724,litros,68,Supplier D,27,62.03,4218.04
+SKU0725,Product 725,piezas,208,Supplier C,12,85.02,17684.16
+SKU0726,Product 726,cajas,397,Supplier A,15,86.65,34400.05
+SKU0727,Product 727,unidades,147,Supplier E,9,4.01,589.47
+SKU0728,Product 728,piezas,929,Supplier B,9,19.21,17846.09
+SKU0729,Product 729,cajas,208,Supplier B,7,63.10,13124.80
+SKU0730,Product 730 por unidad,piezas,196,Supplier C,30,13.29,2604.84
+SKU0731,Product 731,piezas,364,Supplier C,15,97.50,35490.00
+SKU0732,Product 732,cajas,718,Supplier C,14,19.09,13706.62
+SKU0733,Product 733,litros,985,Supplier D,19,87.03,85724.55
+SKU0734,Product 734,cajas,864,Supplier C,30,69.19,59780.16
+SKU0735,Product 735,litros,893,Supplier E,15,63.54,56741.22
+SKU0736,Product 736,piezas,544,Supplier E,19,80.96,44042.24
+SKU0737,Product 737,litros,466,Supplier C,24,23.00,10718.00
+SKU0738,Product 738,piezas,310,Supplier C,22,97.50,30225.00
+SKU0739,Product 739,piezas,420,Supplier D,28,11.13,4674.60
+SKU0740,Product 740 por unidad,litros,808,Supplier E,16,43.19,34897.52
+SKU0741,Product 741,cajas,489,Supplier D,9,61.97,30303.33
+SKU0742,Product 742,litros,33,Supplier D,20,12.67,418.11
+SKU0743,Product 743,unidades,880,Supplier C,29,75.43,66378.40
+SKU0744,Product 744,litros,183,Supplier B,18,31.34,5735.22
+SKU0745,Product 745,unidades,45,Supplier D,25,47.69,2146.05
+SKU0746,Product 746,kg,747,Supplier E,7,65.16,48674.52
+SKU0747,Product 747,cajas,245,Supplier D,7,13.58,3327.10
+SKU0748,Product 748,litros,750,Supplier A,9,10.00,7500.00
+SKU0749,Product 749,piezas,265,Supplier A,28,31.93,8461.45
+SKU0750,Product 750 por unidad,unidades,322,Supplier C,18,29.15,9386.30
+SKU0751,Product 751,litros,915,Supplier B,23,68.60,62769.00
+SKU0752,Product 752,cajas,282,Supplier B,25,62.51,17627.82
+SKU0753,Product 753,litros,162,Supplier D,17,77.87,12614.94
+SKU0754,Product 754,unidades,628,Supplier C,28,1.28,803.84
+SKU0755,Product 755,piezas,962,Supplier A,27,55.39,53285.18
+SKU0756,Product 756,unidades,342,Supplier A,10,22.44,7674.48
+SKU0757,Product 757,kg,524,Supplier D,11,56.46,29585.04
+SKU0758,Product 758,unidades,99,Supplier D,19,97.55,9657.45
+SKU0759,Product 759,litros,822,Supplier A,12,26.22,21552.84
+SKU0760,Product 760 por unidad,kg,533,Supplier C,17,78.25,41707.25
+SKU0761,Product 761,piezas,186,Supplier A,17,49.59,9223.74
+SKU0762,Product 762,kg,948,Supplier E,21,68.50,64938.00
+SKU0763,Product 763,piezas,841,Supplier D,9,44.81,37685.21
+SKU0764,Product 764,litros,773,Supplier D,30,63.60,49162.80
+SKU0765,Product 765,unidades,635,Supplier E,8,43.84,27838.40
+SKU0766,Product 766,cajas,67,Supplier E,19,91.50,6130.50
+SKU0767,Product 767,unidades,362,Supplier E,17,68.92,24949.04
+SKU0768,Product 768,cajas,378,Supplier A,28,18.71,7072.38
+SKU0769,Product 769,kg,126,Supplier B,7,27.00,3402.00
+SKU0770,Product 770 por unidad,piezas,535,Supplier E,16,64.63,34577.05
+SKU0771,Product 771,piezas,284,Supplier A,10,39.67,11266.28
+SKU0772,Product 772,cajas,786,Supplier B,27,96.93,76186.98
+SKU0773,Product 773,kg,840,Supplier D,24,69.46,58346.40
+SKU0774,Product 774,unidades,132,Supplier D,22,32.35,4270.20
+SKU0775,Product 775,unidades,356,Supplier D,29,71.97,25621.32
+SKU0776,Product 776,litros,869,Supplier E,17,1.41,1225.29
+SKU0777,Product 777,kg,332,Supplier D,11,88.80,29481.60
+SKU0778,Product 778,litros,708,Supplier D,7,9.67,6846.36
+SKU0779,Product 779,cajas,52,Supplier E,20,39.29,2043.08
+SKU0780,Product 780 por unidad,piezas,897,Supplier A,27,67.84,60852.48
+SKU0781,Product 781,cajas,624,Supplier D,15,79.16,49395.84
+SKU0782,Product 782,unidades,941,Supplier E,17,83.23,78319.43
+SKU0783,Product 783,piezas,90,Supplier A,13,30.73,2765.70
+SKU0784,Product 784,piezas,848,Supplier C,14,12.13,10286.24
+SKU0785,Product 785,cajas,32,Supplier C,29,9.20,294.40
+SKU0786,Product 786,piezas,832,Supplier E,11,61.05,50793.60
+SKU0787,Product 787,litros,910,Supplier C,12,87.72,79825.20
+SKU0788,Product 788,piezas,36,Supplier D,19,17.86,642.96
+SKU0789,Product 789,litros,261,Supplier E,28,35.41,9242.01
+SKU0790,Product 790 por unidad,kg,229,Supplier D,28,99.40,22762.60
+SKU0791,Product 791,piezas,184,Supplier C,14,56.41,10379.44
+SKU0792,Product 792,litros,779,Supplier D,12,16.56,12900.24
+SKU0793,Product 793,cajas,710,Supplier E,22,68.45,48599.50
+SKU0794,Product 794,kg,360,Supplier A,26,84.92,30571.20
+SKU0795,Product 795,unidades,211,Supplier A,20,17.05,3597.55
+SKU0796,Product 796,unidades,688,Supplier A,13,26.41,18170.08
+SKU0797,Product 797,litros,886,Supplier C,8,63.72,56455.92
+SKU0798,Product 798,cajas,877,Supplier C,7,16.62,14575.74
+SKU0799,Product 799,unidades,839,Supplier E,18,52.77,44274.03
+SKU0800,Product 800 por unidad,kg,416,Supplier D,26,6.31,2624.96
+SKU0801,Product 801,litros,225,Supplier E,19,71.95,16188.75
+SKU0802,Product 802,piezas,673,Supplier B,14,27.27,18352.71
+SKU0803,Product 803,kg,965,Supplier B,27,53.19,51328.35
+SKU0804,Product 804,litros,894,Supplier A,20,79.80,71341.20
+SKU0805,Product 805,unidades,356,Supplier E,24,34.20,12175.20
+SKU0806,Product 806,piezas,613,Supplier A,12,32.45,19891.85
+SKU0807,Product 807,cajas,255,Supplier D,15,26.00,6630.00
+SKU0808,Product 808,unidades,950,Supplier C,11,34.77,33031.50
+SKU0809,Product 809,piezas,335,Supplier C,20,21.96,7356.60
+SKU0810,Product 810 por unidad,unidades,993,Supplier E,23,76.33,75795.69
+SKU0811,Product 811,unidades,642,Supplier B,7,23.56,15125.52
+SKU0812,Product 812,kg,490,Supplier C,15,66.44,32555.60
+SKU0813,Product 813,piezas,38,Supplier D,8,11.34,430.92
+SKU0814,Product 814,cajas,390,Supplier A,19,5.30,2067.00
+SKU0815,Product 815,unidades,699,Supplier A,20,93.22,65160.78
+SKU0816,Product 816,kg,610,Supplier B,8,52.98,32317.80
+SKU0817,Product 817,unidades,106,Supplier D,28,89.54,9491.24
+SKU0818,Product 818,unidades,835,Supplier E,22,83.93,70081.55
+SKU0819,Product 819,kg,266,Supplier C,16,80.21,21335.86
+SKU0820,Product 820 por unidad,unidades,828,Supplier D,20,80.66,66786.48
+SKU0821,Product 821,cajas,361,Supplier C,7,45.12,16288.32
+SKU0822,Product 822,kg,889,Supplier C,20,28.69,25505.41
+SKU0823,Product 823,unidades,849,Supplier A,10,17.36,14738.64
+SKU0824,Product 824,unidades,140,Supplier A,22,37.16,5202.40
+SKU0825,Product 825,litros,185,Supplier A,20,27.27,5044.95
+SKU0826,Product 826,kg,162,Supplier B,28,5.76,933.12
+SKU0827,Product 827,unidades,595,Supplier B,19,33.07,19676.65
+SKU0828,Product 828,cajas,888,Supplier B,12,44.77,39755.76
+SKU0829,Product 829,kg,949,Supplier D,30,53.22,50505.78
+SKU0830,Product 830 por unidad,piezas,826,Supplier C,25,89.46,73893.96
+SKU0831,Product 831,cajas,265,Supplier B,25,47.74,12651.10
+SKU0832,Product 832,kg,997,Supplier E,18,15.44,15393.68
+SKU0833,Product 833,kg,787,Supplier E,17,55.80,43914.60
+SKU0834,Product 834,piezas,539,Supplier A,28,21.15,11399.85
+SKU0835,Product 835,litros,570,Supplier A,20,59.28,33789.60
+SKU0836,Product 836,cajas,332,Supplier A,12,69.26,22994.32
+SKU0837,Product 837,piezas,806,Supplier E,8,66.51,53607.06
+SKU0838,Product 838,piezas,158,Supplier A,9,64.63,10211.54
+SKU0839,Product 839,kg,578,Supplier C,30,88.06,50898.68
+SKU0840,Product 840 por unidad,kg,191,Supplier E,13,7.98,1524.18
+SKU0841,Product 841,piezas,900,Supplier E,25,54.38,48942.00
+SKU0842,Product 842,piezas,287,Supplier B,17,52.24,14992.88
+SKU0843,Product 843,litros,115,Supplier B,12,14.44,1660.60
+SKU0844,Product 844,unidades,259,Supplier C,28,12.42,3216.78
+SKU0845,Product 845,cajas,933,Supplier A,15,48.36,45119.88
+SKU0846,Product 846,kg,581,Supplier D,29,49.38,28689.78
+SKU0847,Product 847,cajas,554,Supplier D,20,36.87,20425.98
+SKU0848,Product 848,unidades,430,Supplier C,15,7.32,3147.60
+SKU0849,Product 849,kg,60,Supplier B,15,7.35,441.00
+SKU0850,Product 850 por unidad,litros,907,Supplier E,24,82.64,74954.48
+SKU0851,Product 851,unidades,411,Supplier D,28,87.29,35876.19
+SKU0852,Product 852,unidades,362,Supplier C,19,75.96,27497.52
+SKU0853,Product 853,cajas,497,Supplier B,12,96.23,47826.31
+SKU0854,Product 854,unidades,786,Supplier B,21,95.28,74890.08
+SKU0855,Product 855,litros,95,Supplier B,28,2.11,200.45
+SKU0856,Product 856,piezas,853,Supplier C,17,99.57,84933.21
+SKU0857,Product 857,litros,755,Supplier E,27,43.07,32517.85
+SKU0858,Product 858,piezas,905,Supplier E,21,22.43,20299.15
+SKU0859,Product 859,kg,642,Supplier B,14,39.58,25410.36
+SKU0860,Product 860 por unidad,piezas,418,Supplier B,18,76.08,31801.44
+SKU0861,Product 861,cajas,454,Supplier E,15,34.63,15722.02
+SKU0862,Product 862,litros,691,Supplier D,29,60.04,41487.64
+SKU0863,Product 863,unidades,104,Supplier A,15,34.12,3548.48
+SKU0864,Product 864,kg,984,Supplier C,8,8.11,7980.24
+SKU0865,Product 865,kg,602,Supplier E,22,43.33,26084.66
+SKU0866,Product 866,piezas,444,Supplier A,10,23.32,10354.08
+SKU0867,Product 867,kg,253,Supplier D,27,80.81,20444.93
+SKU0868,Product 868,kg,69,Supplier B,18,71.80,4954.20
+SKU0869,Product 869,piezas,750,Supplier D,28,29.87,22402.50
+SKU0870,Product 870 por unidad,litros,28,Supplier B,27,87.43,2448.04
+SKU0871,Product 871,litros,643,Supplier C,28,29.11,18717.73
+SKU0872,Product 872,piezas,39,Supplier B,13,64.62,2520.18
+SKU0873,Product 873,piezas,702,Supplier E,9,74.13,52039.26
+SKU0874,Product 874,unidades,157,Supplier B,30,99.45,15613.65
+SKU0875,Product 875,piezas,28,Supplier B,20,75.68,2119.04
+SKU0876,Product 876,cajas,764,Supplier C,10,51.42,39284.88
+SKU0877,Product 877,litros,962,Supplier E,14,57.22,55045.64
+SKU0878,Product 878,cajas,430,Supplier E,7,44.99,19345.70
+SKU0879,Product 879,cajas,784,Supplier A,13,74.39,58321.76
+SKU0880,Product 880 por unidad,cajas,295,Supplier E,20,41.26,12171.70
+SKU0881,Product 881,unidades,174,Supplier C,20,50.04,8706.96
+SKU0882,Product 882,cajas,244,Supplier A,19,71.85,17531.40
+SKU0883,Product 883,kg,155,Supplier C,22,81.77,12674.35
+SKU0884,Product 884,kg,612,Supplier B,8,5.03,3078.36
+SKU0885,Product 885,litros,462,Supplier A,22,97.63,45105.06
+SKU0886,Product 886,kg,400,Supplier C,11,94.30,37720.00
+SKU0887,Product 887,unidades,934,Supplier D,21,46.58,43505.72
+SKU0888,Product 888,cajas,716,Supplier B,16,32.35,23162.60
+SKU0889,Product 889,unidades,424,Supplier C,16,81.21,34433.04
+SKU0890,Product 890 por unidad,unidades,992,Supplier C,10,76.34,75729.28
+SKU0891,Product 891,cajas,719,Supplier D,20,1.45,1042.55
+SKU0892,Product 892,cajas,683,Supplier A,29,44.48,30379.84
+SKU0893,Product 893,unidades,610,Supplier E,11,42.35,25833.50
+SKU0894,Product 894,unidades,724,Supplier C,30,79.30,57413.20
+SKU0895,Product 895,piezas,279,Supplier E,27,74.24,20712.96
+SKU0896,Product 896,kg,487,Supplier E,8,40.45,19699.15
+SKU0897,Product 897,kg,99,Supplier B,29,25.46,2520.54
+SKU0898,Product 898,litros,555,Supplier A,17,1.27,704.85
+SKU0899,Product 899,unidades,471,Supplier D,9,62.70,29531.70
+SKU0900,Product 900 por unidad,piezas,64,Supplier B,18,16.39,1048.96
+SKU0901,Product 901,unidades,720,Supplier C,21,10.94,7876.80
+SKU0902,Product 902,unidades,554,Supplier C,8,95.34,52818.36
+SKU0903,Product 903,kg,544,Supplier B,7,93.75,51000.00
+SKU0904,Product 904,cajas,188,Supplier E,21,48.30,9080.40
+SKU0905,Product 905,kg,236,Supplier D,29,87.69,20694.84
+SKU0906,Product 906,unidades,427,Supplier B,22,6.90,2946.30
+SKU0907,Product 907,cajas,83,Supplier E,23,62.64,5199.12
+SKU0908,Product 908,litros,653,Supplier A,24,20.07,13105.71
+SKU0909,Product 909,unidades,239,Supplier E,9,76.35,18247.65
+SKU0910,Product 910 por unidad,unidades,311,Supplier E,10,28.18,8763.98
+SKU0911,Product 911,litros,343,Supplier C,13,51.76,17753.68
+SKU0912,Product 912,kg,307,Supplier C,24,55.77,17121.39
+SKU0913,Product 913,piezas,656,Supplier B,25,54.66,35856.96
+SKU0914,Product 914,piezas,80,Supplier B,11,11.36,908.80
+SKU0915,Product 915,unidades,90,Supplier D,24,64.47,5802.30
+SKU0916,Product 916,litros,359,Supplier B,11,40.08,14388.72
+SKU0917,Product 917,kg,650,Supplier E,14,86.08,55952.00
+SKU0918,Product 918,piezas,115,Supplier B,16,11.71,1346.65
+SKU0919,Product 919,litros,579,Supplier D,29,27.35,15835.65
+SKU0920,Product 920 por unidad,litros,51,Supplier C,25,87.98,4486.98
+SKU0921,Product 921,unidades,270,Supplier D,29,96.76,26125.20
+SKU0922,Product 922,kg,372,Supplier B,27,10.06,3742.32
+SKU0923,Product 923,unidades,742,Supplier B,8,4.17,3094.14
+SKU0924,Product 924,litros,257,Supplier A,8,66.08,16982.56
+SKU0925,Product 925,kg,241,Supplier E,21,90.18,21733.38
+SKU0926,Product 926,litros,260,Supplier C,10,96.17,25004.20
+SKU0927,Product 927,unidades,863,Supplier D,20,77.87,67201.81
+SKU0928,Product 928,piezas,915,Supplier A,14,16.91,15472.65
+SKU0929,Product 929,unidades,787,Supplier D,26,91.33,71876.71
+SKU0930,Product 930 por unidad,cajas,316,Supplier B,23,83.78,26474.48
+SKU0931,Product 931,piezas,124,Supplier B,11,68.44,8486.56
+SKU0932,Product 932,piezas,274,Supplier C,21,92.16,25251.84
+SKU0933,Product 933,kg,295,Supplier C,7,43.63,12870.85
+SKU0934,Product 934,unidades,231,Supplier E,15,17.02,3931.62
+SKU0935,Product 935,cajas,55,Supplier E,22,5.94,326.70
+SKU0936,Product 936,unidades,582,Supplier E,15,7.29,4242.78
+SKU0937,Product 937,litros,961,Supplier A,27,47.78,45916.58
+SKU0938,Product 938,cajas,928,Supplier D,11,45.12,41871.36
+SKU0939,Product 939,piezas,632,Supplier B,25,28.26,17860.32
+SKU0940,Product 940 por unidad,litros,854,Supplier B,15,92.30,78824.20
+SKU0941,Product 941,litros,50,Supplier B,21,97.44,4872.00
+SKU0942,Product 942,unidades,420,Supplier A,15,83.61,35116.20
+SKU0943,Product 943,unidades,825,Supplier C,12,6.16,5082.00
+SKU0944,Product 944,piezas,654,Supplier E,17,64.56,42222.24
+SKU0945,Product 945,litros,563,Supplier D,30,13.33,7504.79
+SKU0946,Product 946,kg,478,Supplier D,15,32.24,15410.72
+SKU0947,Product 947,cajas,107,Supplier D,22,14.98,1602.86
+SKU0948,Product 948,unidades,798,Supplier D,27,5.87,4684.26
+SKU0949,Product 949,litros,103,Supplier B,16,30.02,3092.06
+SKU0950,Product 950 por unidad,kg,16,Supplier D,28,49.79,796.64
+SKU0951,Product 951,litros,280,Supplier E,25,65.72,18401.60
+SKU0952,Product 952,litros,708,Supplier D,18,58.97,41750.76
+SKU0953,Product 953,kg,986,Supplier B,9,34.77,34283.22
+SKU0954,Product 954,piezas,109,Supplier A,7,48.30,5264.70
+SKU0955,Product 955,piezas,473,Supplier C,23,71.65,33890.45
+SKU0956,Product 956,unidades,549,Supplier A,25,44.91,24655.59
+SKU0957,Product 957,cajas,400,Supplier E,8,87.72,35088.00
+SKU0958,Product 958,piezas,324,Supplier C,23,4.28,1386.72
+SKU0959,Product 959,cajas,800,Supplier E,16,20.20,16160.00
+SKU0960,Product 960 por unidad,litros,19,Supplier E,11,68.88,1308.72
+SKU0961,Product 961,piezas,222,Supplier B,24,60.95,13530.90
+SKU0962,Product 962,litros,192,Supplier E,28,45.52,8739.84
+SKU0963,Product 963,cajas,108,Supplier C,16,50.87,5493.96
+SKU0964,Product 964,kg,682,Supplier C,8,57.40,39146.80
+SKU0965,Product 965,piezas,414,Supplier C,18,35.19,14568.66
+SKU0966,Product 966,unidades,875,Supplier A,19,45.90,40162.50
+SKU0967,Product 967,piezas,973,Supplier E,10,84.35,82072.55
+SKU0968,Product 968,litros,100,Supplier B,25,61.72,6172.00
+SKU0969,Product 969,unidades,943,Supplier B,30,33.83,31901.69
+SKU0970,Product 970 por unidad,piezas,882,Supplier E,10,32.91,29026.62
+SKU0971,Product 971,piezas,124,Supplier E,10,49.37,6121.88
+SKU0972,Product 972,piezas,696,Supplier B,8,7.09,4934.64
+SKU0973,Product 973,unidades,653,Supplier E,27,39.98,26106.94
+SKU0974,Product 974,piezas,568,Supplier C,7,29.11,16534.48
+SKU0975,Product 975,cajas,723,Supplier B,14,64.36,46532.28
+SKU0976,Product 976,piezas,943,Supplier D,25,80.80,76194.40
+SKU0977,Product 977,unidades,170,Supplier E,20,20.27,3445.90
+SKU0978,Product 978,litros,981,Supplier A,8,7.74,7592.94
+SKU0979,Product 979,piezas,82,Supplier E,17,98.94,8113.08
+SKU0980,Product 980 por unidad,litros,662,Supplier C,9,77.70,51437.40
+SKU0981,Product 981,cajas,665,Supplier A,30,31.16,20721.40
+SKU0982,Product 982,litros,91,Supplier B,13,54.24,4935.84
+SKU0983,Product 983,kg,797,Supplier B,29,65.24,51996.28
+SKU0984,Product 984,litros,500,Supplier A,16,25.23,12615.00
+SKU0985,Product 985,piezas,668,Supplier B,21,48.31,32271.08
+SKU0986,Product 986,litros,522,Supplier A,27,40.89,21344.58
+SKU0987,Product 987,cajas,240,Supplier E,19,95.77,22984.80
+SKU0988,Product 988,kg,817,Supplier B,9,88.09,71969.53
+SKU0989,Product 989,cajas,131,Supplier C,25,69.17,9061.27
+SKU0990,Product 990 por unidad,kg,500,Supplier C,11,34.80,17400.00
+SKU0991,Product 991,cajas,333,Supplier A,14,91.64,30516.12
+SKU0992,Product 992,litros,600,Supplier C,11,3.83,2298.00
+SKU0993,Product 993,unidades,311,Supplier A,11,82.12,25539.32
+SKU0994,Product 994,piezas,695,Supplier E,12,48.92,33999.40
+SKU0995,Product 995,unidades,971,Supplier B,24,36.83,35761.93
+SKU0996,Product 996,kg,187,Supplier B,15,9.92,1855.04
+SKU0997,Product 997,litros,58,Supplier E,16,54.68,3171.44
+SKU0998,Product 998,kg,14,Supplier B,20,2.85,39.90
+SKU0999,Product 999,cajas,886,Supplier D,13,92.03,81538.58
+SKU1000,Product 1000 por unidad,unidades,468,Supplier C,9,70.19,32848.92

@@ -1,5 +1,5 @@
-import React from "react";
+import { redirect } from 'next/navigation';
 
-export default function Home(): JSX.Element {
-  return <h1>Hello, Supply Chain Intelligence World!</h1>;
+export default function Home() {
+  redirect('/login');
 }

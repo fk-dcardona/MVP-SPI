@@ -13,7 +13,7 @@ import {
   AlertTriangle,
   Target
 } from 'lucide-react';
-import { WorkingCapitalDashboard as DashboardType } from '@/lib/financial/types';
+import { WorkingCapitalDashboard as DashboardType, FinancialMetrics, OptimizationRecommendation } from '@/lib/financial/types';
 import { formatCurrency, formatDays } from '@/lib/utils';
 
 interface WorkingCapitalDashboardProps {
