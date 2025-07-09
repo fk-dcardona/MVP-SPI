@@ -145,6 +145,34 @@ The agent system is a core architectural component that handles background proce
 - **Execution Model**: Agents run at configured intervals and can be triggered manually
 - **Error Handling**: Failed executions are logged and agents enter error state
 
+## Merge History & Protocol
+
+### Branch Merges Completed
+
+#### feat/background-agents (Merged: Current Session)
+- **Status**: ✅ Successfully merged and tested
+- **Conflicts Resolved**:
+  - `.env.example`: Combined actual values from HEAD with placeholder structure from branch
+  - `.gitignore`: Kept comprehensive version from branch, added archive/ directory
+  - `CLAUDE.md`: Preserved from HEAD (deleted in branch)
+  - `mvp-spi/`: Removed submodule reference (not critical)
+  - App files: Restored deleted files from branch (canonical code)
+- **New Features Added**:
+  - Complete agent system with 6 agent implementations
+  - Background processing capabilities
+  - Agent management API routes
+  - Real-time agent execution
+  - Comprehensive UI components for agent management
+- **Testing Status**: ✅ TypeScript compilation passes, build successful
+- **Issues Fixed**:
+  - Created missing UI components (card, button, badge, input, label, select, alert)
+  - Fixed font import issues (replaced Geist with Inter)
+  - Added missing utility functions (cn function)
+  - Fixed type definitions (added autoApply to OptimizationEngineConfig)
+  - Created missing globals.css with Tailwind configuration
+  - Updated AgentCard component to use proper Agent interface
+  - Fixed EditAgentDialog to use native HTML select components
+
 ## Next Steps for Implementation
 
 1. Complete WhatsApp integration for OTP authentication

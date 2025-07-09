@@ -14,13 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectOption } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { Agent, AgentType } from '@/lib/agents/types';
@@ -139,21 +133,17 @@ export function EditAgentDialog({ agent, open, onOpenChange }: EditAgentDialogPr
             <div className="grid gap-2">
               <Label htmlFor="type">Type</Label>
               <Select
+                id="type"
                 value={formData.type}
-                onValueChange={(value) => setFormData({ ...formData, type: value })}
+                onChange={(e) => setFormData({ ...formData, type: e.target.value as AgentType })}
                 disabled
               >
-                <SelectTrigger id="type">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="inventory_monitor">Inventory Monitor</SelectItem>
-                  <SelectItem value="alert_generator">Alert Generator</SelectItem>
-                  <SelectItem value="data_processor">Data Processor</SelectItem>
-                  <SelectItem value="report_generator">Report Generator</SelectItem>
-                  <SelectItem value="optimization_engine">Optimization Engine</SelectItem>
-                  <SelectItem value="notification_dispatcher">Notification Dispatcher</SelectItem>
-                </SelectContent>
+                <SelectOption value="inventory_monitor">Inventory Monitor</SelectOption>
+                <SelectOption value="alert_generator">Alert Generator</SelectOption>
+                <SelectOption value="data_processor">Data Processor</SelectOption>
+                <SelectOption value="report_generator">Report Generator</SelectOption>
+                <SelectOption value="optimization_engine">Optimization Engine</SelectOption>
+                <SelectOption value="notification_dispatcher">Notification Dispatcher</SelectOption>
               </Select>
               <p className="text-sm text-muted-foreground">
                 Agent type cannot be changed after creation
@@ -163,17 +153,13 @@ export function EditAgentDialog({ agent, open, onOpenChange }: EditAgentDialogPr
             <div className="grid gap-2">
               <Label htmlFor="status">Status</Label>
               <Select
+                id="status"
                 value={formData.status}
-                onValueChange={(value) => setFormData({ ...formData, status: value as any })}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
               >
-                <SelectTrigger id="status">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">Inactive</SelectItem>
-                  <SelectItem value="paused">Paused</SelectItem>
-                </SelectContent>
+                <SelectOption value="active">Active</SelectOption>
+                <SelectOption value="inactive">Inactive</SelectOption>
+                <SelectOption value="paused">Paused</SelectOption>
               </Select>
             </div>
 

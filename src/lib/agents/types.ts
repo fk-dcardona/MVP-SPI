@@ -121,6 +121,7 @@ export interface OptimizationEngineConfig {
   constraints: Record<string, any>;
   objectives: string[];
   maxIterations: number;
+  autoApply?: boolean;
 }
 
 export interface NotificationDispatcherConfig {

@@ -1,1 +1,8 @@
-{}
+{
+  "/_not-found": "app/_not-found.js",
+  "/dashboard/agents/page": "app/dashboard/agents/page.js",
+  "/api/agents/schedule/route": "app/api/agents/schedule/route.js",
+  "/page": "app/page.js",
+  "/api/agents/execute/route": "app/api/agents/execute/route.js",
+  "/api/cron/agents/route": "app/api/cron/agents/route.js"
+}
