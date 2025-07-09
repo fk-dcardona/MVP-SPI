@@ -140,7 +140,7 @@ export function EditAgentDialog({ agent, open, onOpenChange }: EditAgentDialogPr
               <Label htmlFor="type">Type</Label>
               <Select
                 value={formData.type}
-                onValueChange={(value) => setFormData({ ...formData, type: value })}
+                onValueChange={(value) => setFormData({ ...formData, type: value as AgentType })}
                 disabled
               >
                 <SelectTrigger id="type">
