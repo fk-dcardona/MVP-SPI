@@ -175,8 +175,8 @@ export class SupplyChainTriangleService {
 
     const enrichedInventory: EnrichedInventoryItem[] = inventoryData.data?.map(item => ({
       ...item,
-      salesVelocity: turnoverMap.get(item.sku)?.units_sold || 0,
-      daysOfStock: turnoverMap.get(item.sku)?.days_of_supply || 999
+      salesVelocity: (turnoverMap.get(item.sku) as any)?.units_sold || 0,
+      daysOfStock: (turnoverMap.get(item.sku) as any)?.days_of_supply || 999
     })) || [];
 
     // Create SKU to inventory map for O(1) lookups
@@ -455,7 +455,7 @@ export class SupplyChainTriangleService {
   // Cleanup old cache entries periodically
   private cleanupCache(): void {
     const now = Date.now();
-    for (const [key, value] of this.cache.entries()) {
+    for (const [key, value] of Array.from(this.cache.entries())) {
       if (now - value.timestamp > this.CACHE_TTL) {
         this.cache.delete(key);
       }

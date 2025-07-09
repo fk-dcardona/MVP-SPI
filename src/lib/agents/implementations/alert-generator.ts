@@ -1,7 +1,7 @@
 import { BaseAgent, AgentExecutionResult, AlertGeneratorConfig } from '../types';
 
 export class AlertGenerator extends BaseAgent {
-  async execute(): Promise<AgentExecutionResult> {
+  async execute(context?: any): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as AlertGeneratorConfig;
       

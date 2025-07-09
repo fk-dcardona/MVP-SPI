@@ -61,7 +61,7 @@ export abstract class BaseAgent {
     this.agent = agent;
   }
 
-  abstract execute(): Promise<AgentExecutionResult>;
+  abstract execute(context?: any): Promise<AgentExecutionResult>;
   abstract validate(): boolean;
   
   getConfig<T = any>(key: string, defaultValue?: T): T {
@@ -119,7 +119,7 @@ export interface ReportGeneratorConfig {
 }
 
 export interface OptimizationEngineConfig {
-  optimizationType: 'inventory' | 'route' | 'cost' | 'time';
+  optimizationType: 'inventory' | 'route' | 'cost' | 'time' | 'supply_chain';
   constraints: Record<string, any>;
   objectives: string[];
   maxIterations: number;

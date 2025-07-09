@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     // Execute the agent with context
     const result = await manager.executeAgent(agents.id, { uploadId })
 
-    if (!result.success) {
+    if (result.status === 'failed') {
       return NextResponse.json({ 
         error: result.error 
       }, { status: 500 })
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true,
-      data: result.data 
+      data: result.result 
     })
 
   } catch (error) {

@@ -1,7 +1,7 @@
 import { BaseAgent, AgentExecutionResult, NotificationDispatcherConfig } from '../types';
 
 export class NotificationDispatcher extends BaseAgent {
-  async execute(): Promise<AgentExecutionResult> {
+  async execute(context?: any): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as NotificationDispatcherConfig;
       

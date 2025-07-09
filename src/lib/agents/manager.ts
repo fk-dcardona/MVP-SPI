@@ -19,7 +19,7 @@ export class AgentManager {
     return AgentManager.instance;
   }
 
-  async executeAgent(agentId: string): Promise<AgentExecution> {
+  async executeAgent(agentId: string, context?: any): Promise<AgentExecution> {
     const supabase = createServerClient();
     
     try {
@@ -69,8 +69,8 @@ export class AgentManager {
       const abortController = new AbortController();
       this.runningAgents.set(agentId, abortController);
 
-      // Execute agent
-      const result = await agentInstance.execute();
+      // Execute agent with context
+      const result = await agentInstance.execute(context);
 
       // Update execution record with results
       const updatedExecution = {

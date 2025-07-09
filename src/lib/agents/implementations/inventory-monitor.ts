@@ -2,7 +2,7 @@ import { BaseAgent, AgentExecutionResult, InventoryMonitorConfig } from '../type
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export class InventoryMonitor extends BaseAgent {
-  async execute(): Promise<AgentExecutionResult> {
+  async execute(context?: any): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as InventoryMonitorConfig;
       const supabase = createClientComponentClient();
