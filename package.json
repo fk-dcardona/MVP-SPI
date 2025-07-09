@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "agents:start": "node .cursor/launch-agents.js",
+    "agents:status": "node .cursor/status.js",
+    "agents:stop": "node .cursor/stop-agents.js",
+    "supabase:setup": "node scripts/supabase-setup.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.0.0",

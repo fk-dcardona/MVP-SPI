@@ -1,0 +1,67 @@
+name: Phase 2 - Data Processing Agent
+description: Builds robust CSV processing engine with validation
+version: 1.0.0
+
+context:
+  - file: ./Cursor One Shot Prompt
+  - file: ./CLAUDE.md
+  - pattern: src/lib/calculations/*.ts
+
+responsibilities:
+  - Implement CSV upload interface
+  - Create data validation pipeline
+  - Build processing engine with Papa Parse
+  - Handle currency conversion
+  - Store processed data in Supabase
+
+tasks:
+  upload_interface:
+    - Create drag-and-drop CSV uploader
+    - Add file validation (size, format)
+    - Show upload progress
+    - Display processing status
+
+  data_processing:
+    - Parse inventory CSV (remove "por unidad")
+    - Parse sales CSV with date handling
+    - Implement currency conversion
+    - Create batch processing for large files
+    - Add duplicate detection
+
+  validation:
+    - Create Zod schemas for CSV data
+    - Validate required columns exist
+    - Check data types and formats
+    - Handle missing or invalid data
+
+  storage:
+    - Design efficient batch inserts
+    - Create upload history tracking
+    - Implement rollback on errors
+    - Add data versioning
+
+success_criteria:
+  - CSV files upload successfully
+  - 10,000 records process in < 30 seconds
+  - Invalid data is filtered correctly
+  - Currency conversion works accurately
+  - Upload history is maintained
+
+validation_rules:
+  inventory:
+    - Must have k_sc_codigo_articulo (SKU)
+    - Must have n_saldo_actual (stock)
+    - Filter out "por unidad" entries
+    - Validate numeric fields
+
+  sales:
+    - Must have k_sc_codigo_articulo
+    - Must have valid date format
+    - Must have V_NETA column
+    - Handle currency formatting
+
+output:
+  - CSV upload component
+  - Data processing functions
+  - Validation schemas
+  - Upload history interface

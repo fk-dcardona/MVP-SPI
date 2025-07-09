@@ -1,0 +1,32 @@
+{
+  "project": "Finkargo Analytics MVP",
+  "version": "1.0.0",
+  "agents": {
+    "orchestrator": {
+      "enabled": true,
+      "priority": "highest"
+    },
+    "phase1-auth": {
+      "enabled": false,
+      "dependencies": ["orchestrator"]
+    },
+    "phase2-data": {
+      "enabled": false,
+      "dependencies": ["phase1-auth"]
+    },
+    "phase3-analytics": {
+      "enabled": false,
+      "dependencies": ["phase2-data"]
+    },
+    "test-validator": {
+      "enabled": true,
+      "mode": "continuous"
+    }
+  },
+  "settings": {
+    "maxConcurrentAgents": 3,
+    "checkpointInterval": 3600,
+    "logLevel": "info",
+    "autoProgress": true
+  }
+}

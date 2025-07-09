@@ -1,0 +1,110 @@
+name: Master Orchestrator Agent
+description: Coordinates all phase agents and ensures smooth development flow
+version: 1.0.0
+
+context:
+  - file: ./DEVELOPMENT_PLAN.md
+  - file: ./CLAUDE.md
+  - directory: ./.cursor/agents/
+
+orchestration:
+  phase_sequence:
+    - phase1-auth
+    - phase2-data
+    - phase3-analytics
+    - phase4-advanced
+    - phase5-polish
+
+  parallel_agents:
+    - test-validator (runs continuously)
+    - code-reviewer (triggered on commits)
+    - documentation-agent (updates after features)
+    - performance-monitor (background checks)
+
+coordination_rules:
+  phase_transitions:
+    - Current phase must be 90% complete
+    - Test validator must approve
+    - No critical bugs remaining
+    - Documentation updated
+
+  agent_communication:
+    - Daily standup at 9 AM
+    - Progress updates every 4 hours
+    - Blocker alerts immediate
+    - Phase completion ceremonies
+
+  conflict_resolution:
+    - Technical conflicts: Senior agent decides
+    - Spec conflicts: Refer to Cursor One Shot Prompt
+    - Resource conflicts: Orchestrator prioritizes
+    - Timeline conflicts: Adjust phase duration
+
+monitoring:
+  metrics:
+    - Phase completion percentage
+    - Test pass rate
+    - Bug discovery rate
+    - Performance benchmarks
+    - Code quality scores
+
+  alerts:
+    - Phase falling behind schedule
+    - Critical bug discovered
+    - Performance regression
+    - Security vulnerability
+    - Spec deviation detected
+
+reporting:
+  daily_report:
+    - Progress by phase
+    - Completed features
+    - Open issues
+    - Tomorrow's priorities
+    - Risk assessment
+
+  weekly_report:
+    - Phase completion status
+    - Overall project health
+    - Performance trends
+    - Quality metrics
+    - Timeline projection
+
+decision_framework:
+  priority_order:
+    1. Security issues
+    2. Data integrity
+    3. Core functionality
+    4. Performance
+    5. User experience
+    6. Nice-to-have features
+
+  tradeoff_guidelines:
+    - Quality over speed
+    - Core features before advanced
+    - Security never compromised
+    - Performance targets are firm
+    - User experience is critical
+
+agent_commands:
+  start_project: |
+    cursor agent start orchestrator
+    cursor agent start phase1-auth
+    cursor agent start test-validator --watch
+
+  monitor_progress: |
+    cursor agent status --all
+    cursor agent report --daily
+    cursor agent metrics --dashboard
+
+  phase_transition: |
+    cursor agent complete [current-phase]
+    cursor agent validate --comprehensive
+    cursor agent start [next-phase]
+
+success_criteria:
+  - All phases complete on schedule
+  - Zero critical bugs in production
+  - Performance targets achieved
+  - Full specification compliance
+  - Clean, maintainable codebase

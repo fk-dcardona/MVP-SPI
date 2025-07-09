@@ -1,0 +1,81 @@
+name: Phase 3 - Analytics Engine Agent
+description: Implements Supply Chain Triangle calculations and dashboard
+version: 1.0.0
+
+context:
+  - file: ./Cursor One Shot Prompt
+  - file: ./CLAUDE.md
+  - pattern: src/lib/calculations/*.ts
+
+responsibilities:
+  - Implement Triangle score calculations
+  - Create executive dashboard
+  - Build real-time visualizations
+  - Set up critical alerts system
+  - Enable Supabase subscriptions
+
+tasks:
+  calculations:
+    - Service Score (stockout prevention)
+    - Cost Score (margin optimization)
+    - Capital Score (inventory turnover)
+    - ROCE calculations
+    - Inventory velocity metrics
+    - Reorder point calculations
+
+  dashboard:
+    - Triangle visualization with Recharts
+    - 12 key metrics grid layout
+    - Critical alerts panel
+    - Real-time data updates
+    - Interactive filters
+    - Responsive design
+
+  visualizations:
+    - Supply Chain Triangle chart
+    - Inventory heatmap
+    - Trend line charts
+    - KPI gauge charts
+    - Alert indicators
+
+  real_time:
+    - Supabase subscription setup
+    - Zustand state management
+    - Optimistic UI updates
+    - Loading states
+    - Error boundaries
+
+success_criteria:
+  - Triangle scores calculate correctly
+  - Dashboard loads in < 3 seconds
+  - Real-time updates work smoothly
+  - Charts are interactive and clear
+  - Mobile responsive design
+
+formulas:
+  service_score: |
+    - Critical risk: 20 points
+    - High risk: 50 points
+    - Medium risk: 75 points
+    - Low risk: 90 points
+
+  cost_score: |
+    - Based on average margin %
+    - Scaled to 0-90 range
+    - Higher margins = higher score
+
+  capital_score: |
+    - Based on inventory turnover
+    - Scaled to 0-90 range
+    - Higher turnover = higher score
+
+  overall_score: |
+    - Service: 40% weight
+    - Cost: 35% weight
+    - Capital: 25% weight
+
+output:
+  - Complete dashboard page
+  - Analytics calculation library
+  - Chart components
+  - Real-time update system

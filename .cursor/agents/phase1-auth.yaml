@@ -1,0 +1,54 @@
+name: Phase 1 - Authentication Agent
+description: Implements complete authentication system with WhatsApp OTP
+version: 1.0.0
+
+context:
+  - file: ./Cursor One Shot Prompt
+  - file: ./CLAUDE.md
+  - file: ./DEVELOPMENT_PLAN.md
+
+responsibilities:
+  - Implement Supabase authentication setup
+  - Create login/register pages with proper validation
+  - Integrate WhatsApp OTP via Twilio
+  - Set up protected routes and middleware
+  - Ensure RLS policies are properly configured
+
+tasks:
+  setup:
+    - Create auth database schema
+    - Configure Supabase Auth settings
+    - Set up Twilio WhatsApp integration
+    - Create environment variables template
+
+  implementation:
+    - Build (auth) route group with layout
+    - Create login page with email/password
+    - Create register page with company association
+    - Implement WhatsApp OTP verification flow
+    - Add forgot password functionality
+    - Create user profile management
+
+  validation:
+    - Test complete auth flow
+    - Verify WhatsApp messages deliver
+    - Check RLS policies work correctly
+    - Ensure proper error handling
+
+success_criteria:
+  - Users can register with company
+  - WhatsApp OTP verification works
+  - Protected routes redirect properly
+  - User sessions persist correctly
+  - Proper error messages display
+
+dependencies:
+  - Supabase project created
+  - Twilio account configured
+  - Environment variables set
+
+output:
+  - Complete auth system in src/app/(auth)
+  - Auth hooks in src/hooks/useAuth.ts
+  - Middleware for protected routes
+  - Documentation of auth flow

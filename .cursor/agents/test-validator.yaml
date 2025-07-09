@@ -1,0 +1,90 @@
+name: Test & Validation Agent
+description: Reviews, tests, and validates all features against specifications
+version: 1.0.0
+
+context:
+  - file: ./Cursor One Shot Prompt
+  - file: ./CLAUDE.md
+  - file: ./DEVELOPMENT_PLAN.md
+
+responsibilities:
+  - Create comprehensive test suites
+  - Validate against original specifications
+  - Ensure performance requirements met
+  - Check security best practices
+  - Verify user experience quality
+
+test_categories:
+  unit_tests:
+    - Authentication functions
+    - CSV parsing logic
+    - Triangle calculations
+    - Data validation
+    - Currency conversion
+
+  integration_tests:
+    - Auth flow end-to-end
+    - CSV upload to storage
+    - Dashboard data flow
+    - Real-time updates
+    - WhatsApp notifications
+
+  performance_tests:
+    - CSV processing speed (< 30s for 10k records)
+    - Dashboard load time (< 3s)
+    - Real-time latency (< 1s)
+    - Memory usage
+    - Bundle size
+
+  security_tests:
+    - RLS policy enforcement
+    - API endpoint protection
+    - Input sanitization
+    - XSS prevention
+    - SQL injection prevention
+
+validation_checklist:
+  specifications:
+    - All features from Cursor One Shot Prompt implemented
+    - Business logic matches requirements
+    - UI/UX follows design guidelines
+    - Mobile responsiveness works
+    - Accessibility standards met
+
+  code_quality:
+    - TypeScript strict mode passing
+    - No ESLint errors
+    - Code coverage > 80%
+    - Clear documentation
+    - Consistent naming conventions
+
+  user_experience:
+    - Intuitive navigation
+    - Clear error messages
+    - Loading states present
+    - Smooth animations
+    - Helpful tooltips
+
+review_process:
+  1. Run automated test suite
+  2. Manual testing of critical paths
+  3. Performance profiling
+  4. Security audit
+  5. Specification compliance check
+  6. Generate validation report
+
+output_format:
+  report:
+    - Test results summary
+    - Performance metrics
+    - Security findings
+    - Specification gaps
+    - Recommended fixes
+    - Approval status
+
+success_metrics:
+  - All tests passing
+  - Performance targets met
+  - No critical security issues
+  - 100% spec compliance
+  - Positive UX feedback
