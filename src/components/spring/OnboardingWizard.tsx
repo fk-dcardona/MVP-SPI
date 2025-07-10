@@ -79,7 +79,7 @@ export function OnboardingWizard() {
             </div>
             <h3 className="text-xl font-semibold mb-2">Welcome aboard! 🎉</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              We're excited to help you transform your supply chain data into strategic insights. 
+              We&apos;re excited to help you transform your supply chain data into strategic insights. 
               This quick setup will personalize your experience.
             </p>
           </div>
@@ -319,7 +319,7 @@ export function OnboardingWizard() {
             </div>
             <h3 className="text-lg font-semibold mb-2">Ready to upload your first file?</h3>
             <p className="text-muted-foreground max-w-md mx-auto mb-6">
-              Upload your inventory or sales data in CSV format. We'll help you map the columns and validate the data.
+              Upload your inventory or sales data in CSV format. We&apos;ll help you map the columns and validate the data.
             </p>
           </div>
           
@@ -359,7 +359,7 @@ export function OnboardingWizard() {
                 setCurrentStep(currentStep + 1);
               }}
             >
-              I'll upload later
+              I&apos;ll upload later
             </Button>
           </div>
         </div>

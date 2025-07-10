@@ -14,7 +14,11 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-export function NavigatorControlPanel() {
+interface NavigatorControlPanelProps {
+  metrics?: any;
+}
+
+export function NavigatorControlPanel({ metrics }: NavigatorControlPanelProps) {
   // Mock system health data
   const systemHealth = {
     overall: 92,

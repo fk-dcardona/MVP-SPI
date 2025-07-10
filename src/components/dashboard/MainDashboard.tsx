@@ -140,7 +140,7 @@ function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDa
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Target className="h-5 w-5" />
-                Today's Wins
+                Today&apos;s Wins
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -225,7 +225,7 @@ function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboa
         <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
           <CardHeader>
             <CardTitle className="text-xl">Your Journey Progress</CardTitle>
-            <CardDescription>You're doing great! Here's what to focus on today.</CardDescription>
+            <CardDescription>You&apos;re doing great! Here&apos;s what to focus on today.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

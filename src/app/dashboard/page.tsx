@@ -52,7 +52,7 @@ export default async function DashboardPage() {
               Welcome back, {profile.full_name?.split(' ')[0] || 'there'}! 👋
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              Here's your Supply Chain Intelligence overview for today
+              Here&apos;s your Supply Chain Intelligence overview for today
             </p>
           </div>
 

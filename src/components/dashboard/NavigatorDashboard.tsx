@@ -26,7 +26,7 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
         <div>
           <h1 className="text-3xl font-bold">Welcome back, {user?.name || 'Navigator'}! 👋</h1>
           <p className="text-muted-foreground">
-            Here's your Supply Chain Intelligence overview for today
+            Here&apos;s your Supply Chain Intelligence overview for today
           </p>
         </div>
         <Button
@@ -56,7 +56,7 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
 
             <TabsContent value="overview" className="space-y-6 mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <QuickAccessGrid variant="navigator" />
+                <QuickAccessGrid persona="navigator" />
                 <SupplyChainTriangleOverview />
               </div>
               <RecentActivity activities={recentActivity} />

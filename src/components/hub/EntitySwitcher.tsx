@@ -41,7 +41,7 @@ interface Entity {
 
 interface EntitySwitcherProps {
   currentEntityId?: string;
-  onEntityChange?: (entityId: string) => void;
+  onEntityChange?: (entityId: string, entityName?: string) => void;
 }
 
 const mockEntities: Entity[] = [
@@ -115,12 +115,13 @@ export function EntitySwitcher({ currentEntityId = 'hq', onEntityChange }: Entit
 
   const handleEntityChange = (entityId: string) => {
     setSelectedEntity(entityId);
+    const entity = mockEntities.find(e => e.id === entityId);
     if (onEntityChange) {
-      onEntityChange(entityId);
+      onEntityChange(entityId, entity?.name);
     }
     toast({
       title: 'Entity Switched',
-      description: `Now viewing data for ${mockEntities.find(e => e.id === entityId)?.name}`,
+      description: `Now viewing data for ${entity?.name}`,
     });
   };
 

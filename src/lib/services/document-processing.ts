@@ -117,7 +117,7 @@ export class DocumentProcessingService {
 
 // Mapper to convert extracted fields to our database schema
 export class DocumentDataMapper {
-  static mapToInventoryItem(fields: ExtractedFields): Partial<any> {
+  static mapToInventoryItem(fields: ExtractedFields): Partial<any>[] {
     const items = fields.line_items || [];
     
     return items.map(item => ({
