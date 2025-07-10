@@ -17,6 +17,10 @@ export interface Profile {
   updated_at: string;
   phone?: string;
   companies?: Company;
+  // Persona fields
+  detected_persona?: UserPersona;
+  persona_confidence?: number;
+  persona_updated_at?: string;
 }
 
 export interface DashboardMetrics {
