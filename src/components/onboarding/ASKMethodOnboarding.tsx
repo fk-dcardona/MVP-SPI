@@ -31,6 +31,8 @@ import {
 } from 'lucide-react';
 import { usePersonaTracking } from '@/hooks/usePersonaTracking';
 import { personaService } from '@/services/persona-service';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { MobileOptimizedOnboarding, MobileQuestionCard, TouchRadioOption } from './MobileOptimizedOnboarding';
 import type { UserPersona } from '@/types/persona';
 
 // ASK Method Question Types
@@ -281,6 +283,7 @@ interface ASKMethodOnboardingProps {
 export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [selectedValue, setSelectedValue] = useState<string>('');
   const [personaScores, setPersonaScores] = useState({
     streamliner: 0,
     navigator: 0,
@@ -291,6 +294,7 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
   const [showPersonaHint, setShowPersonaHint] = useState(false);
   const [confidence, setConfidence] = useState(0);
   const { trackBehavior } = usePersonaTracking();
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   // Combine all questions in ASK Method order
   const allQuestions = [
@@ -324,7 +328,8 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
     await trackBehavior('onboarding_answer', {
       question_id: currentQuestion.id,
       answer: value,
-      question_type: currentQuestion.type
+      question_type: currentQuestion.type,
+      device: isMobile ? 'mobile' : 'desktop'
     });
 
     // Check for disqualification
@@ -356,14 +361,23 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
       setShowPersonaHint(true);
     }
 
-    // Move to next question or complete
-    if (currentQuestionIndex < activeQuestions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
-    } else {
-      // Complete onboarding
-      const finalPersona = getEmergingPersona();
-      await personaService.calculatePersona();
-      onComplete(finalPersona, newAnswers);
+    // Clear selected value for next question
+    setSelectedValue('');
+  };
+
+  const handleNext = async () => {
+    if (selectedValue) {
+      await handleAnswer(selectedValue);
+      
+      // Move to next question or complete
+      if (currentQuestionIndex < activeQuestions.length - 1) {
+        setCurrentQuestionIndex(prev => prev + 1);
+      } else {
+        // Complete onboarding
+        const finalPersona = getEmergingPersona();
+        await personaService.calculatePersona();
+        onComplete(finalPersona, answers);
+      }
     }
   };
 
@@ -390,6 +404,86 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
     return <div>Loading...</div>;
   }
 
+  // Mobile-optimized render
+  if (isMobile) {
+    return (
+      <MobileOptimizedOnboarding
+        currentStep={currentQuestionIndex}
+        totalSteps={activeQuestions.length}
+        onNext={handleNext}
+        onPrevious={handleBack}
+        onComplete={async () => {
+          const finalPersona = getEmergingPersona();
+          await personaService.calculatePersona();
+          onComplete(finalPersona, answers);
+        }}
+      >
+        <MobileQuestionCard
+          question={currentQuestion.question}
+          description={currentQuestion.subtext}
+          badge={currentQuestion.category}
+        >
+          <div className="space-y-3">
+            {currentQuestion.answers.map((answer) => (
+              <TouchRadioOption
+                key={answer.value}
+                value={answer.value}
+                label={answer.label}
+                subtext={answer.subtext}
+                selected={selectedValue === answer.value}
+                onSelect={setSelectedValue}
+              />
+            ))}
+          </div>
+
+          {/* Persona Hint */}
+          {showPersonaHint && confidence > 0.4 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mt-6 p-4 rounded-lg bg-gradient-to-r ${getPersonaStyle()} text-white`}
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">We're learning about you...</p>
+                  <p className="text-xs opacity-90">
+                    Your responses suggest a {getEmergingPersona()} profile
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-bold">
+                    {Math.round(confidence * 100)}%
+                  </p>
+                  <p className="text-xs">confidence</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Early completion option */}
+          {confidence > 0.8 && currentQuestionIndex > activeQuestions.length * 0.6 && (
+            <div className="mt-6 text-center">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full"
+                onClick={async () => {
+                  const finalPersona = getEmergingPersona();
+                  await personaService.calculatePersona();
+                  onComplete(finalPersona, answers);
+                }}
+              >
+                Complete Setup Early
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          )}
+        </MobileQuestionCard>
+      </MobileOptimizedOnboarding>
+    );
+  }
+
+  // Desktop render (original)
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="max-w-2xl mx-auto">
@@ -441,8 +535,8 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
               </CardHeader>
               <CardContent className="space-y-4">
                 <RadioGroup
-                  value={answers[currentQuestion.id]}
-                  onValueChange={handleAnswer}
+                  value={selectedValue || answers[currentQuestion.id]}
+                  onValueChange={setSelectedValue}
                 >
                   {currentQuestion.answers.map((answer, index) => (
                     <motion.div
@@ -506,15 +600,28 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
                     Back
                   </Button>
                   
-                  {confidence > 0.8 && currentQuestionIndex > activeQuestions.length * 0.6 && (
+                  <div className="flex gap-2">
+                    {confidence > 0.8 && currentQuestionIndex > activeQuestions.length * 0.6 && (
+                      <Button
+                        variant="secondary"
+                        onClick={async () => {
+                          const finalPersona = getEmergingPersona();
+                          await personaService.calculatePersona();
+                          onComplete(finalPersona, answers);
+                        }}
+                      >
+                        Complete Early
+                      </Button>
+                    )}
                     <Button
                       variant="default"
-                      onClick={() => onComplete(getEmergingPersona(), answers)}
+                      onClick={handleNext}
+                      disabled={!selectedValue}
                     >
-                      Complete Setup
+                      {currentQuestionIndex === activeQuestions.length - 1 ? 'Complete' : 'Next'}
                       <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
-                  )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
