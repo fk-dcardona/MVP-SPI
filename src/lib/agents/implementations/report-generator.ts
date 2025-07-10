@@ -1,4 +1,6 @@
 import { BaseAgent, AgentExecutionResult, ReportGeneratorConfig } from '../types';
+import { createServerClient } from '@/lib/supabase/server';
+import { WhatsAppService } from '@/lib/notifications/whatsapp-service';
 
 export class ReportGenerator extends BaseAgent {
   async execute(context?: any): Promise<AgentExecutionResult> {
@@ -55,57 +57,140 @@ export class ReportGenerator extends BaseAgent {
   }
 
   private async gatherReportData(config: ReportGeneratorConfig): Promise<any> {
-    // TODO: Implement actual data gathering based on report type
-    // This would query various data sources
+    const supabase = createServerClient();
+    const period = this.getReportPeriod(config.schedule);
     
-    const data = {
-      summary: {
-        totalOrders: 150,
-        totalRevenue: 50000,
-        avgOrderValue: 333.33,
-        topProducts: [
-          { name: 'Product A', sales: 50 },
-          { name: 'Product B', sales: 40 },
-          { name: 'Product C', sales: 30 }
-        ]
-      },
-      details: [],
-      period: this.getReportPeriod(config.schedule)
-    };
+    // Gather real data based on report type
+    let data: any = { period };
+    
+    switch (config.reportType) {
+      case 'inventory_summary':
+        const { data: inventory } = await supabase
+          .from('inventory_items')
+          .select('*')
+          .eq('company_id', this.agent.company_id);
+        
+        data.inventory = inventory || [];
+        data.summary = {
+          totalItems: inventory?.length || 0,
+          totalValue: inventory?.reduce((sum, item) => sum + (item.quantity_on_hand * item.unit_cost), 0) || 0,
+          lowStockItems: inventory?.filter(item => item.quantity_on_hand <= item.reorder_point).length || 0
+        };
+        break;
+        
+      case 'sales_performance':
+        const { data: sales } = await supabase
+          .from('sales_transactions')
+          .select('*')
+          .eq('company_id', this.agent.company_id)
+          .gte('transaction_date', period.start.toISOString())
+          .lte('transaction_date', period.end.toISOString());
+        
+        data.sales = sales || [];
+        data.summary = {
+          totalTransactions: sales?.length || 0,
+          totalRevenue: sales?.reduce((sum, sale) => sum + sale.total_amount, 0) || 0,
+          avgOrderValue: sales?.length ? (sales.reduce((sum, sale) => sum + sale.total_amount, 0) / sales.length) : 0
+        };
+        break;
+        
+      case 'supply_chain_metrics':
+        const { data: triangleScores } = await supabase
+          .from('triangle_scores')
+          .select('*')
+          .eq('company_id', this.agent.company_id)
+          .order('calculated_at', { ascending: false })
+          .limit(1)
+          .single();
+        
+        data.metrics = triangleScores || {};
+        break;
+    }
     
     return data;
   }
 
   private async generateReport(data: any, config: ReportGeneratorConfig): Promise<any> {
-    // TODO: Implement actual report generation
-    // This would use libraries like PDFKit, ExcelJS, etc.
+    // For CSV format, generate CSV content
+    let csvContent = '';
     
-    const report: any = {
+    switch (config.reportType) {
+      case 'inventory_summary':
+        csvContent = 'SKU,Product Name,Current Stock,Unit Cost,Total Value,Status\n';
+        data.inventory?.forEach((item: any) => {
+          const status = item.quantity_on_hand <= item.reorder_point ? 'Low Stock' : 'OK';
+          csvContent += `${item.sku},"${item.product_name}",${item.quantity_on_hand},${item.unit_cost},${item.quantity_on_hand * item.unit_cost},${status}\n`;
+        });
+        break;
+        
+      case 'sales_performance':
+        csvContent = 'Transaction ID,Date,Customer,Product,Quantity,Amount\n';
+        data.sales?.forEach((sale: any) => {
+          csvContent += `${sale.id},${sale.transaction_date},"${sale.customer_name}","${sale.product_name}",${sale.quantity},${sale.total_amount}\n`;
+        });
+        break;
+        
+      case 'supply_chain_metrics':
+        csvContent = 'Metric,Score,Date\n';
+        if (data.metrics) {
+          csvContent += `Service Score,${data.metrics.service_score},${data.metrics.calculated_at}\n`;
+          csvContent += `Cost Score,${data.metrics.cost_score},${data.metrics.calculated_at}\n`;
+          csvContent += `Capital Score,${data.metrics.capital_score},${data.metrics.calculated_at}\n`;
+          csvContent += `Overall Score,${data.metrics.overall_score},${data.metrics.calculated_at}\n`;
+        }
+        break;
+    }
+    
+    const report = {
       id: `report_${Date.now()}`,
       type: config.reportType,
-      format: config.format,
-      data: data,
+      format: 'csv', // Always CSV for simplicity
+      content: csvContent,
       generatedAt: new Date(),
-      size: 1024 * 100, // 100KB placeholder
-      includesCharts: config.includeCharts
+      size: new Blob([csvContent]).size,
+      summary: data.summary
     };
-    
-    if (config.includeCharts) {
-      // Generate charts based on data
-      report.charts = this.generateCharts(data);
-    }
     
     return report;
   }
 
   private async distributeReport(report: any, config: ReportGeneratorConfig): Promise<void> {
-    // TODO: Implement actual report distribution
-    // This would send reports via email, upload to storage, etc.
+    const whatsappService = new WhatsAppService();
+    const supabase = createServerClient();
     
+    // Store report in database
+    const { data: storedReport } = await supabase
+      .from('generated_reports')
+      .insert({
+        company_id: this.agent.company_id,
+        report_type: report.type,
+        format: report.format,
+        content: report.content,
+        summary: report.summary,
+        generated_at: report.generatedAt
+      })
+      .select()
+      .single();
+    
+    // Send via WhatsApp to all recipients
     for (const recipient of config.recipients) {
-      console.log(`Sending report to ${recipient}`);
-      // Simulate sending
-      await new Promise(resolve => setTimeout(resolve, 100));
+      const message = `📊 ${config.reportType.replace('_', ' ').toUpperCase()} Report\n\n`;
+      let summaryText = '';
+      
+      if (report.summary) {
+        Object.entries(report.summary).forEach(([key, value]) => {
+          summaryText += `• ${key.replace(/([A-Z])/g, ' $1').trim()}: ${value}\n`;
+        });
+      }
+      
+      await whatsappService.sendNotification({
+        type: 'report',
+        recipient: recipient,
+        title: `${config.reportType} Report Ready`,
+        body: `${message}${summaryText}\n\nView full report: ${process.env.NEXT_PUBLIC_APP_URL}/reports/${storedReport?.id || report.id}`,
+        priority: 'medium',
+        data: { reportId: storedReport?.id || report.id }
+      });
     }
   }
 

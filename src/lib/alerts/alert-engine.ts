@@ -6,9 +6,11 @@ import {
   NotificationRecord 
 } from './types';
 import { createServerClient } from '@/lib/supabase/server';
+import { WhatsAppService } from '@/lib/notifications/whatsapp-service';
 
 export class AlertEngine {
   private supabase = createServerClient();
+  private whatsappService = new WhatsAppService();
 
   async evaluateRules(companyId: string): Promise<void> {
     // Get all active rules for the company
@@ -157,14 +159,35 @@ export class AlertEngine {
   }
 
   private async checkFinancialMetric(rule: AlertRule): Promise<any> {
-    // This would integrate with financial calculations
-    // For now, return mock data
-    const mockValue = Math.random() * 100;
-    const triggered = this.compareValue(mockValue, rule.operator, rule.threshold_value);
+    // Query inventory metrics for financial calculations
+    const { data: metrics } = await this.supabase
+      .from('inventory_metrics')
+      .select('*')
+      .eq('company_id', rule.company_id)
+      .order('calculated_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (!metrics) return null;
+
+    // Map metric names to actual fields
+    const metricMap: Record<string, number> = {
+      'total_value': metrics.total_value || 0,
+      'avg_value': metrics.avg_value || 0,
+      'holding_cost': metrics.holding_cost || 0,
+      'turnover_ratio': metrics.turnover_ratio || 0,
+      'stockout_cost': metrics.stockout_cost || 0
+    };
+
+    const value = metricMap[rule.metric] || 0;
+    const triggered = this.compareValue(value, rule.operator, rule.threshold_value);
 
     return triggered ? {
-      value: mockValue,
-      context: { metric: rule.metric }
+      value,
+      context: { 
+        metric: rule.metric,
+        calculated_at: metrics.calculated_at
+      }
     } : null;
   }
 
@@ -303,18 +326,33 @@ export class AlertEngine {
   ): Promise<void> {
     switch (channel) {
       case 'email':
-        // Would integrate with email service
-        console.log(`Sending email to ${recipient}:`, alert.title);
+        // For now, send via WhatsApp with email prefix
+        await this.whatsappService.sendAlertNotification({
+          title: `[Email Alert] ${alert.title}`,
+          message: alert.message,
+          severity: alert.severity,
+          recipient: recipient
+        });
         break;
       
       case 'sms':
-        // Would integrate with SMS service (Twilio)
-        console.log(`Sending SMS to ${recipient}:`, alert.message);
+        // For now, send via WhatsApp with SMS prefix
+        await this.whatsappService.sendAlertNotification({
+          title: `[SMS Alert] ${alert.title}`,
+          message: alert.message,
+          severity: alert.severity,
+          recipient: recipient
+        });
         break;
       
       case 'whatsapp':
-        // Would integrate with WhatsApp (Twilio)
-        console.log(`Sending WhatsApp to ${recipient}:`, alert.message);
+        // Send directly via WhatsApp
+        await this.whatsappService.sendAlertNotification({
+          title: alert.title,
+          message: alert.message,
+          severity: alert.severity,
+          recipient: recipient
+        });
         break;
       
       case 'in_app':
@@ -331,8 +369,15 @@ export class AlertEngine {
         break;
       
       case 'webhook':
-        // Would make HTTP request to webhook URL
-        console.log(`Calling webhook ${recipient} with alert data`);
+        // For now, send via WhatsApp with webhook data
+        await this.whatsappService.sendNotification({
+          type: 'alert',
+          recipient: recipient,
+          title: `[Webhook] ${alert.title}`,
+          body: alert.message,
+          priority: alert.severity as 'high' | 'medium' | 'low',
+          data: alert.trigger_context
+        });
         break;
     }
   }
