@@ -28,6 +28,7 @@ import { MobileDashboardEnhanced } from './MobileDashboardEnhanced';
 import { EntitySwitcher } from '@/components/hub/EntitySwitcher';
 import { OnboardingWizard } from '@/components/spring/OnboardingWizard';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { SpeedDashboard } from './streamliner/SpeedDashboard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import type { Profile, Company } from '@/types';
 
@@ -93,6 +94,8 @@ export function MainDashboard({ user, company, recentActivity, metrics }: MainDa
 
 // Streamliner Dashboard - Speed focused
 function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
+  const [activeTab, setActiveTab] = useState('overview');
+
   return (
     <div className="space-y-6">
       {/* Speed Metrics Bar */}
@@ -118,50 +121,96 @@ function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDa
         </div>
       </div>
 
-      {/* Quick Actions for Streamliners */}
-      <StreamlinerQuickActions />
+      {/* Tabs for different views */}
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList>
+          <TabsTrigger value="overview">Quick Access</TabsTrigger>
+          <TabsTrigger value="speed" className="flex items-center gap-2">
+            <Zap className="h-4 w-4" />
+            Speed Dashboard
+          </TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
+        </TabsList>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Quick Access */}
-        <div className="lg:col-span-2 space-y-6">
-          <QuickAccessGrid persona="streamliner" />
-          
-          {/* Supply Chain Triangle */}
-          <SupplyChainTriangleOverview compact={true} />
-        </div>
+        <TabsContent value="overview" className="space-y-6 mt-6">
+          {/* Quick Actions for Streamliners */}
+          <StreamlinerQuickActions />
 
-        {/* Right Column - Activity Feed */}
-        <div className="space-y-6">
-          <RecentActivity activities={recentActivity} compact={true} />
-          
-          {/* Speed Achievements */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Target className="h-5 w-5" />
-                Today&apos;s Wins
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Tasks completed</span>
-                  <span className="font-bold text-green-600">24</span>
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column - Quick Access */}
+            <div className="lg:col-span-2 space-y-6">
+              <QuickAccessGrid persona="streamliner" />
+              
+              {/* Supply Chain Triangle */}
+              <SupplyChainTriangleOverview compact={true} />
+            </div>
+
+            {/* Right Column - Activity Feed */}
+            <div className="space-y-6">
+              <RecentActivity activities={recentActivity} compact={true} />
+              
+              {/* Speed Achievements */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Target className="h-5 w-5" />
+                    Today&apos;s Wins
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Tasks completed</span>
+                      <span className="font-bold text-green-600">24</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Time saved</span>
+                      <span className="font-bold text-blue-600">3.2 hrs</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Speed rank</span>
+                      <span className="font-bold text-purple-600">#2 🏆</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="speed" className="mt-6">
+          <SpeedDashboard />
+        </TabsContent>
+
+        <TabsContent value="activity" className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <RecentActivity activities={recentActivity} />
+            <Card>
+              <CardHeader>
+                <CardTitle>Activity Analytics</CardTitle>
+                <CardDescription>Your productivity patterns</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Peak Productivity</p>
+                    <p className="text-lg font-semibold">9:00 AM - 11:00 AM</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Average Daily Tasks</p>
+                    <p className="text-lg font-semibold">27 tasks</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Fastest Process Type</p>
+                    <p className="text-lg font-semibold">CSV Uploads (avg 1.2 min)</p>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Time saved</span>
-                  <span className="font-bold text-blue-600">3.2 hrs</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Speed rank</span>
-                  <span className="font-bold text-purple-600">#2 🏆</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
