@@ -4,6 +4,9 @@ import { AgentType } from '@/lib/agents/types';
 import { createServerClient } from '@/lib/supabase/server';
 import { PersonaService } from '@/services/persona-service';
 import { UserPersona } from '@/types/persona';
+import { ConversationStateManager, Message } from './conversation-state-manager';
+import { AdaptiveResponseGenerator } from './adaptive-response-generator';
+import { ProactiveInsightEngine } from './proactive-insight-engine';
 
 // Intent types for natural language understanding
 export enum IntentType {
@@ -161,21 +164,52 @@ export class WhatsAppMessageProcessor {
   private whatsappService: WhatsAppService;
   private agentManager: AgentManager;
   private personaService: PersonaService;
+  private conversationManager: ConversationStateManager;
+  private responseGenerator: AdaptiveResponseGenerator;
+  private insightEngine: ProactiveInsightEngine;
 
   constructor() {
     this.whatsappService = new WhatsAppService();
     this.agentManager = AgentManager.getInstance();
     this.personaService = new PersonaService();
+    this.conversationManager = new ConversationStateManager();
+    this.responseGenerator = new AdaptiveResponseGenerator();
+    this.insightEngine = new ProactiveInsightEngine();
   }
 
   async processMessage(message: WhatsAppMessage): Promise<void> {
     const phoneNumber = message.from.replace('whatsapp:', '');
     
     try {
-      // Send processing acknowledgment
+      // Get or create conversation context
+      const context = await this.conversationManager.getOrCreateContext(phoneNumber);
+      
+      // Create message object for context
+      const contextMessage: Message = {
+        id: message.messageSid,
+        from: message.from,
+        to: message.to,
+        body: message.body,
+        timestamp: new Date()
+      };
+      
+      // Check if this is a continuation of a conversation
+      const { enrichedIntent, requiresClarification } = await this.conversationManager.continueConversation(
+        phoneNumber,
+        message.body
+      );
+      
+      // If clarification was needed and provided
+      if (enrichedIntent.type === 'clarification') {
+        await this.handleClarification(enrichedIntent, context, phoneNumber);
+        return;
+      }
+      
+      // Send contextual acknowledgment based on conversation state
+      const ackMessage = this.getContextualAcknowledgment(context);
       await this.whatsappService.sendMessage({
         to: phoneNumber,
-        body: '⏳ Processing your request...'
+        body: ackMessage
       });
 
       // Get user from phone number
@@ -185,18 +219,29 @@ export class WhatsAppMessageProcessor {
         return;
       }
 
-      // Get user's persona
-      const persona = await this.personaService.getPersona(user.id);
+      // Parse intent with context awareness
+      const intent = this.extractIntentWithContext(message.body, enrichedIntent);
+      console.log('Extracted intent with context:', intent);
+      
+      // Add message to conversation context
+      await this.conversationManager.addMessageToContext(
+        phoneNumber,
+        contextMessage,
+        intent.type,
+        intent.entities
+      );
 
-      // Parse intent and entities
-      const intent = this.extractIntent(message.body);
-      console.log('Extracted intent:', intent);
+      // Check if we need clarification
+      if (requiresClarification) {
+        await this.requestClarification(phoneNumber, enrichedIntent, context.persona);
+        return;
+      }
 
       // Update conversation with intent
       await this.updateConversationIntent(message.messageSid, intent);
 
-      // Handle the intent
-      await this.handleIntent(intent, user, persona, phoneNumber);
+      // Handle the intent with context awareness
+      await this.handleIntentWithContext(intent, user, context, phoneNumber);
 
     } catch (error) {
       console.error('Error processing WhatsApp message:', error);
@@ -374,7 +419,8 @@ export class WhatsAppMessageProcessor {
         phoneNumber,
         result,
         persona,
-        mapping.responseTemplate
+        mapping.responseTemplate,
+        intent.type
       );
 
     } catch (error) {
@@ -424,14 +470,45 @@ export class WhatsAppMessageProcessor {
     phoneNumber: string,
     result: any,
     persona: UserPersona,
-    templateName: string
+    templateName: string,
+    intentType?: string
   ): Promise<void> {
-    const response = this.buildPersonaResponse(result, persona, templateName);
+    // Get conversation context for adaptive response generation
+    const context = await this.conversationManager.getOrCreateContext(phoneNumber);
+    
+    // Generate adaptive response
+    const response = await this.responseGenerator.generateResponse(
+      result,
+      context,
+      intentType || templateName
+    );
     
     await this.whatsappService.sendMessage({
       to: phoneNumber,
       body: response
     });
+    
+    // Generate insights after successful interaction
+    if (context.user_id) {
+      const insights = await this.insightEngine.generateInsightsForUser(context.user_id);
+      
+      // Send high-priority insights immediately (max 1 per conversation)
+      const criticalInsight = insights.find(i => i.priority === 'critical');
+      if (criticalInsight && !this.hasRecentInsight(context, 'critical')) {
+        setTimeout(async () => {
+          await this.insightEngine.sendProactiveInsight(criticalInsight);
+        }, 10000); // Wait 10 seconds after main response
+      }
+    }
+  }
+
+  private hasRecentInsight(context: any, priority: string): boolean {
+    // Check if we've sent a similar priority insight recently
+    const recentMessages = context.context_window.slice(-5);
+    return recentMessages.some((msg: any) => 
+      msg.body?.includes('**') && // Insight messages have bold formatting
+      (priority === 'critical' ? msg.body?.includes('🚨') : true)
+    );
   }
 
   private buildPersonaResponse(
@@ -792,5 +869,193 @@ export class WhatsAppMessageProcessor {
         updated_at: new Date().toISOString()
       })
       .eq('message_sid', messageSid);
+  }
+
+  // New context-aware methods
+  private getContextualAcknowledgment(context: any): string {
+    const greetings = ['👋', '✨', '🌟', '💫'];
+    const isFirstMessage = context.context_window.length === 0;
+    
+    if (isFirstMessage) {
+      const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+      return `${greeting} Welcome back! Processing your request...`;
+    }
+    
+    // Check if continuing a task
+    if (context.working_memory.current_task) {
+      return '📋 Continuing with your request...';
+    }
+    
+    // Default contextual response
+    return '⏳ Got it, let me help with that...';
+  }
+
+  private extractIntentWithContext(text: string, enrichedIntent: any): Intent {
+    // Start with basic intent extraction
+    let intent = this.extractIntent(text);
+    
+    // Enhance with contextual information
+    if (enrichedIntent.has_reference && enrichedIntent.contextual_entities) {
+      intent.entities = {
+        ...intent.entities,
+        ...enrichedIntent.contextual_entities
+      };
+    }
+    
+    // Handle "same as" patterns
+    if (enrichedIntent.reference_intent) {
+      intent = {
+        type: enrichedIntent.reference_intent,
+        confidence: 0.8,
+        entities: {
+          ...enrichedIntent.reference_entities,
+          ...intent.entities
+        },
+        rawText: text
+      };
+    }
+    
+    return intent;
+  }
+
+  private async handleClarification(
+    clarificationResponse: any,
+    context: any,
+    phoneNumber: string
+  ): Promise<void> {
+    // Process the clarification response
+    await this.conversationManager.resolveClarification(phoneNumber);
+    
+    // Rebuild the intent with clarified information
+    const originalQuestion = clarificationResponse.original_question;
+    const response = clarificationResponse.response;
+    
+    // Send confirmation
+    await this.whatsappService.sendMessage({
+      to: phoneNumber,
+      body: `✅ Got it! ${response}. Let me process that for you...`
+    });
+    
+    // Continue with original intent
+    // This would require storing the original intent in context
+  }
+
+  private async requestClarification(
+    phoneNumber: string,
+    enrichedIntent: any,
+    persona: UserPersona
+  ): Promise<void> {
+    let clarificationMessage = '';
+    
+    if (enrichedIntent.has_reference && !enrichedIntent.contextual_entities) {
+      clarificationMessage = this.getClarificationMessage(
+        'reference',
+        persona,
+        'Which item are you referring to?'
+      );
+    } else if (enrichedIntent.has_temporal && !enrichedIntent.resolved_date) {
+      clarificationMessage = this.getClarificationMessage(
+        'temporal',
+        persona,
+        'Which time period do you mean?'
+      );
+    } else if (enrichedIntent.has_comparison && !enrichedIntent.reference_entities) {
+      clarificationMessage = this.getClarificationMessage(
+        'comparison',
+        persona,
+        'What would you like to compare this with?'
+      );
+    }
+    
+    await this.whatsappService.sendMessage({
+      to: phoneNumber,
+      body: clarificationMessage
+    });
+    
+    // Mark that we need clarification
+    await this.conversationManager.addClarificationNeeded(phoneNumber, clarificationMessage);
+  }
+
+  private getClarificationMessage(
+    type: string,
+    persona: UserPersona,
+    defaultMessage: string
+  ): string {
+    const messages = {
+      streamliner: {
+        reference: '❓ Which one?',
+        temporal: '❓ When?',
+        comparison: '❓ Compare with?'
+      },
+      navigator: {
+        reference: '🎯 Could you specify which item you\'re referring to?',
+        temporal: '📅 Which time period would you like me to analyze?',
+        comparison: '📊 What would you like me to compare this against?'
+      },
+      spring: {
+        reference: '🤔 I want to make sure I help with the right thing! Which item did you mean?',
+        temporal: '📅 Help me understand - which dates should I look at?',
+        comparison: '💡 Great question! What should I compare this with?'
+      },
+      hub: {
+        reference: '🏢 Which entity/item are you referring to?',
+        temporal: '📅 Which time period across your network?',
+        comparison: '🔄 Compare with which entity or period?'
+      },
+      processor: {
+        reference: '[CLARIFICATION_NEEDED] Specify item reference.',
+        temporal: '[CLARIFICATION_NEEDED] Specify temporal parameter.',
+        comparison: '[CLARIFICATION_NEEDED] Specify comparison target.'
+      }
+    };
+    
+    return messages[persona]?.[type] || defaultMessage;
+  }
+
+  private async handleIntentWithContext(
+    intent: Intent,
+    user: any,
+    context: any,
+    phoneNumber: string
+  ): Promise<void> {
+    // Use the context-aware persona from conversation
+    const persona = context.persona;
+    
+    // Check if this is a repeat of a common query
+    const commonQuery = context.long_term_memory.common_queries
+      .find((q: any) => q.query === intent.type && q.frequency > 3);
+    
+    if (commonQuery) {
+      // Acknowledge the pattern
+      await this.whatsappService.sendMessage({
+        to: phoneNumber,
+        body: this.getPatternAcknowledgment(persona, intent.type)
+      });
+    }
+    
+    // Proceed with normal handling but with context awareness
+    await this.handleIntent(intent, user, persona, phoneNumber);
+    
+    // Learn from successful interaction
+    if (intent.confidence > 0.7) {
+      await this.conversationManager.markInteractionSuccess(
+        phoneNumber,
+        intent.rawText,
+        'standard_response', // This would be the actual response
+        'positive'
+      );
+    }
+  }
+
+  private getPatternAcknowledgment(persona: UserPersona, intentType: string): string {
+    const acknowledgments = {
+      streamliner: '⚡ Running your regular check...',
+      navigator: '📊 I notice you check this regularly. Running analysis...',
+      spring: '🌟 You\'re building great habits! Let me check that for you...',
+      hub: '🔄 Running your network-wide check...',
+      processor: '[PATTERN_DETECTED] Executing routine query...'
+    };
+    
+    return acknowledgments[persona] || 'Processing your request...';
   }
 }

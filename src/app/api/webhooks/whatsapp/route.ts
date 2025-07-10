@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { WhatsAppMessageProcessor } from '@/lib/whatsapp/message-processor';
-import { WhatsAppService } from '@/lib/notifications/whatsapp-service';
+import { getIntelligentConversationService } from '@/lib/whatsapp/intelligent-conversation-service';
 import { createServerClient } from '@/lib/supabase/server';
 
 // Twilio webhook payload interface
@@ -128,16 +127,16 @@ export async function POST(request: NextRequest) {
       created_at: new Date().toISOString()
     });
 
-    // Process message asynchronously
-    const processor = new WhatsAppMessageProcessor();
-    processor.processMessage({
-      from: message.from,
-      to: message.to,
-      body: message.body,
-      messageSid: message.messageSid,
-      profileName: message.profileName,
+    // Process message with intelligent conversation service
+    const intelligentService = getIntelligentConversationService();
+    intelligentService.processIntelligentMessage({
+      From: message.from,
+      To: message.to,
+      Body: message.body,
+      MessageSid: message.messageSid,
+      ProfileName: message.profileName,
     }).catch(error => {
-      console.error('Error processing WhatsApp message:', error);
+      console.error('Error processing intelligent WhatsApp message:', error);
     });
 
     // Send immediate acknowledgment (Twilio expects empty response for async processing)
