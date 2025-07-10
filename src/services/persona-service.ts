@@ -261,7 +261,7 @@ export class PersonaService {
    */
   private shouldRecalculatePersona(action: BehaviorAction): boolean {
     // Recalculate on significant actions
-    const significantActions = [
+    const significantActions: BehaviorAction[] = [
       BEHAVIOR_ACTIONS.CUSTOM_DASHBOARD,
       BEHAVIOR_ACTIONS.SAVE_VIEW,
       BEHAVIOR_ACTIONS.SWITCH_ENTITY,

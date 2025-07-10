@@ -125,6 +125,7 @@ export const BEHAVIOR_ACTIONS = {
   HELP_ACCESSED: 'help_accessed',
   PRACTICE_MODE: 'practice_mode',
   ONBOARDING_STEP: 'onboarding_step',
+  ONBOARDING_ANSWER: 'onboarding_answer',
   
   // System-focused actions
   VIEW_LOGS: 'view_logs',

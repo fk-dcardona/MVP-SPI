@@ -9,8 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  SwipeHorizontal,
-  Touch,
+  MoveHorizontal,
+  Hand,
   Smartphone,
 } from 'lucide-react';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
@@ -100,7 +100,7 @@ export function MobileOptimizedOnboarding({
             </span>
             {isMobile && (
               <Badge variant="secondary" className="text-xs">
-                <Touch className="h-3 w-3 mr-1" />
+                <Hand className="h-3 w-3 mr-1" />
                 Swipe to navigate
               </Badge>
             )}
@@ -118,7 +118,7 @@ export function MobileOptimizedOnboarding({
               className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200"
             >
               <div className="flex items-center justify-center space-x-2">
-                <SwipeHorizontal className="h-5 w-5 text-blue-600" />
+                <MoveHorizontal className="h-5 w-5 text-blue-600" />
                 <p className="text-sm text-blue-800 font-medium">
                   Swipe left or right to navigate
                 </p>
