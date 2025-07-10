@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -50,6 +51,7 @@ interface MainDashboardProps {
 type UserPersona = 'streamliner' | 'navigator' | 'hub' | 'spring' | 'processor';
 
 export function MainDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
+  const router = useRouter();
   const [detectedPersona, setDetectedPersona] = useState<UserPersona | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -58,15 +60,26 @@ export function MainDashboard({ user, company, recentActivity, metrics }: MainDa
   useKeyboardShortcuts();
 
   useEffect(() => {
-    // Detect user persona based on behavior patterns
-    const detectPersona = async () => {
+    // Check if user has completed onboarding
+    const checkOnboarding = async () => {
+      // Check localStorage first for quick response
+      const hasCompletedOnboarding = localStorage.getItem('onboarding-completed');
+      const skipOnboarding = localStorage.getItem('onboarding-skipped');
+      
+      if (!hasCompletedOnboarding && !skipOnboarding) {
+        // Redirect to onboarding if not completed
+        router.push('/onboarding');
+        return;
+      }
+      
+      // Detect user persona based on behavior patterns
       const persona = await PersonaDetector.detect(user, company);
       setDetectedPersona(persona);
       setIsLoading(false);
     };
     
-    detectPersona();
-  }, [user, company]);
+    checkOnboarding();
+  }, [user, company, router]);
 
   if (isLoading) {
     return (
