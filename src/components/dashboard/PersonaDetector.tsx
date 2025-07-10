@@ -14,7 +14,15 @@ interface PersonaSignals {
 
 export class PersonaDetector {
   static async detect(user: Profile, company: Company): Promise<UserPersona> {
-    // Gather signals for persona detection
+    // First check if persona was already determined during onboarding
+    if (typeof window !== 'undefined') {
+      const storedPersona = localStorage.getItem('user-persona');
+      if (storedPersona && ['streamliner', 'navigator', 'hub', 'spring', 'processor'].includes(storedPersona)) {
+        return storedPersona as UserPersona;
+      }
+    }
+    
+    // Otherwise, gather signals for persona detection
     const signals = await this.gatherSignals(user, company);
     
     // Apply detection logic based on Water Philosophy personas

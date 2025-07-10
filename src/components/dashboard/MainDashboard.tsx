@@ -26,7 +26,10 @@ import { NavigatorDashboard } from './NavigatorDashboard';
 import { MobileDashboard } from './MobileDashboard';
 import { MobileDashboardEnhanced } from './MobileDashboardEnhanced';
 import { EntitySwitcher } from '@/components/hub/EntitySwitcher';
-import { OnboardingWizard } from '@/components/spring/OnboardingWizard';
+import { NetworkVisualization } from '@/components/hub/NetworkVisualization';
+import { ConsolidatedReports } from '@/components/hub/ConsolidatedReports';
+import { OnboardingWizard } from '@/components/spring/OnboardingWizardWrapper';
+import { ProgressTracking } from '@/components/spring/ProgressTracking';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { SpeedDashboard } from './streamliner/SpeedDashboard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -218,37 +221,68 @@ function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDa
 
 // Hub Dashboard - Network focused
 function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
+  const [activeView, setActiveView] = useState('network');
+
   return (
     <div className="space-y-6">
       {/* Multi-Entity Switcher */}
       <EntitySwitcher currentEntityId={company.id} />
 
-      {/* Quick Actions for Multi-Entity Management */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Button variant="outline" className="h-24 flex-col gap-2">
-          <Users className="h-6 w-6" />
-          <span>Entity Comparison</span>
-        </Button>
-        <Button variant="outline" className="h-24 flex-col gap-2">
-          <BarChart3 className="h-6 w-6" />
-          <span>Network Reports</span>
-        </Button>
-        <Button variant="outline" className="h-24 flex-col gap-2">
-          <Package className="h-6 w-6" />
-          <span>Cross-Entity Inventory</span>
-        </Button>
-        <Button variant="outline" className="h-24 flex-col gap-2">
-          <AlertCircle className="h-6 w-6" />
-          <span>Compliance Overview</span>
-        </Button>
-      </div>
+      {/* Hub Navigation Tabs */}
+      <Tabs value={activeView} onValueChange={setActiveView}>
+        <TabsList>
+          <TabsTrigger value="network">Network Overview</TabsTrigger>
+          <TabsTrigger value="operations">Multi-Entity Ops</TabsTrigger>
+          <TabsTrigger value="consolidated">Consolidated View</TabsTrigger>
+          <TabsTrigger value="compliance">Compliance</TabsTrigger>
+        </TabsList>
 
-      {/* Standard Components with Hub Context */}
-      <QuickAccessGrid persona="hub" />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SupplyChainTriangleOverview />
-        <RecentActivity activities={recentActivity} />
-      </div>
+        <TabsContent value="network" className="mt-6">
+          <NetworkVisualization />
+        </TabsContent>
+
+        <TabsContent value="operations" className="mt-6 space-y-6">
+          {/* Quick Actions for Multi-Entity Management */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Button variant="outline" className="h-24 flex-col gap-2">
+              <Users className="h-6 w-6" />
+              <span>Entity Comparison</span>
+            </Button>
+            <Button variant="outline" className="h-24 flex-col gap-2">
+              <BarChart3 className="h-6 w-6" />
+              <span>Network Reports</span>
+            </Button>
+            <Button variant="outline" className="h-24 flex-col gap-2">
+              <Package className="h-6 w-6" />
+              <span>Cross-Entity Inventory</span>
+            </Button>
+            <Button variant="outline" className="h-24 flex-col gap-2">
+              <AlertCircle className="h-6 w-6" />
+              <span>Compliance Overview</span>
+            </Button>
+          </div>
+
+          {/* Standard Components with Hub Context */}
+          <QuickAccessGrid persona="hub" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SupplyChainTriangleOverview />
+            <RecentActivity activities={recentActivity} />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="consolidated" className="mt-6">
+          <ConsolidatedReports />
+        </TabsContent>
+
+        <TabsContent value="compliance" className="mt-6">
+          <div className="p-8 border-2 border-dashed rounded-lg text-center">
+            <h3 className="text-lg font-semibold mb-2">Compliance Dashboard</h3>
+            <p className="text-muted-foreground">
+              Multi-entity compliance tracking and reporting coming soon
+            </p>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
@@ -256,6 +290,7 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
 // Spring Dashboard - Learning focused
 function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [activeView, setActiveView] = useState('progress');
   
   // Check if user needs onboarding
   useEffect(() => {
@@ -270,83 +305,139 @@ function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboa
       {showOnboarding && <OnboardingWizard />}
       
       <div className="space-y-6">
-        {/* Welcome & Progress */}
-        <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
-          <CardHeader>
-            <CardTitle className="text-xl">Your Journey Progress</CardTitle>
-            <CardDescription>You&apos;re doing great! Here&apos;s what to focus on today.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span>Setup Completion</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
-                    <div className="bg-amber-600 h-2 rounded-full" style={{ width: '65%' }} />
+        {/* Spring Navigation */}
+        <Tabs value={activeView} onValueChange={setActiveView}>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="progress">My Progress</TabsTrigger>
+            <TabsTrigger value="learn">Learn & Explore</TabsTrigger>
+            <TabsTrigger value="practice">Practice Mode</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="progress" className="mt-6">
+            <ProgressTracking />
+          </TabsContent>
+
+          <TabsContent value="learn" className="mt-6 space-y-6">
+            {/* Welcome & Progress */}
+            <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
+              <CardHeader>
+                <CardTitle className="text-xl">Your Journey Progress</CardTitle>
+                <CardDescription>You&apos;re doing great! Here&apos;s what to focus on today.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span>Setup Completion</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="bg-amber-600 h-2 rounded-full" style={{ width: '65%' }} />
+                      </div>
+                      <span className="text-sm font-medium">65%</span>
+                    </div>
                   </div>
-                  <span className="text-sm font-medium">65%</span>
+                  
+                  <div className="pt-2">
+                    <p className="text-sm font-medium mb-2">Next Steps:</p>
+                    <ul className="space-y-1 text-sm">
+                      <li className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full bg-amber-600" />
+                        Upload your first CSV file
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
+                        Configure your first agent
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
+                        Invite team members
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="pt-2">
-                <p className="text-sm font-medium mb-2">Next Steps:</p>
-                <ul className="space-y-1 text-sm">
-                  <li className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-amber-600" />
-                    Upload your first CSV file
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
-                    Configure your first agent
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
-                    Invite team members
-                  </li>
-                </ul>
-              </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Tutorial Button */}
+            <div className="flex justify-center">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => setShowOnboarding(true)}
+                className="gap-2"
+              >
+                <Target className="h-5 w-5" />
+                Restart Guided Setup
+              </Button>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Quick Tutorial Button */}
-        <div className="flex justify-center">
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={() => setShowOnboarding(true)}
-            className="gap-2"
-          >
-            <Target className="h-5 w-5" />
-            Restart Guided Setup
-          </Button>
-        </div>
+            {/* Guided Actions */}
+            <QuickAccessGrid persona="spring" />
+            
+            {/* Learning Resources */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <SupplyChainTriangleOverview />
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Learning Resources</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <Button variant="outline" className="w-full justify-start">
+                      📚 Supply Chain Basics
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      🎥 Video: First Import Guide
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      💬 Schedule Expert Call
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
 
-        {/* Guided Actions */}
-        <QuickAccessGrid persona="spring" />
-        
-        {/* Learning Resources */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <SupplyChainTriangleOverview />
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Learning Resources</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  📚 Supply Chain Basics
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  🎥 Video: First Import Guide
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  💬 Schedule Expert Call
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <TabsContent value="practice" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Practice Mode</CardTitle>
+                <CardDescription>
+                  Try out features with sample data - no risk to your real data!
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Card className="cursor-pointer hover:border-amber-500 transition-colors">
+                    <CardContent className="p-6 text-center">
+                      <Package className="h-12 w-12 mx-auto mb-3 text-amber-600" />
+                      <h4 className="font-semibold mb-2">Practice CSV Upload</h4>
+                      <p className="text-sm text-gray-600">
+                        Learn how to format and upload inventory data
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="cursor-pointer hover:border-amber-500 transition-colors">
+                    <CardContent className="p-6 text-center">
+                      <BarChart3 className="h-12 w-12 mx-auto mb-3 text-amber-600" />
+                      <h4 className="font-semibold mb-2">Explore Analytics</h4>
+                      <p className="text-sm text-gray-600">
+                        Play with sample data to understand metrics
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="p-4 bg-amber-50 rounded-lg">
+                  <p className="text-sm text-amber-800">
+                    💡 <strong>Practice Mode:</strong> All changes here are temporary. 
+                    Feel free to experiment - you can't break anything!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </>
   );

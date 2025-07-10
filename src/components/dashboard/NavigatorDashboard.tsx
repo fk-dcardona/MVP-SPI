@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { NavigatorControlPanel } from './NavigatorControlPanel';
 import { NavigatorCustomization } from './navigator/NavigatorCustomization';
+import { PredictiveAnalytics } from './navigator/PredictiveAnalytics';
 import { QuickAccessGrid } from './QuickAccessGrid';
 import { SupplyChainTriangleOverview } from './SupplyChainTriangleOverview';
 import { RecentActivity } from './RecentActivity';
@@ -49,7 +50,7 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="predictive">Predictive Analytics</TabsTrigger>
               <TabsTrigger value="operations">Operations</TabsTrigger>
               <TabsTrigger value="custom">Custom View</TabsTrigger>
             </TabsList>
@@ -62,13 +63,8 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
               <RecentActivity activities={recentActivity} />
             </TabsContent>
 
-            <TabsContent value="analytics" className="space-y-6 mt-6">
-              <div className="p-8 border-2 border-dashed rounded-lg text-center">
-                <h3 className="text-lg font-semibold mb-2">Analytics Deep Dive</h3>
-                <p className="text-muted-foreground">
-                  Advanced analytics and custom reports will appear here
-                </p>
-              </div>
+            <TabsContent value="predictive" className="space-y-6 mt-6">
+              <PredictiveAnalytics />
             </TabsContent>
 
             <TabsContent value="operations" className="space-y-6 mt-6">
