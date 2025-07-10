@@ -8,6 +8,8 @@ Finkargo Analytics MVP - A Supply Chain Intelligence Platform that transforms CS
 
 **Current State**: Foundation complete, data pipeline pending. Core architecture implemented including authentication, agent system skeleton, and dashboard structure. Critical business logic and data processing features await implementation.
 
+**Active Development Wave**: Production Setup (feat/production-setup) - Deploying database, configuring production environment, and setting up monitoring.
+
 ## Implementation Status
 
 ### ✅ Completed
@@ -556,3 +558,71 @@ npm run dev
 npm run test
 npm run type-check
 ```
+
+## 🌊 Development Waves Plan
+
+### Wave 1: Production Setup (Current - feat/production-setup)
+**Objective**: Deploy database, configure production environment, establish monitoring
+
+#### Tasks:
+1. **Supabase Production Setup**
+   - Create production project on Supabase
+   - Deploy all migrations from `/supabase/migrations/`
+   - Configure Row Level Security policies
+   - Set up database backups
+
+2. **Environment Configuration**
+   - Create `.env.production` with production secrets
+   - Configure Vercel environment variables
+   - Set up domain and SSL certificates
+   - Configure CORS and security headers
+
+3. **Monitoring & Error Tracking**
+   - Integrate Sentry for error tracking
+   - Set up Vercel Analytics
+   - Configure uptime monitoring
+   - Implement health check endpoints
+
+4. **Deployment Pipeline**
+   - Configure Vercel deployment
+   - Set up GitHub Actions for CI/CD
+   - Create staging environment
+   - Document deployment process
+
+### Wave 2: Real-time Subscriptions (feat/realtime-subscriptions)
+**Objective**: Enable live updates and real-time agent monitoring
+
+#### Tasks:
+1. WebSocket connection management
+2. Real-time dashboard updates
+3. Agent status monitoring
+4. Live notification system
+
+### Wave 3: WhatsApp Complete Integration (feat/whatsapp-complete)
+**Objective**: Full WhatsApp authentication and notifications
+
+#### Tasks:
+1. Complete OTP authentication flow
+2. Alert notifications via WhatsApp
+3. Two-way communication support
+4. Message templates and formatting
+
+### Wave 4: Performance & Testing (feat/performance-testing)
+**Objective**: Optimize for scale and ensure reliability
+
+#### Tasks:
+1. Load testing with k6/Artillery
+2. Database query optimization
+3. Caching strategy implementation
+4. Comprehensive test coverage
+
+## Quality Gates for Each Wave
+
+Before merging any wave:
+- ✅ TypeScript compilation passes (`npm run type-check`)
+- ✅ ESLint passes (`npm run lint`)
+- ✅ Build succeeds (`npm run build`)
+- ✅ All tests pass (when applicable)
+- ✅ Documentation updated in CLAUDE.md
+- ✅ No console errors in development
+- ✅ Performance benchmarks met

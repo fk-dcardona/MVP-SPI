@@ -17,10 +17,7 @@ export function getSupabaseAdmin() {
         persistSession: false,
         autoRefreshToken: false,
       },
-      db: {
-        // Connection pooling configuration
-        schema: 'public',
-      },
+      // Database configuration
       global: {
         // Request timeout configuration
         fetch: (input: RequestInfo | URL, init?: RequestInit) => {
