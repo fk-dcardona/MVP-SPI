@@ -71,7 +71,7 @@ CREATE POLICY "Users can view their company's uploads" ON public.data_uploads
     FOR SELECT USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -79,7 +79,7 @@ CREATE POLICY "Users can create uploads for their company" ON public.data_upload
     FOR INSERT WITH CHECK (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -87,7 +87,7 @@ CREATE POLICY "Users can update their company's uploads" ON public.data_uploads
     FOR UPDATE USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -96,7 +96,7 @@ CREATE POLICY "Users can view their company's inventory" ON public.inventory_ite
     FOR SELECT USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -104,7 +104,7 @@ CREATE POLICY "Users can manage their company's inventory" ON public.inventory_i
     FOR ALL USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -113,7 +113,7 @@ CREATE POLICY "Users can view their company's sales" ON public.sales_transaction
     FOR SELECT USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -121,7 +121,7 @@ CREATE POLICY "Users can manage their company's sales" ON public.sales_transacti
     FOR ALL USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 

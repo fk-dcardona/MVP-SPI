@@ -44,7 +44,7 @@ CREATE POLICY "Users can view their company's metrics" ON public.inventory_metri
     FOR SELECT USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -52,7 +52,7 @@ CREATE POLICY "System can manage metrics" ON public.inventory_metrics
     FOR ALL USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -61,7 +61,7 @@ CREATE POLICY "Users can view their company's velocity data" ON public.sku_veloc
     FOR SELECT USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 
@@ -69,7 +69,7 @@ CREATE POLICY "System can manage velocity data" ON public.sku_velocity
     FOR ALL USING (
         company_id IN (
             SELECT company_id FROM public.profiles 
-            WHERE user_id = auth.uid()
+            WHERE id = auth.uid()
         )
     );
 

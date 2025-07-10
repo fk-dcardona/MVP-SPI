@@ -19,9 +19,9 @@ CREATE INDEX IF NOT EXISTS idx_sales_company_date_sku
 ON sales_transactions(company_id, transaction_date DESC, sku);
 
 -- Index for velocity calculations (30-day lookback)
-CREATE INDEX IF NOT EXISTS idx_sales_recent 
-ON sales_transactions(company_id, transaction_date)
-WHERE transaction_date >= (CURRENT_DATE - INTERVAL '30 days');
+-- CREATE INDEX IF NOT EXISTS idx_sales_recent 
+-- ON sales_transactions(company_id, transaction_date)
+-- WHERE transaction_date >= (CURRENT_DATE - INTERVAL '30 days');
 
 -- Indexes for supplier performance queries
 CREATE INDEX IF NOT EXISTS idx_inventory_supplier 
@@ -141,7 +141,7 @@ INCLUDE (quantity, unit_cost, reorder_point);
 -- Add table statistics comments
 COMMENT ON INDEX idx_inventory_company_sku_date IS 'Primary lookup index for inventory queries';
 COMMENT ON INDEX idx_sales_company_date_sku IS 'Optimized for time-series analytics';
-COMMENT ON INDEX idx_sales_recent IS 'Partial index for recent sales velocity calculations';
+-- COMMENT ON INDEX idx_sales_recent IS 'Partial index for recent sales velocity calculations';
 COMMENT ON MATERIALIZED VIEW mv_category_summary IS 'Pre-aggregated category metrics, refresh every hour';
 
 -- Schedule periodic VACUUM and ANALYZE (to be run by cron job)
