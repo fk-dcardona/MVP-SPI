@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Navigation - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+        }
+        
+        /* Mobile Container */
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header */
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            display: flex;
+            height: 64px;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: white;
+            padding: 0 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: background 0.2s;
+        }
+        
+        .menu-button:hover {
+            background: #f3f4f6;
+        }
+        
+        .header-title {
+            flex: 1;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .quick-action-button {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: background 0.2s;
+        }
+        
+        .quick-action-button:hover {
+            background: #f3f4f6;
+        }
+        
+        /* Slide-out Navigation */
+        .nav-drawer {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 320px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .nav-drawer.open {
+            left: 0;
+        }
+        
+        .nav-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .nav-header h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        
+        .nav-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+        
+        .nav-item.active {
+            background: #f3f4f6;
+            color: #111827;
+            font-weight: 500;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: #3b82f6;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+        }
+        
+        .nav-bottom {
+            border-top: 1px solid #e5e7eb;
+            padding: 0.75rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: #6b7280;
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 49;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Content */
+        .mobile-content {
+            padding: 1.5rem;
+        }
+        
+        /* Dashboard Cards */
+        .mobile-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .mobile-card-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        /* Quick Access Grid */
+        .mobile-quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .mobile-quick-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .mobile-quick-item:active {
+            transform: scale(0.98);
+            background: #f9fafb;
+        }
+        
+        .mobile-quick-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mobile-quick-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #111827;
+        }
+        
+        /* Bottom Tab Bar (Alternative) */
+        .bottom-tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .tab-item.active {
+            color: #3b82f6;
+        }
+        
+        .tab-icon {
+            font-size: 1.25rem;
+        }
+        
+        .tab-label {
+            font-size: 0.625rem;
+        }
+        
+        /* Toggle Button */
+        .toggle-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .toggle-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .toggle-button:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <button class="menu-button" onclick="toggleNav()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <h1 class="header-title">Finkargo Analytics</h1>
+            <button class="quick-action-button">
+                <span style="font-size: 1.25rem;">⬆️</span>
+            </button>
+        </header>
+        
+        <!-- Navigation Drawer -->
+        <nav class="nav-drawer" id="navDrawer">
+            <div class="nav-header">
+                <h2>Finkargo Analytics</h2>
+            </div>
+            
+            <div class="nav-content">
+                <a href="#" class="nav-item active">
+                    <span style="font-size: 1.25rem;">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">📊</span>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">⬆️</span>
+                    <span>Upload Data</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">🛡️</span>
+                    <span>Control Tower</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">📦</span>
+                    <span>Inventory</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">📈</span>
+                    <span>Sales</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">👥</span>
+                    <span>Suppliers</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">📄</span>
+                    <span>Documents</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </div>
+            
+            <div class="nav-bottom">
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">❓</span>
+                    <span>Help & Support</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span style="font-size: 1.25rem;">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">U</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 0.875rem; font-weight: 500;">User Name</div>
+                    <div style="font-size: 0.75rem; color: #6b7280;">user@example.com</div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Overlay -->
+        <div class="overlay" id="overlay" onclick="toggleNav()"></div>
+        
+        <!-- Main Content -->
+        <main class="mobile-content" style="padding-bottom: 80px;">
+            <div style="margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Welcome back! 👋</h2>
+                <p style="color: #6b7280; font-size: 0.875rem;">Your mobile dashboard</p>
+            </div>
+            
+            <!-- Quick Access -->
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <h3 class="mobile-card-title">Quick Access</h3>
+                </div>
+                <div class="mobile-quick-grid">
+                    <div class="mobile-quick-item">
+                        <div class="mobile-quick-icon">📦</div>
+                        <div class="mobile-quick-label">Inventory</div>
+                    </div>
+                    <div class="mobile-quick-item">
+                        <div class="mobile-quick-icon">📈</div>
+                        <div class="mobile-quick-label">Sales</div>
+                    </div>
+                    <div class="mobile-quick-item">
+                        <div class="mobile-quick-icon">🛡️</div>
+                        <div class="mobile-quick-label">Control Tower</div>
+                    </div>
+                    <div class="mobile-quick-item">
+                        <div class="mobile-quick-icon">📊</div>
+                        <div class="mobile-quick-label">Analytics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Supply Chain Score -->
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <h3 class="mobile-card-title">Supply Chain Score</h3>
+                    <span style="background: #059669; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem;">78</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: #6b7280;">Service</div>
+                        <div style="font-size: 1.25rem; font-weight: bold; color: #059669;">85</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: #6b7280;">Cost</div>
+                        <div style="font-size: 1.25rem; font-weight: bold; color: #d97706;">72</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: #6b7280;">Capital</div>
+                        <div style="font-size: 1.25rem; font-weight: bold; color: #d97706;">78</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Toggle Navigation Demo -->
+            <div class="toggle-container">
+                <button class="toggle-button" onclick="toggleNav()">
+                    Toggle Navigation Drawer
+                </button>
+            </div>
+        </main>
+        
+        <!-- Bottom Tab Bar -->
+        <nav class="bottom-tabs">
+            <a href="#" class="tab-item active">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Home</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span class="tab-icon">📊</span>
+                <span class="tab-label">Analytics</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span class="tab-icon">⬆️</span>
+                <span class="tab-label">Upload</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span class="tab-icon">🛡️</span>
+                <span class="tab-label">Agents</span>
+            </a>
+            <a href="#" class="tab-item">
+                <span class="tab-icon">⚙️</span>
+                <span class="tab-label">More</span>
+            </a>
+        </nav>
+    </div>
+    
+    <script>
+        function toggleNav() {
+            const drawer = document.getElementById('navDrawer');
+            const overlay = document.getElementById('overlay');
+            
+            drawer.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

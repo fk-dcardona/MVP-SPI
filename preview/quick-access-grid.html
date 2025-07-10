@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Access Grid - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        /* Component Preview */
+        .component-preview {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .component-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Quick Access Grid - Default Style */
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .quick-access-item {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quick-access-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .quick-access-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .quick-access-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #111827;
+        }
+        
+        .quick-access-desc {
+            font-size: 0.75rem;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+        
+        /* Persona Variations */
+        .persona-section {
+            margin-bottom: 3rem;
+        }
+        
+        .persona-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .persona-badge {
+            padding: 0.375rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Streamliner Style */
+        .streamliner-grid .quick-access-item {
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .streamliner-grid .quick-access-item:hover {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .streamliner-grid .quick-access-icon {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .streamliner-grid .quick-access-title {
+            font-size: 0.875rem;
+        }
+        
+        .streamliner-grid .quick-access-desc {
+            display: none;
+        }
+        
+        .streamliner-badge {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Navigator Style */
+        .navigator-grid .quick-access-item {
+            text-align: left;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .navigator-grid .quick-access-icon {
+            font-size: 2rem;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        
+        .navigator-grid .quick-access-content {
+            flex: 1;
+        }
+        
+        .navigator-grid .quick-access-title {
+            margin-bottom: 0.125rem;
+        }
+        
+        .navigator-badge {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* Hub Style */
+        .hub-grid .quick-access-item {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            border-color: #c084fc;
+        }
+        
+        .hub-grid .quick-access-item:hover {
+            border-color: #7c3aed;
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
+        }
+        
+        .hub-badge {
+            background: #e9d5ff;
+            color: #6b21a8;
+        }
+        
+        /* Spring Style */
+        .spring-grid .quick-access-item {
+            border-width: 3px;
+            position: relative;
+        }
+        
+        .spring-grid .quick-access-item::before {
+            content: "NEW";
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #f59e0b;
+            color: white;
+            font-size: 0.625rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+        }
+        
+        .spring-grid .quick-access-item:nth-child(n+4)::before {
+            display: none;
+        }
+        
+        .spring-badge {
+            background: #fed7aa;
+            color: #92400e;
+        }
+        
+        /* Advanced Features */
+        .advanced-section {
+            background: #f3f4f6;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .feature-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-card p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        /* Responsive Grid */
+        @media (max-width: 768px) {
+            .quick-access-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .navigator-grid .quick-access-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .navigator-grid .quick-access-icon {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .quick-access-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Quick Access Grid Component</h1>
+        <p class="subtitle">Central navigation to all 6 core data structures, adapted for each persona</p>
+        
+        <!-- Default Style -->
+        <div class="component-preview">
+            <h2 class="component-title">
+                <span>🎯</span>
+                <span>Default Quick Access Grid</span>
+            </h2>
+            
+            <div class="quick-access-grid">
+                <div class="quick-access-item">
+                    <span class="quick-access-icon">📦</span>
+                    <div class="quick-access-title">Inventory</div>
+                    <div class="quick-access-desc">Track stock levels and warehouse data</div>
+                </div>
+                
+                <div class="quick-access-item">
+                    <span class="quick-access-icon">📈</span>
+                    <div class="quick-access-title">Sales</div>
+                    <div class="quick-access-desc">Monitor revenue and order analytics</div>
+                </div>
+                
+                <div class="quick-access-item">
+                    <span class="quick-access-icon">👥</span>
+                    <div class="quick-access-title">Suppliers</div>
+                    <div class="quick-access-desc">Manage vendor relationships</div>
+                </div>
+                
+                <div class="quick-access-item">
+                    <span class="quick-access-icon">📄</span>
+                    <div class="quick-access-title">Documents</div>
+                    <div class="quick-access-desc">Import/export documentation</div>
+                </div>
+                
+                <div class="quick-access-item">
+                    <span class="quick-access-icon">🛡️</span>
+                    <div class="quick-access-title">Control Tower</div>
+                    <div class="quick-access-desc">AI agents and automation</div>
+                </div>
+                
+                <div class="quick-access-item">
+                    <span class="quick-access-icon">📊</span>
+                    <div class="quick-access-title">Analytics</div>
+                    <div class="quick-access-desc">Deep insights and reports</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Persona Variations -->
+        <div class="persona-section">
+            <div class="persona-header">
+                <h2>🏃 Streamliner Variation</h2>
+                <span class="persona-badge streamliner-badge">Speed Optimized</span>
+            </div>
+            
+            <div class="component-preview">
+                <div class="quick-access-grid streamliner-grid">
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📦</span>
+                        <div class="quick-access-title">Inventory</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📈</span>
+                        <div class="quick-access-title">Sales</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">👥</span>
+                        <div class="quick-access-title">Suppliers</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📄</span>
+                        <div class="quick-access-title">Documents</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">🛡️</span>
+                        <div class="quick-access-title">Agents</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📊</span>
+                        <div class="quick-access-title">Analytics</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="persona-section">
+            <div class="persona-header">
+                <h2>🧭 Navigator Variation</h2>
+                <span class="persona-badge navigator-badge">Detail Oriented</span>
+            </div>
+            
+            <div class="component-preview">
+                <div class="quick-access-grid navigator-grid">
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📦</span>
+                        <div class="quick-access-content">
+                            <div class="quick-access-title">Inventory Management</div>
+                            <div class="quick-access-desc">Real-time stock tracking</div>
+                        </div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📈</span>
+                        <div class="quick-access-content">
+                            <div class="quick-access-title">Sales Analytics</div>
+                            <div class="quick-access-desc">Revenue & performance</div>
+                        </div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">👥</span>
+                        <div class="quick-access-content">
+                            <div class="quick-access-title">Supplier Network</div>
+                            <div class="quick-access-desc">Vendor scorecards</div>
+                        </div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📄</span>
+                        <div class="quick-access-content">
+                            <div class="quick-access-title">Document Center</div>
+                            <div class="quick-access-desc">Import/export hub</div>
+                        </div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">🛡️</span>
+                        <div class="quick-access-content">
+                            <div class="quick-access-title">Control Tower</div>
+                            <div class="quick-access-desc">System monitoring</div>
+                        </div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📊</span>
+                        <div class="quick-access-content">
+                            <div class="quick-access-title">Advanced Analytics</div>
+                            <div class="quick-access-desc">Custom reports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="persona-section">
+            <div class="persona-header">
+                <h2>🌐 Hub Variation</h2>
+                <span class="persona-badge hub-badge">Multi-Entity</span>
+            </div>
+            
+            <div class="component-preview">
+                <div class="quick-access-grid hub-grid">
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📦</span>
+                        <div class="quick-access-title">Global Inventory</div>
+                        <div class="quick-access-desc">Cross-entity stock view</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📈</span>
+                        <div class="quick-access-title">Consolidated Sales</div>
+                        <div class="quick-access-desc">Network-wide revenue</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">👥</span>
+                        <div class="quick-access-title">Supplier Network</div>
+                        <div class="quick-access-desc">Shared vendor pool</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📄</span>
+                        <div class="quick-access-title">Entity Documents</div>
+                        <div class="quick-access-desc">Multi-company docs</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">🛡️</span>
+                        <div class="quick-access-title">Network Control</div>
+                        <div class="quick-access-desc">Entity management</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📊</span>
+                        <div class="quick-access-title">Cross Analytics</div>
+                        <div class="quick-access-desc">Network insights</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="persona-section">
+            <div class="persona-header">
+                <h2>🌱 Spring Variation</h2>
+                <span class="persona-badge spring-badge">Learning Mode</span>
+            </div>
+            
+            <div class="component-preview">
+                <div class="quick-access-grid spring-grid">
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📦</span>
+                        <div class="quick-access-title">Inventory Basics</div>
+                        <div class="quick-access-desc">Learn stock management</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📈</span>
+                        <div class="quick-access-title">Sales Overview</div>
+                        <div class="quick-access-desc">Understanding revenue</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">👥</span>
+                        <div class="quick-access-title">Meet Suppliers</div>
+                        <div class="quick-access-desc">Vendor introduction</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📄</span>
+                        <div class="quick-access-title">Document Guide</div>
+                        <div class="quick-access-desc">Import/export tutorial</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">🛡️</span>
+                        <div class="quick-access-title">AI Assistants</div>
+                        <div class="quick-access-desc">Your digital helpers</div>
+                    </div>
+                    <div class="quick-access-item">
+                        <span class="quick-access-icon">📊</span>
+                        <div class="quick-access-title">Simple Analytics</div>
+                        <div class="quick-access-desc">Easy insights</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advanced Features -->
+        <div class="advanced-section">
+            <h2 style="margin-bottom: 0.5rem;">🚀 Advanced Features</h2>
+            <p style="color: #6b7280; margin-bottom: 1.5rem;">Additional enhancements for the quick access grid</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>
+                        <span>⌨️</span>
+                        <span>Keyboard Navigation</span>
+                    </h3>
+                    <p>Number keys 1-6 provide instant access to each module. Press CMD+K to open command palette.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>
+                        <span>🎨</span>
+                        <span>Customizable Layout</span>
+                    </h3>
+                    <p>Users can drag and drop to reorder items based on their workflow preferences.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>
+                        <span>📊</span>
+                        <span>Live Status Indicators</span>
+                    </h3>
+                    <p>Real-time badges show pending tasks, alerts, and new data for each module.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>
+                        <span>🔄</span>
+                        <span>Quick Actions</span>
+                    </h3>
+                    <p>Right-click any tile to access contextual actions without navigating away.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>
+                        <span>📱</span>
+                        <span>Responsive Design</span>
+                    </h3>
+                    <p>Automatically adapts from 6-column desktop to 2-column mobile layout.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>
+                        <span>🎯</span>
+                        <span>Usage Analytics</span>
+                    </h3>
+                    <p>Tracks most-used modules to optimize layout and suggest shortcuts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

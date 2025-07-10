@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona Features - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 3rem;
+            font-size: 1.125rem;
+        }
+        
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .feature-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .persona-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .streamliner { background: #dbeafe; color: #1e40af; }
+        .navigator { background: #d1fae5; color: #065f46; }
+        .hub { background: #e9d5ff; color: #6b21a8; }
+        .spring { background: #fed7aa; color: #92400e; }
+        
+        .feature-content {
+            padding: 1.5rem;
+        }
+        
+        /* Command Palette Demo */
+        .command-palette-demo {
+            background: #1f2937;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .command-input {
+            background: #374151;
+            border: 1px solid #4b5563;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .command-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .command-item:hover {
+            background: #374151;
+        }
+        
+        .command-item.active {
+            background: #3b82f6;
+        }
+        
+        .shortcut-key {
+            background: #4b5563;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-family: monospace;
+        }
+        
+        /* Entity Switcher Demo */
+        .entity-switcher {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .entity-select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+        
+        .entity-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .stat-card {
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.375rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        /* Onboarding Steps */
+        .onboarding-demo {
+            margin-top: 1rem;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: -1;
+        }
+        
+        .step:last-child::after {
+            display: none;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.875rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step.active .step-circle {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            background: #10b981;
+            color: white;
+        }
+        
+        .step-label {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Widget Customization */
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .widget-item {
+            border: 2px dashed #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: move;
+            transition: all 0.2s;
+        }
+        
+        .widget-item:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .widget-item.dragging {
+            opacity: 0.5;
+        }
+        
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        /* Demo Controls */
+        .demo-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .demo-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .demo-button:hover {
+            background: #f9fafb;
+            border-color: #3b82f6;
+        }
+        
+        .demo-button.primary {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .demo-button.primary:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Advanced Persona Features</h1>
+        <p class="subtitle">Experience the tailored features designed for each user persona</p>
+        
+        <div class="feature-grid">
+            <!-- Streamliner: Command Palette -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3 class="feature-title">
+                        <span>⚡</span>
+                        Command Palette
+                    </h3>
+                    <span class="persona-badge streamliner">Streamliner</span>
+                </div>
+                <div class="feature-content">
+                    <p>Lightning-fast navigation with keyboard shortcuts. Press <kbd>⌘K</kbd> to access any feature instantly.</p>
+                    
+                    <div class="command-palette-demo">
+                        <input type="text" class="command-input" placeholder="Type a command or search..." value="upload">
+                        
+                        <div class="command-item active">
+                            <span>📤 Upload CSV Data</span>
+                            <span class="shortcut-key">⌘U</span>
+                        </div>
+                        <div class="command-item">
+                            <span>⚡ Quick Upload</span>
+                            <span class="shortcut-key">⌘⇧U</span>
+                        </div>
+                        <div class="command-item">
+                            <span>📊 View Inventory</span>
+                            <span class="shortcut-key">⌘I</span>
+                        </div>
+                        <div class="command-item">
+                            <span>🔄 Refresh All Data</span>
+                            <span class="shortcut-key">⌘R</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="feature-list">
+                        <li>Access any feature with 2-3 keystrokes</li>
+                        <li>Recent commands tracked for quick access</li>
+                        <li>Speed mode toggle for maximum efficiency</li>
+                        <li>Custom shortcuts for frequent actions</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Navigator: Widget Customization -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3 class="feature-title">
+                        <span>🎨</span>
+                        Dashboard Customization
+                    </h3>
+                    <span class="persona-badge navigator">Navigator</span>
+                </div>
+                <div class="feature-content">
+                    <p>Full control over your dashboard layout. Drag, drop, and resize widgets to create your perfect view.</p>
+                    
+                    <div class="widget-grid">
+                        <div class="widget-item">
+                            <span>📊</span> Supply Chain Triangle
+                        </div>
+                        <div class="widget-item">
+                            <span>🔔</span> Alert Panel
+                        </div>
+                        <div class="widget-item">
+                            <span>📈</span> Performance Metrics
+                        </div>
+                        <div class="widget-item">
+                            <span>📋</span> Recent Activity
+                        </div>
+                    </div>
+                    
+                    <div class="demo-controls">
+                        <button class="demo-button">Reset Layout</button>
+                        <button class="demo-button primary">Save View</button>
+                    </div>
+                    
+                    <ul class="feature-list">
+                        <li>Drag & drop widget management</li>
+                        <li>Save multiple custom views</li>
+                        <li>Quick templates for common layouts</li>
+                        <li>Widget size and position control</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Hub: Multi-Entity Management -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3 class="feature-title">
+                        <span>🌐</span>
+                        Entity Switcher
+                    </h3>
+                    <span class="persona-badge hub">Hub</span>
+                </div>
+                <div class="feature-content">
+                    <p>Seamlessly manage multiple entities from a single dashboard. Switch contexts instantly.</p>
+                    
+                    <div class="entity-switcher">
+                        <select class="entity-select">
+                            <option>🏢 Headquarters - Active</option>
+                            <option>🌊 East Coast Branch - Active</option>
+                            <option>🌅 West Coast Branch - Active</option>
+                            <option>🤝 Supply Partner Co. - Active</option>
+                            <option>📦 Global Suppliers Ltd. - Pending</option>
+                        </select>
+                        
+                        <div class="entity-stats">
+                            <div class="stat-card">
+                                <div class="stat-value">$5.2M</div>
+                                <div class="stat-label">Revenue</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">150</div>
+                                <div class="stat-label">Employees</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">$1.8M</div>
+                                <div class="stat-label">Inventory</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">92%</div>
+                                <div class="stat-label">Performance</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="feature-list">
+                        <li>Instant entity switching</li>
+                        <li>Consolidated network view</li>
+                        <li>Cross-entity reporting</li>
+                        <li>Entity performance comparison</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Spring: Onboarding Wizard -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3 class="feature-title">
+                        <span>🌱</span>
+                        Guided Onboarding
+                    </h3>
+                    <span class="persona-badge spring">Spring</span>
+                </div>
+                <div class="feature-content">
+                    <p>Step-by-step guidance to get you started. Learn at your own pace with interactive tutorials.</p>
+                    
+                    <div class="onboarding-demo">
+                        <div class="step-indicator">
+                            <div class="step completed">
+                                <div class="step-circle">✓</div>
+                                <div class="step-label">Welcome</div>
+                            </div>
+                            <div class="step completed">
+                                <div class="step-circle">✓</div>
+                                <div class="step-label">Your Role</div>
+                            </div>
+                            <div class="step active">
+                                <div class="step-circle">3</div>
+                                <div class="step-label">Company</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">4</div>
+                                <div class="step-label">Goals</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">5</div>
+                                <div class="step-label">First Upload</div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                            <h4 style="margin-bottom: 1rem;">Tell us about your company</h4>
+                            <p style="color: #6b7280; margin-bottom: 1rem;">This helps us personalize your experience</p>
+                            <div class="demo-controls" style="justify-content: center;">
+                                <button class="demo-button">← Back</button>
+                                <button class="demo-button primary">Continue →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="feature-list">
+                        <li>Personalized setup wizard</li>
+                        <li>Interactive tutorials</li>
+                        <li>Progress tracking</li>
+                        <li>Learning resources library</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feature Summary -->
+        <div style="background: #eff6ff; padding: 2rem; border-radius: 1rem; margin-top: 3rem;">
+            <h2 style="margin-bottom: 1rem;">🎯 Persona-Driven Innovation</h2>
+            <p style="color: #1e40af; margin-bottom: 1.5rem;">
+                Each feature is carefully crafted to match the unique needs and work styles of our user personas. 
+                The system adapts to you, not the other way around.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem;">
+                    <strong style="color: #1e40af;">⚡ Streamliners</strong>
+                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
+                        Speed is everything. Command palette, shortcuts, and quick actions.
+                    </p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem;">
+                    <strong style="color: #065f46;">🧭 Navigators</strong>
+                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
+                        Control and customization. Widget management and saved views.
+                    </p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem;">
+                    <strong style="color: #6b21a8;">🌐 Hubs</strong>
+                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
+                        Multi-entity mastery. Entity switching and network overview.
+                    </p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem;">
+                    <strong style="color: #92400e;">🌱 Springs</strong>
+                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
+                        Learn and grow. Guided onboarding and contextual help.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

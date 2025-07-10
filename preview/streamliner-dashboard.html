@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamliner Dashboard - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+        }
+        
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 256px;
+            background: #111827;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+        }
+        
+        .nav-item.active {
+            background: #374151;
+            color: white;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: #3b82f6;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 1.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-section p {
+            color: #6b7280;
+        }
+        
+        /* Speed Mode Bar */
+        .speed-mode-bar {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .speed-mode-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .speed-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: #2563eb;
+        }
+        
+        .speed-metrics {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .metric-item {
+            text-align: right;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e40af;
+        }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            color: #1e40af;
+        }
+        
+        .metric-trend {
+            color: #059669;
+            font-weight: bold;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            background: linear-gradient(to right, #dbeafe, #e0e7ff);
+            border: 1px solid #93c5fd;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quick-actions-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #f3f4f6;
+            transform: translateY(-1px);
+        }
+        
+        .action-btn.primary {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+        
+        .action-btn.primary:hover {
+            background: #1d4ed8;
+        }
+        
+        .shortcut {
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+        }
+        
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        /* Quick Access Grid */
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .quick-access-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-access-item:hover {
+            background: #f9fafb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quick-access-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin: 0 auto 0.5rem;
+        }
+        
+        .quick-access-title {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .quick-access-desc {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Triangle Score */
+        .triangle-score {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .score-item {
+            padding: 1rem;
+        }
+        
+        .score-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .score-trend {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
+        }
+        
+        .trend-up { color: #059669; }
+        .trend-down { color: #dc2626; }
+        
+        /* Activity Feed */
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .activity-icon.upload { background: #dbeafe; color: #2563eb; }
+        .activity-icon.alert { background: #fef3c7; color: #d97706; }
+        .activity-icon.success { background: #d1fae5; color: #059669; }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.125rem;
+        }
+        
+        .activity-desc {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+        
+        /* Today's Wins */
+        .wins-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .win-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+        
+        .win-value {
+            font-weight: bold;
+        }
+        
+        .win-value.green { color: #059669; }
+        .win-value.blue { color: #2563eb; }
+        .win-value.purple { color: #7c3aed; }
+        
+        /* Icons (using emoji for simplicity) */
+        .icon { font-size: 1.25rem; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="font-size: 1.25rem; font-weight: bold;">Finkargo Analytics</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span class="icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⬆️</span>
+                    <span>Upload Data</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">🛡️</span>
+                    <span>Control Tower</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📦</span>
+                    <span>Inventory</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📈</span>
+                    <span>Sales</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="breadcrumb">
+                    <span>🏠</span>
+                    <span>›</span>
+                    <span style="color: #111827; font-weight: 500;">Dashboard</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #6b7280;">
+                    Press <span class="shortcut">⌘K</span> for commands
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h1>Welcome back, Alex! 👋</h1>
+                    <p>Here's your Supply Chain Intelligence overview for today</p>
+                </div>
+                
+                <!-- Speed Mode Bar -->
+                <div class="speed-mode-bar">
+                    <div class="speed-mode-left">
+                        <span class="icon">⚡</span>
+                        <div>
+                            <div style="font-weight: 500; color: #1e40af;">Speed Mode Active</div>
+                            <div style="font-size: 0.75rem; color: #3730a3;">All shortcuts enabled • Press ⌘K for commands</div>
+                        </div>
+                    </div>
+                    <div class="speed-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value">2.3s</div>
+                            <div class="metric-label">Avg. task time</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value metric-trend">↓ 47%</div>
+                            <div class="metric-label">vs last week</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="quick-actions-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span class="icon">⚡</span>
+                            <span style="font-weight: 500; color: #1e40af;">Quick Actions</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn primary">
+                                <span>⬆️</span>
+                                <span>Quick Upload</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>▶️</span>
+                                <span>Run All Agents</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>🔄</span>
+                                <span>Refresh Data</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>⬇️</span>
+                                <span>Export Report</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>📊</span>
+                                <span>Speed Metrics</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Left Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Quick Access Grid -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Quick Access</h2>
+                            </div>
+                            <div class="card-content">
+                                <div class="quick-access-grid">
+                                    <div class="quick-access-item" style="background: #dbeafe; border-color: #93c5fd;">
+                                        <div class="quick-access-icon">⬆️</div>
+                                        <div class="quick-access-title">Quick Upload</div>
+                                        <div class="quick-access-desc">Upload CSV in seconds</div>
+                                    </div>
+                                    <div class="quick-access-item" style="background: #fef3c7; border-color: #fde68a;">
+                                        <div class="quick-access-icon">⚡</div>
+                                        <div class="quick-access-title">Speed Dashboard</div>
+                                        <div class="quick-access-desc">Your performance</div>
+                                    </div>
+                                    <div class="quick-access-item">
+                                        <div class="quick-access-icon">📦</div>
+                                        <div class="quick-access-title">Inventory</div>
+                                        <div class="quick-access-desc">Track stock levels</div>
+                                    </div>
+                                    <div class="quick-access-item">
+                                        <div class="quick-access-icon">📈</div>
+                                        <div class="quick-access-title">Sales</div>
+                                        <div class="quick-access-desc">Monitor revenue</div>
+                                    </div>
+                                    <div class="quick-access-item">
+                                        <div class="quick-access-icon">🛡️</div>
+                                        <div class="quick-access-title">Control Tower</div>
+                                        <div class="quick-access-desc">Manage agents</div>
+                                    </div>
+                                    <div class="quick-access-item">
+                                        <div class="quick-access-icon">📊</div>
+                                        <div class="quick-access-title">Analytics</div>
+                                        <div class="quick-access-desc">Deep insights</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: #6b7280;">
+                                    Press <span class="shortcut">⌘K</span> for command palette
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Supply Chain Triangle -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <h2 class="card-title">Supply Chain Triangle</h2>
+                                    <span style="background: #059669; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; font-size: 0.875rem;">Score: 78</span>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="triangle-score">
+                                    <div class="score-item">
+                                        <div class="score-label">Service</div>
+                                        <div class="score-value" style="color: #059669;">85</div>
+                                        <div class="score-trend trend-up">
+                                            <span>↑</span>
+                                            <span>+5</span>
+                                        </div>
+                                    </div>
+                                    <div class="score-item">
+                                        <div class="score-label">Cost</div>
+                                        <div class="score-value" style="color: #d97706;">72</div>
+                                        <div class="score-trend trend-down">
+                                            <span>↓</span>
+                                            <span>-3</span>
+                                        </div>
+                                    </div>
+                                    <div class="score-item">
+                                        <div class="score-label">Capital</div>
+                                        <div class="score-value" style="color: #d97706;">78</div>
+                                        <div class="score-trend trend-up">
+                                            <span>↑</span>
+                                            <span>+2</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button style="width: 100%; margin-top: 1rem; padding: 0.5rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.375rem; font-size: 0.875rem; cursor: pointer;">
+                                    View Details →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Recent Activity -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title" style="font-size: 1rem;">Recent Activity</h2>
+                            </div>
+                            <div class="card-content" style="padding: 1rem;">
+                                <div class="activity-item">
+                                    <div class="activity-icon upload">⬆️</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">CSV Upload Complete</div>
+                                        <div class="activity-desc">2,450 inventory records processed</div>
+                                        <div class="activity-time">2 minutes ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon alert">⚠️</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Low Stock Alert</div>
+                                        <div class="activity-desc">SKU-12345 below reorder point</div>
+                                        <div class="activity-time">15 minutes ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon success">✓</div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Optimization Complete</div>
+                                        <div class="activity-desc">Saved $12,500 in inventory costs</div>
+                                        <div class="activity-time">1 hour ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Today's Wins -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title" style="font-size: 1rem;">
+                                    <span>🎯</span>
+                                    <span>Today's Wins</span>
+                                </h2>
+                            </div>
+                            <div class="card-content">
+                                <div class="wins-list">
+                                    <div class="win-item">
+                                        <span>Tasks completed</span>
+                                        <span class="win-value green">24</span>
+                                    </div>
+                                    <div class="win-item">
+                                        <span>Time saved</span>
+                                        <span class="win-value blue">3.2 hrs</span>
+                                    </div>
+                                    <div class="win-item">
+                                        <span>Speed rank</span>
+                                        <span class="win-value purple">#2 🏆</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

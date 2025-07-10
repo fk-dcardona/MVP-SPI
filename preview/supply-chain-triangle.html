@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Triangle - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        /* Widget Variations */
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .widget-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .widget-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .widget-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .widget-content {
+            padding: 1.5rem;
+        }
+        
+        /* Triangle Visualization */
+        .triangle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        
+        .triangle-svg {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+        
+        /* Score Badge */
+        .score-badge {
+            display: inline-block;
+            padding: 0.375rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .score-good { background: #059669; color: white; }
+        .score-warning { background: #f59e0b; color: white; }
+        .score-danger { background: #dc2626; color: white; }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .metric-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: #f9fafb;
+        }
+        
+        .metric-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .metric-trend {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .trend-up { color: #059669; }
+        .trend-down { color: #dc2626; }
+        
+        /* Interactive Features */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            background: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #f9fafb;
+            border-color: #3b82f6;
+        }
+        
+        .action-btn.primary {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .action-btn.primary:hover {
+            background: #2563eb;
+        }
+        
+        /* Mobile Variation */
+        .mobile-container {
+            max-width: 375px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .mobile-triangle .triangle-svg {
+            max-width: 200px;
+        }
+        
+        .mobile-metrics {
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem;
+            background: #f9fafb;
+        }
+        
+        .mobile-metric {
+            text-align: center;
+        }
+        
+        .mobile-metric-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .mobile-metric-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Feature Section */
+        .features-section {
+            background: #f3f4f6;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .feature-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-item p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔺 Supply Chain Triangle Widget</h1>
+        <p class="subtitle">Core performance visualization showing the balance between Service, Cost, and Capital</p>
+        
+        <!-- Standard Desktop Version -->
+        <div class="widget-grid">
+            <div class="widget-card">
+                <div class="widget-header">
+                    <h2 class="widget-title">Standard Triangle View</h2>
+                    <span class="score-badge score-good">Score: 78</span>
+                </div>
+                <div class="widget-content">
+                    <div class="triangle-container">
+                        <svg class="triangle-svg" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Grid -->
+                            <defs>
+                                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
+                                </pattern>
+                            </defs>
+                            
+                            <!-- Triangle Background -->
+                            <polygon points="150,30 50,220 250,220" fill="url(#grid)" stroke="#d1d5db" stroke-width="1"/>
+                            
+                            <!-- Inner triangles for scale -->
+                            <polygon points="150,80 85,185 215,185" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                            <polygon points="150,130 120,150 180,150" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                            
+                            <!-- Data Triangle -->
+                            <polygon points="150,60 80,190 220,180" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="2"/>
+                            
+                            <!-- Data Points -->
+                            <circle cx="150" cy="60" r="5" fill="#059669"/>
+                            <circle cx="80" cy="190" r="5" fill="#f59e0b"/>
+                            <circle cx="220" cy="180" r="5" fill="#f59e0b"/>
+                            
+                            <!-- Labels -->
+                            <text x="150" y="20" text-anchor="middle" font-size="14" font-weight="600">Service</text>
+                            <text x="150" y="50" text-anchor="middle" font-size="20" font-weight="bold" fill="#059669">85</text>
+                            
+                            <text x="40" y="240" text-anchor="middle" font-size="14" font-weight="600">Cost</text>
+                            <text x="40" y="255" text-anchor="middle" font-size="20" font-weight="bold" fill="#f59e0b">72</text>
+                            
+                            <text x="260" y="240" text-anchor="middle" font-size="14" font-weight="600">Capital</text>
+                            <text x="260" y="255" text-anchor="middle" font-size="20" font-weight="bold" fill="#f59e0b">78</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn primary">Analyze Performance →</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detailed Metrics Version -->
+            <div class="widget-card">
+                <div class="widget-header">
+                    <h2 class="widget-title">Detailed Metrics View</h2>
+                    <span class="score-badge score-warning">Score: 65</span>
+                </div>
+                <div class="widget-content">
+                    <div class="triangle-container">
+                        <svg class="triangle-svg" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Triangle -->
+                            <polygon points="150,30 50,220 250,220" fill="none" stroke="#d1d5db" stroke-width="2"/>
+                            
+                            <!-- Warning Data Triangle -->
+                            <polygon points="150,90 70,180 210,170" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="2"/>
+                            
+                            <!-- Labels with scores -->
+                            <text x="150" y="20" text-anchor="middle" font-size="14" font-weight="600">Service</text>
+                            <text x="150" y="50" text-anchor="middle" font-size="20" font-weight="bold" fill="#f59e0b">68</text>
+                            
+                            <text x="40" y="240" text-anchor="middle" font-size="14" font-weight="600">Cost</text>
+                            <text x="40" y="255" text-anchor="middle" font-size="20" font-weight="bold" fill="#dc2626">58</text>
+                            
+                            <text x="260" y="240" text-anchor="middle" font-size="14" font-weight="600">Capital</text>
+                            <text x="260" y="255" text-anchor="middle" font-size="20" font-weight="bold" fill="#f59e0b">70</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">Service Level</div>
+                            <div class="metric-value" style="color: #f59e0b;">68%</div>
+                            <div class="metric-trend trend-down">↓ 5% vs target</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Cost Efficiency</div>
+                            <div class="metric-value" style="color: #dc2626;">58%</div>
+                            <div class="metric-trend trend-down">↓ 12% vs target</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Capital Usage</div>
+                            <div class="metric-value" style="color: #f59e0b;">70%</div>
+                            <div class="metric-trend trend-down">↓ 3% vs target</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Version -->
+        <div class="mobile-container">
+            <div class="widget-header">
+                <h2 class="widget-title" style="font-size: 1rem;">Supply Chain Score</h2>
+                <span class="score-badge score-good" style="font-size: 0.75rem;">78</span>
+            </div>
+            <div class="widget-content mobile-triangle">
+                <div class="triangle-container">
+                    <svg class="triangle-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Simplified triangle for mobile -->
+                        <polygon points="100,20 20,150 180,150" fill="none" stroke="#d1d5db" stroke-width="1"/>
+                        <polygon points="100,40 50,130 150,125" fill="#3b82f6" fill-opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+                        
+                        <!-- Compact labels -->
+                        <text x="100" y="15" text-anchor="middle" font-size="12" font-weight="600">Service</text>
+                        <text x="20" y="170" text-anchor="middle" font-size="12" font-weight="600">Cost</text>
+                        <text x="180" y="170" text-anchor="middle" font-size="12" font-weight="600">Capital</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="mobile-metrics">
+                <div class="mobile-metric">
+                    <span class="mobile-metric-value" style="color: #059669;">85</span>
+                    <span class="mobile-metric-label">Service</span>
+                </div>
+                <div class="mobile-metric">
+                    <span class="mobile-metric-value" style="color: #f59e0b;">72</span>
+                    <span class="mobile-metric-label">Cost</span>
+                </div>
+                <div class="mobile-metric">
+                    <span class="mobile-metric-value" style="color: #f59e0b;">78</span>
+                    <span class="mobile-metric-label">Capital</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advanced Features -->
+        <div class="features-section">
+            <h2 style="margin-bottom: 0.5rem;">🚀 Triangle Widget Features</h2>
+            <p style="color: #6b7280;">Advanced capabilities of the Supply Chain Triangle visualization</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>
+                        <span>📊</span>
+                        <span>Real-time Updates</span>
+                    </h3>
+                    <p>Triangle shape adjusts dynamically as metrics change, providing instant visual feedback on performance.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <span>🎯</span>
+                        <span>Target Overlays</span>
+                    </h3>
+                    <p>Optional overlay showing target triangle shape for easy comparison with current performance.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <span>📈</span>
+                        <span>Historical Trends</span>
+                    </h3>
+                    <p>Click any vertex to see historical trend data for that metric over time.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <span>🔍</span>
+                        <span>Drill-down Analysis</span>
+                    </h3>
+                    <p>Click the triangle to access detailed breakdowns of each metric component.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <span>🎨</span>
+                        <span>Color Coding</span>
+                    </h3>
+                    <p>Automatic color changes based on performance: green (good), amber (warning), red (critical).</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>
+                        <span>📱</span>
+                        <span>Responsive Design</span>
+                    </h3>
+                    <p>Optimized layouts for desktop, tablet, and mobile viewing experiences.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

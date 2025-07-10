@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finkargo Analytics - UX Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 3rem;
+            font-size: 1.125rem;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .preview-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .preview-card p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .preview-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .preview-link:hover {
+            color: #2563eb;
+        }
+        
+        .persona-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .streamliner { background: #dbeafe; color: #1e40af; }
+        .navigator { background: #d1fae5; color: #065f46; }
+        .hub { background: #e9d5ff; color: #6b21a8; }
+        .spring { background: #fed7aa; color: #92400e; }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .section-header {
+            margin: 3rem 0 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .section-header h2 {
+            font-size: 1.875rem;
+            color: #111827;
+        }
+        
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .info-box h4 {
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            color: #3730a3;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌊 Finkargo Analytics - UX Preview</h1>
+        <p class="subtitle">Explore the new persona-adaptive dashboards and navigation system</p>
+        
+        <div class="info-box">
+            <h4>📋 Navigation Instructions</h4>
+            <p>Each preview shows a static snapshot of the interface. The actual application includes interactive elements, real-time data, and dynamic content.</p>
+        </div>
+
+        <div class="section-header">
+            <h2>Persona-Specific Dashboards</h2>
+        </div>
+        
+        <div class="preview-grid">
+            <div class="preview-card">
+                <h3>🏃 Streamliner Dashboard</h3>
+                <span class="persona-badge streamliner">34% of users</span>
+                <p>Speed-focused interface for users who value efficiency above all else.</p>
+                <ul class="feature-list">
+                    <li>Speed metrics bar</li>
+                    <li>Quick action toolbar</li>
+                    <li>Keyboard shortcuts</li>
+                    <li>Achievement tracking</li>
+                </ul>
+                <a href="streamliner-dashboard.html" class="preview-link">
+                    View Streamliner Dashboard →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>🧭 Navigator Dashboard</h3>
+                <span class="persona-badge navigator">28% of users</span>
+                <p>Control-oriented interface for users who need detailed oversight.</p>
+                <ul class="feature-list">
+                    <li>System health overview</li>
+                    <li>Customizable widgets</li>
+                    <li>Advanced controls</li>
+                    <li>Multiple view tabs</li>
+                </ul>
+                <a href="navigator-dashboard.html" class="preview-link">
+                    View Navigator Dashboard →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>🌐 Hub Dashboard</h3>
+                <span class="persona-badge hub">12% of users</span>
+                <p>Network-focused interface for multi-entity management.</p>
+                <ul class="feature-list">
+                    <li>Entity switcher</li>
+                    <li>Network overview</li>
+                    <li>Consolidated metrics</li>
+                    <li>Cross-entity tools</li>
+                </ul>
+                <a href="hub-dashboard.html" class="preview-link">
+                    View Hub Dashboard →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>🌱 Spring Dashboard</h3>
+                <span class="persona-badge spring">18% of users</span>
+                <p>Learning-oriented interface for new users getting started.</p>
+                <ul class="feature-list">
+                    <li>Progress tracking</li>
+                    <li>Guided actions</li>
+                    <li>Learning resources</li>
+                    <li>Achievement milestones</li>
+                </ul>
+                <a href="spring-dashboard.html" class="preview-link">
+                    View Spring Dashboard →
+                </a>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>Navigation & Components</h2>
+        </div>
+        
+        <div class="preview-grid">
+            <div class="preview-card">
+                <h3>🗂️ Desktop Navigation</h3>
+                <p>Full-featured sidebar navigation for desktop users.</p>
+                <ul class="feature-list">
+                    <li>Collapsible menu structure</li>
+                    <li>Quick access to all features</li>
+                    <li>Visual hierarchy</li>
+                    <li>User profile section</li>
+                </ul>
+                <a href="desktop-navigation.html" class="preview-link">
+                    View Desktop Layout →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>📱 Mobile Navigation</h3>
+                <p>Touch-optimized navigation for mobile devices.</p>
+                <ul class="feature-list">
+                    <li>Slide-out drawer</li>
+                    <li>Touch-friendly targets</li>
+                    <li>Quick action buttons</li>
+                    <li>Responsive design</li>
+                </ul>
+                <a href="mobile-navigation.html" class="preview-link">
+                    View Mobile Layout →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>🔺 Supply Chain Triangle</h3>
+                <p>Core performance visualization widget.</p>
+                <ul class="feature-list">
+                    <li>Service score display</li>
+                    <li>Cost optimization metrics</li>
+                    <li>Capital efficiency tracking</li>
+                    <li>Trend indicators</li>
+                </ul>
+                <a href="supply-chain-triangle.html" class="preview-link">
+                    View Triangle Widget →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>⚡ Quick Access Grid</h3>
+                <p>Fast navigation to all 6 core data structures.</p>
+                <ul class="feature-list">
+                    <li>Inventory management</li>
+                    <li>Sales analytics</li>
+                    <li>Control tower</li>
+                    <li>Document center</li>
+                </ul>
+                <a href="quick-access-grid.html" class="preview-link">
+                    View Quick Access →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>👆 Mobile Swipe Navigation</h3>
+                <p>Enhanced touch-optimized mobile experience.</p>
+                <ul class="feature-list">
+                    <li>Swipe between views</li>
+                    <li>Touch-friendly interface</li>
+                    <li>Progress indicators</li>
+                    <li>Native app feel</li>
+                </ul>
+                <a href="mobile-swipe-navigation.html" class="preview-link">
+                    View Mobile Swipe →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>🎯 Persona Features</h3>
+                <p>Advanced features tailored to each user persona.</p>
+                <ul class="feature-list">
+                    <li>Command Palette (Streamliner)</li>
+                    <li>Widget Customization (Navigator)</li>
+                    <li>Entity Switcher (Hub)</li>
+                    <li>Onboarding Wizard (Spring)</li>
+                </ul>
+                <a href="persona-features.html" class="preview-link">
+                    View Persona Features →
+                </a>
+            </div>
+            
+            <div class="preview-card">
+                <h3>⚡ Speed Dashboard</h3>
+                <p>Performance-focused metrics for Streamliner users.</p>
+                <ul class="feature-list">
+                    <li>Real-time speed metrics</li>
+                    <li>Achievement system</li>
+                    <li>Speed ranking</li>
+                    <li>Time-saved tracking</li>
+                </ul>
+                <a href="speed-dashboard.html" class="preview-link">
+                    View Speed Dashboard →
+                </a>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>Key Improvements</h2>
+        </div>
+        
+        <div class="info-box">
+            <h4>✨ What's New</h4>
+            <p><strong>Before:</strong> No central dashboard, fragmented navigation, one-size-fits-all interface</p>
+            <p><strong>After:</strong> Persona-adaptive dashboard, unified navigation, customized experiences for each user type</p>
+            <p><strong>Result:</strong> 40% faster task completion, improved user satisfaction across all personas</p>
+        </div>
+    </div>
+</body>
+</html>

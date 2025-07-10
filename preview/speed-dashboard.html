@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Dashboard - Streamliner View</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Hero Section */
+        .speed-hero {
+            background: linear-gradient(135deg, #eff6ff 0%, #ede9fe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .speed-hero::before {
+            content: '⚡';
+            position: absolute;
+            top: -20px;
+            right: 40px;
+            font-size: 120px;
+            opacity: 0.1;
+        }
+        
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e40af;
+        }
+        
+        .hero-subtitle {
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .hero-metric {
+            text-align: right;
+        }
+        
+        .hero-metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e40af;
+        }
+        
+        .hero-metric-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .hero-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+        }
+        
+        .hero-stat-sublabel {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Speed Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+        
+        .metric-info h3 {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: normal;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #111827;
+        }
+        
+        .metric-unit {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-left: 0.25rem;
+        }
+        
+        .metric-change {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+        
+        .metric-change.positive {
+            color: #10b981;
+        }
+        
+        .metric-change.negative {
+            color: #ef4444;
+        }
+        
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .metric-icon.blue {
+            background: #dbeafe;
+            color: #3b82f6;
+        }
+        
+        .metric-icon.green {
+            background: #d1fae5;
+            color: #10b981;
+        }
+        
+        .metric-icon.purple {
+            background: #ede9fe;
+            color: #8b5cf6;
+        }
+        
+        .metric-icon.amber {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .content-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .content-body {
+            padding: 1.5rem;
+        }
+        
+        /* Speed Wins List */
+        .speed-win {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            transition: background 0.2s;
+        }
+        
+        .speed-win:hover {
+            background: #f3f4f6;
+        }
+        
+        .win-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .win-icon {
+            width: 32px;
+            height: 32px;
+            background: #d1fae5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+        }
+        
+        .win-task {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .win-time {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .win-stats {
+            text-align: right;
+        }
+        
+        .win-duration {
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        
+        .win-improvement {
+            font-size: 0.75rem;
+            color: #10b981;
+        }
+        
+        /* Achievements */
+        .achievement {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 0.75rem;
+            display: flex;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+        
+        .achievement.unlocked {
+            background: #f3e8ff;
+            border-color: #c084fc;
+        }
+        
+        .achievement.locked {
+            background: #f9fafb;
+            opacity: 0.6;
+        }
+        
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .achievement.unlocked .achievement-icon {
+            background: #e9d5ff;
+            color: #8b5cf6;
+        }
+        
+        .achievement.locked .achievement-icon {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .achievement-info {
+            flex: 1;
+        }
+        
+        .achievement-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .achievement-badge {
+            padding: 0.125rem 0.5rem;
+            background: #8b5cf6;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.625rem;
+            font-weight: 500;
+        }
+        
+        .achievement-desc {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .achievement-progress {
+            margin-top: 0.5rem;
+        }
+        
+        .achievement-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .achievement-progress-fill {
+            height: 100%;
+            background: #8b5cf6;
+            border-radius: 2px;
+        }
+        
+        .achievement-progress-text {
+            font-size: 0.625rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cta-content p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: white;
+            color: #3b82f6;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Speed Hero Section -->
+        <div class="speed-hero">
+            <div class="hero-header">
+                <div>
+                    <h1 class="hero-title">
+                        <span>⚡</span>
+                        Your Speed Dashboard
+                    </h1>
+                    <p class="hero-subtitle">Time is money. Every second counts.</p>
+                </div>
+                <div class="hero-metric">
+                    <div class="hero-metric-value">8.3 hrs</div>
+                    <div class="hero-metric-label">saved this month</div>
+                </div>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-label">Speed Rank</div>
+                    <div class="hero-stat-value">#2</div>
+                    <div class="hero-stat-sublabel">out of 1,247 users</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-label">Current Streak</div>
+                    <div class="hero-stat-value">7 days</div>
+                    <div class="hero-stat-sublabel">beating targets</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-label">Efficiency Gain</div>
+                    <div class="hero-stat-value">+43%</div>
+                    <div class="hero-stat-sublabel">vs last month</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Speed Metrics Grid -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-info">
+                        <h3>Average Process Time</h3>
+                        <div>
+                            <span class="metric-value">47</span>
+                            <span class="metric-unit">min</span>
+                        </div>
+                        <div class="metric-change negative">
+                            <span>↓</span>
+                            <span>-23%</span>
+                            <span style="color: #6b7280;">Target: 45</span>
+                        </div>
+                    </div>
+                    <div class="metric-icon blue">⏱️</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 95%;"></div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-info">
+                        <h3>Tasks Completed Today</h3>
+                        <div>
+                            <span class="metric-value">24</span>
+                            <span class="metric-unit">tasks</span>
+                        </div>
+                        <div class="metric-change positive">
+                            <span>↑</span>
+                            <span>+12%</span>
+                            <span style="color: #6b7280;">Target: 20</span>
+                        </div>
+                    </div>
+                    <div class="metric-icon green">🎯</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 120%; background: #10b981;"></div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-info">
+                        <h3>Speed Score</h3>
+                        <div>
+                            <span class="metric-value">92</span>
+                            <span class="metric-unit">pts</span>
+                        </div>
+                        <div class="metric-change positive">
+                            <span>↑</span>
+                            <span>+8%</span>
+                            <span style="color: #6b7280;">Target: 90</span>
+                        </div>
+                    </div>
+                    <div class="metric-icon purple">⚡</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 102%; background: #8b5cf6;"></div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-info">
+                        <h3>Time Saved This Week</h3>
+                        <div>
+                            <span class="metric-value">8.3</span>
+                            <span class="metric-unit">hrs</span>
+                        </div>
+                        <div class="metric-change positive">
+                            <span>↑</span>
+                            <span>+15%</span>
+                            <span style="color: #6b7280;">Target: 6</span>
+                        </div>
+                    </div>
+                    <div class="metric-icon amber">⏰</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 138%; background: #f59e0b;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Recent Speed Wins -->
+            <div class="content-card">
+                <div class="content-header">
+                    <h2 class="content-title">
+                        <span>⚡</span>
+                        Recent Speed Wins
+                    </h2>
+                    <p class="content-subtitle">Your fastest completions today</p>
+                </div>
+                <div class="content-body">
+                    <div class="speed-win">
+                        <div class="win-info">
+                            <div class="win-icon">⚡</div>
+                            <div>
+                                <div class="win-task">CSV Upload</div>
+                                <div class="win-time">2 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="win-stats">
+                            <div class="win-duration">2 min</div>
+                            <div class="win-improvement">-85%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="speed-win">
+                        <div class="win-info">
+                            <div class="win-icon">⚡</div>
+                            <div>
+                                <div class="win-task">Inventory Update</div>
+                                <div class="win-time">15 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="win-stats">
+                            <div class="win-duration">45 sec</div>
+                            <div class="win-improvement">-92%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="speed-win">
+                        <div class="win-info">
+                            <div class="win-icon">⚡</div>
+                            <div>
+                                <div class="win-task">Report Generation</div>
+                                <div class="win-time">1 hour ago</div>
+                            </div>
+                        </div>
+                        <div class="win-stats">
+                            <div class="win-duration">3 min</div>
+                            <div class="win-improvement">-78%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="speed-win">
+                        <div class="win-info">
+                            <div class="win-icon">⚡</div>
+                            <div>
+                                <div class="win-task">Supplier Payment</div>
+                                <div class="win-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="win-stats">
+                            <div class="win-duration">90 sec</div>
+                            <div class="win-improvement">-88%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Speed Achievements -->
+            <div class="content-card">
+                <div class="content-header">
+                    <h2 class="content-title">
+                        <span>🏆</span>
+                        Speed Achievements
+                    </h2>
+                    <p class="content-subtitle">Unlock rewards by maintaining your speed</p>
+                </div>
+                <div class="content-body">
+                    <div class="achievement unlocked">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">
+                                Speed Demon
+                                <span class="achievement-badge">UNLOCKED</span>
+                            </div>
+                            <div class="achievement-desc">Complete 50 tasks under 30 minutes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement unlocked">
+                        <div class="achievement-icon">⚡</div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">
+                                Lightning Fast
+                                <span class="achievement-badge">UNLOCKED</span>
+                            </div>
+                            <div class="achievement-desc">Maintain sub-1hr average for a week</div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement locked">
+                        <div class="achievement-icon">⏰</div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Time Traveler</div>
+                            <div class="achievement-desc">Save 100 hours total</div>
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-bar">
+                                    <div class="achievement-progress-fill" style="width: 73%;"></div>
+                                </div>
+                                <div class="achievement-progress-text">73/100 hours saved</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement locked">
+                        <div class="achievement-icon">🏆</div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Speed Champion</div>
+                            <div class="achievement-desc">Reach #1 speed ranking</div>
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-bar">
+                                    <div class="achievement-progress-fill" style="width: 50%;"></div>
+                                </div>
+                                <div class="achievement-progress-text">Currently #2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Banner -->
+        <div class="cta-banner">
+            <div class="cta-content">
+                <h3>Keep up the momentum!</h3>
+                <p>You're 3 tasks away from beating your daily record</p>
+            </div>
+            <button class="cta-button">
+                <span>⚡</span>
+                Quick Upload
+            </button>
+        </div>
+    </div>
+</body>
+</html>
