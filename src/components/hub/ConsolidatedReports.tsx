@@ -6,21 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Select, SelectOption } from '@/components/ui/select';
+// Using simple HTML tables instead of custom components
 import {
   BarChart3,
   TrendingUp,
@@ -219,28 +206,26 @@ export function ConsolidatedReports() {
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-                <SelectTrigger className="w-32">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="week">This Week</SelectItem>
-                  <SelectItem value="month">This Month</SelectItem>
-                  <SelectItem value="quarter">This Quarter</SelectItem>
-                  <SelectItem value="year">This Year</SelectItem>
-                </SelectContent>
+              <Select 
+                value={selectedPeriod} 
+                onChange={(e) => setSelectedPeriod(e.target.value)}
+                className="w-32"
+              >
+                <SelectOption value="week">This Week</SelectOption>
+                <SelectOption value="month">This Month</SelectOption>
+                <SelectOption value="quarter">This Quarter</SelectOption>
+                <SelectOption value="year">This Year</SelectOption>
               </Select>
               
-              <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                <SelectTrigger className="w-40">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Regions</SelectItem>
-                  <SelectItem value="north-america">North America</SelectItem>
-                  <SelectItem value="south-america">South America</SelectItem>
-                  <SelectItem value="central-america">Central America</SelectItem>
-                </SelectContent>
+              <Select 
+                value={selectedRegion} 
+                onChange={(e) => setSelectedRegion(e.target.value)}
+                className="w-40"
+              >
+                <SelectOption value="all">All Regions</SelectOption>
+                <SelectOption value="north-america">North America</SelectOption>
+                <SelectOption value="south-america">South America</SelectOption>
+                <SelectOption value="central-america">Central America</SelectOption>
               </Select>
 
               <Button variant="outline" size="sm">
@@ -265,39 +250,40 @@ export function ConsolidatedReports() {
             </TabsList>
 
             <TabsContent value="financial" className="mt-6">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Entity</TableHead>
-                    <TableHead>Region</TableHead>
-                    <TableHead className="text-right">Revenue</TableHead>
-                    <TableHead className="text-right">Trend</TableHead>
-                    <TableHead className="text-right">Transactions</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-center">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2">Entity</th>
+                      <th className="text-left p-2">Region</th>
+                      <th className="text-right p-2">Revenue</th>
+                      <th className="text-right p-2">Trend</th>
+                      <th className="text-right p-2">Transactions</th>
+                      <th className="text-left p-2">Status</th>
+                      <th className="text-center p-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                   {entityReports
                     .filter(e => selectedRegion === 'all' || e.region.toLowerCase().replace(' ', '-') === selectedRegion)
                     .map((entity) => (
-                      <TableRow key={entity.id}>
-                        <TableCell className="font-medium">
+                      <tr key={entity.id} className="border-b hover:bg-gray-50">
+                        <td className="p-2 font-medium">
                           <div className="flex items-center gap-2">
                             <Building2 className="h-4 w-4 text-gray-400" />
                             {entity.name}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="p-2">
                           <div className="flex items-center gap-1">
                             <Globe className="h-3 w-3 text-gray-400" />
                             {entity.region}
                           </div>
-                        </TableCell>
-                        <TableCell className="text-right font-medium">
+                        </td>
+                        <td className="p-2 text-right font-medium">
                           ${(entity.revenue / 1000000).toFixed(2)}M
-                        </TableCell>
-                        <TableCell className="text-right">
+                        </td>
+                        <td className="p-2 text-right">
                           <span className={`flex items-center justify-end gap-1 ${
                             entity.revenueTrend > 0 ? 'text-green-600' : 'text-red-600'
                           }`}>
@@ -307,87 +293,92 @@ export function ConsolidatedReports() {
                             }
                             {Math.abs(entity.revenueTrend)}%
                           </span>
-                        </TableCell>
-                        <TableCell className="text-right">{entity.transactions}</TableCell>
-                        <TableCell>{getStatusBadge(entity.status)}</TableCell>
-                        <TableCell className="text-center">
+                        </td>
+                        <td className="p-2 text-right">{entity.transactions}</td>
+                        <td className="p-2">{getStatusBadge(entity.status)}</td>
+                        <td className="p-2 text-center">
                           <Button variant="ghost" size="sm">
                             View Details
                           </Button>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
+              </div>
             </TabsContent>
 
             <TabsContent value="operations" className="mt-6">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Entity</TableHead>
-                    <TableHead className="text-right">Efficiency</TableHead>
-                    <TableHead className="text-right">Transactions</TableHead>
-                    <TableHead className="text-right">Avg Process Time</TableHead>
-                    <TableHead className="text-right">Error Rate</TableHead>
-                    <TableHead>Performance</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2">Entity</th>
+                    <th className="text-right p-2">Efficiency</th>
+                    <th className="text-right p-2">Transactions</th>
+                    <th className="text-right p-2">Avg Process Time</th>
+                    <th className="text-right p-2">Error Rate</th>
+                    <th className="text-left p-2">Performance</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {entityReports.map((entity) => (
-                    <TableRow key={entity.id}>
-                      <TableCell className="font-medium">{entity.name}</TableCell>
-                      <TableCell className="text-right">
+                    <tr key={entity.id} className="border-b hover:bg-gray-50">
+                      <td className="p-2 font-medium">{entity.name}</td>
+                      <td className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <span>{entity.efficiency}%</span>
                           <Progress value={entity.efficiency} className="w-16" />
                         </div>
-                      </TableCell>
-                      <TableCell className="text-right">{entity.transactions}</TableCell>
-                      <TableCell className="text-right">2.3 mins</TableCell>
-                      <TableCell className="text-right">0.8%</TableCell>
-                      <TableCell>
+                      </td>
+                      <td className="text-right">{entity.transactions}</td>
+                      <td className="text-right">2.3 mins</td>
+                      <td className="text-right">0.8%</td>
+                      <td className="p-2">
                         <Badge variant={entity.efficiency > 85 ? 'default' : 'secondary'}>
                           {entity.efficiency > 85 ? 'Optimal' : 'Needs Review'}
                         </Badge>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
+              </div>
             </TabsContent>
 
             <TabsContent value="inventory" className="mt-6">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Entity</TableHead>
-                    <TableHead className="text-right">Inventory Value</TableHead>
-                    <TableHead className="text-right">Turn Rate</TableHead>
-                    <TableHead className="text-right">Stockout Risk</TableHead>
-                    <TableHead className="text-right">Overstock %</TableHead>
-                    <TableHead>Health</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2">Entity</th>
+                    <th className="text-right p-2">Inventory Value</th>
+                    <th className="text-right p-2">Turn Rate</th>
+                    <th className="text-right p-2">Stockout Risk</th>
+                    <th className="text-right p-2">Overstock %</th>
+                    <th className="text-left p-2">Health</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {entityReports.map((entity) => (
-                    <TableRow key={entity.id}>
-                      <TableCell className="font-medium">{entity.name}</TableCell>
-                      <TableCell className="text-right">
+                    <tr key={entity.id} className="border-b hover:bg-gray-50">
+                      <td className="p-2 font-medium">{entity.name}</td>
+                      <td className="text-right">
                         ${(entity.inventory / 1000000).toFixed(2)}M
-                      </TableCell>
-                      <TableCell className="text-right">{entity.inventoryTurn}x</TableCell>
-                      <TableCell className="text-right">
+                      </td>
+                      <td className="text-right">{entity.inventoryTurn}x</td>
+                      <td className="text-right">
                         <Badge variant={entity.inventoryTurn > 10 ? 'default' : 'destructive'}>
                           {entity.inventoryTurn > 10 ? 'Low' : 'High'}
                         </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">12%</TableCell>
-                      <TableCell>{getStatusBadge(entity.status)}</TableCell>
-                    </TableRow>
+                      </td>
+                      <td className="text-right">12%</td>
+                      <td className="p-2">{getStatusBadge(entity.status)}</td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
+              </div>
             </TabsContent>
 
             <TabsContent value="comparison" className="mt-6">

@@ -12,7 +12,7 @@ import {
   Sprout, 
   Cpu,
   ChevronRight,
-  Skip,
+  SkipForward,
   FastForward,
 } from 'lucide-react';
 
@@ -308,7 +308,7 @@ export function UniversalOnboarding({ onComplete }: { onComplete: (persona: stri
               onClick={skipOnboarding}
               className="text-gray-500"
             >
-              <Skip className="h-4 w-4 mr-1" />
+              <SkipForward className="h-4 w-4 mr-1" />
               Skip
             </Button>
           </div>

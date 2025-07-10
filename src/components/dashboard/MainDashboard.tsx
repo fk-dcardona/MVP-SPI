@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   BarChart3, 
   Package, 
@@ -14,7 +16,9 @@ import {
   Upload,
   Zap,
   Clock,
-  Target
+  Target,
+  Shield,
+  CheckCircle
 } from 'lucide-react';
 import { QuickAccessGrid } from './QuickAccessGrid';
 import { SupplyChainTriangleOverview } from './SupplyChainTriangleOverview';
@@ -32,6 +36,7 @@ import { OnboardingWizard } from '@/components/spring/OnboardingWizardWrapper';
 import { ProgressTracking } from '@/components/spring/ProgressTracking';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { SpeedDashboard } from './streamliner/SpeedDashboard';
+import { SystemHealthDashboard } from './SystemHealthDashboard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import type { Profile, Company } from '@/types';
 
@@ -90,6 +95,8 @@ export function MainDashboard({ user, company, recentActivity, metrics }: MainDa
       return <HubDashboard {...{ user, company, recentActivity, metrics }} />;
     case 'spring':
       return <SpringDashboard {...{ user, company, recentActivity, metrics }} />;
+    case 'processor':
+      return <ProcessorDashboard {...{ user, company, recentActivity, metrics }} />;
     default:
       return <DefaultDashboard {...{ user, company, recentActivity, metrics }} />;
   }
@@ -133,6 +140,10 @@ function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDa
             Speed Dashboard
           </TabsTrigger>
           <TabsTrigger value="activity">Activity</TabsTrigger>
+          <TabsTrigger value="health" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            System
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6 mt-6">
@@ -213,6 +224,10 @@ function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDa
             </Card>
           </div>
         </TabsContent>
+
+        <TabsContent value="health" className="mt-6">
+          <SystemHealthDashboard userPersona="streamliner" />
+        </TabsContent>
       </Tabs>
     </div>
   );
@@ -234,6 +249,7 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
           <TabsTrigger value="network">Network Overview</TabsTrigger>
           <TabsTrigger value="operations">Multi-Entity Ops</TabsTrigger>
           <TabsTrigger value="consolidated">Consolidated View</TabsTrigger>
+          <TabsTrigger value="health">System Health</TabsTrigger>
           <TabsTrigger value="compliance">Compliance</TabsTrigger>
         </TabsList>
 
@@ -274,6 +290,10 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
           <ConsolidatedReports />
         </TabsContent>
 
+        <TabsContent value="health" className="mt-6">
+          <SystemHealthDashboard userPersona="hub" />
+        </TabsContent>
+
         <TabsContent value="compliance" className="mt-6">
           <div className="p-8 border-2 border-dashed rounded-lg text-center">
             <h3 className="text-lg font-semibold mb-2">Compliance Dashboard</h3>
@@ -307,10 +327,11 @@ function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboa
       <div className="space-y-6">
         {/* Spring Navigation */}
         <Tabs value={activeView} onValueChange={setActiveView}>
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="progress">My Progress</TabsTrigger>
             <TabsTrigger value="learn">Learn & Explore</TabsTrigger>
             <TabsTrigger value="practice">Practice Mode</TabsTrigger>
+            <TabsTrigger value="health">System</TabsTrigger>
           </TabsList>
 
           <TabsContent value="progress" className="mt-6">
@@ -437,9 +458,229 @@ function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboa
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="health" className="mt-6">
+            <SystemHealthDashboard userPersona="spring" />
+          </TabsContent>
         </Tabs>
       </div>
     </>
+  );
+}
+
+// Processor Dashboard - System stability focused
+function ProcessorDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
+  const [activeView, setActiveView] = useState('health');
+
+  return (
+    <div className="space-y-6">
+      {/* Processor Header */}
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Shield className="h-6 w-6 text-gray-600" />
+            <div>
+              <p className="text-sm font-medium text-gray-900">System Operations Mode</p>
+              <p className="text-xs text-gray-700">Monitoring • Reliability • Performance</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-6">
+            <div className="text-right">
+              <p className="text-2xl font-bold text-gray-900">99.97%</p>
+              <p className="text-xs text-gray-700">Uptime</p>
+            </div>
+            <div className="text-right">
+              <p className="text-2xl font-bold text-green-600">Stable</p>
+              <p className="text-xs text-gray-700">System Status</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Processor Navigation */}
+      <Tabs value={activeView} onValueChange={setActiveView}>
+        <TabsList>
+          <TabsTrigger value="health" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            System Health
+          </TabsTrigger>
+          <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
+          <TabsTrigger value="logs">Audit Logs</TabsTrigger>
+          <TabsTrigger value="configuration">Configuration</TabsTrigger>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="health" className="mt-6">
+          <SystemHealthDashboard userPersona="processor" />
+        </TabsContent>
+
+        <TabsContent value="monitoring" className="mt-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Real-time Monitoring</CardTitle>
+                <CardDescription>Live system metrics and alerts</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between py-2 border-b">
+                    <span className="text-sm">Database Response Time</span>
+                    <Badge variant="default">12ms</Badge>
+                  </div>
+                  <div className="flex items-center justify-between py-2 border-b">
+                    <span className="text-sm">API Gateway Status</span>
+                    <Badge variant="default">Operational</Badge>
+                  </div>
+                  <div className="flex items-center justify-between py-2 border-b">
+                    <span className="text-sm">Queue Depth</span>
+                    <Badge variant="default">347 messages</Badge>
+                  </div>
+                  <div className="flex items-center justify-between py-2">
+                    <span className="text-sm">Active Connections</span>
+                    <Badge variant="secondary">1,247</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Error Tracking</CardTitle>
+                <CardDescription>Last 24 hours</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-center py-8">
+                    <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-2" />
+                    <p className="text-lg font-semibold">No Critical Errors</p>
+                    <p className="text-sm text-muted-foreground">System operating normally</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <p className="text-2xl font-bold">0</p>
+                      <p className="text-xs text-muted-foreground">Critical</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-amber-600">3</p>
+                      <p className="text-xs text-muted-foreground">Warnings</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-blue-600">47</p>
+                      <p className="text-xs text-muted-foreground">Info</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Performance Trends</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-64 border-2 border-dashed rounded-lg flex items-center justify-center">
+                <p className="text-muted-foreground">Performance monitoring charts</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="logs" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Audit Trail</CardTitle>
+              <CardDescription>System events and user actions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {[
+                  { time: '14:32:17', user: 'system', action: 'Database backup completed', type: 'info' },
+                  { time: '14:28:43', user: 'admin', action: 'Configuration updated: rate_limit', type: 'warning' },
+                  { time: '14:15:22', user: 'api', action: 'Rate limit threshold reached', type: 'warning' },
+                  { time: '13:47:09', user: 'system', action: 'Health check passed', type: 'success' },
+                  { time: '13:32:55', user: 'user_42', action: 'Bulk import completed: 15,000 records', type: 'info' },
+                ].map((log, index) => (
+                  <div key={index} className="flex items-center gap-4 py-2 border-b last:border-0">
+                    <span className="text-xs font-mono text-muted-foreground">{log.time}</span>
+                    <Badge variant={
+                      log.type === 'warning' ? 'secondary' :
+                      log.type === 'success' ? 'default' :
+                      'outline'
+                    }>
+                      {log.user}
+                    </Badge>
+                    <span className="text-sm flex-1">{log.action}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="configuration" className="mt-6 space-y-6">
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Configuration changes require elevated permissions and will be logged.
+            </AlertDescription>
+          </Alert>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>System Parameters</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Rate Limit (req/min)</label>
+                  <input type="number" className="w-full border rounded px-3 py-1" defaultValue="1000" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Session Timeout (min)</label>
+                  <input type="number" className="w-full border rounded px-3 py-1" defaultValue="30" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Max Upload Size (MB)</label>
+                  <input type="number" className="w-full border rounded px-3 py-1" defaultValue="100" />
+                </div>
+                <Button className="w-full" variant="outline">Apply Changes</Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Maintenance Windows</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Automatic Backups</span>
+                    <Badge>Daily 2:00 AM</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">System Updates</span>
+                    <Badge>Sunday 3:00 AM</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Next Scheduled</span>
+                    <Badge variant="secondary">In 14 hours</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="overview" className="mt-6 space-y-6">
+          <QuickAccessGrid persona="processor" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SupplyChainTriangleOverview />
+            <RecentActivity activities={recentActivity} />
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
 

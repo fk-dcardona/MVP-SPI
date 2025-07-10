@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { NavigatorControlPanel } from './NavigatorControlPanel';
 import { NavigatorCustomization } from './navigator/NavigatorCustomization';
 import { PredictiveAnalytics } from './navigator/PredictiveAnalytics';
+import { SystemHealthDashboard } from './SystemHealthDashboard';
 import { QuickAccessGrid } from './QuickAccessGrid';
 import { SupplyChainTriangleOverview } from './SupplyChainTriangleOverview';
 import { RecentActivity } from './RecentActivity';
@@ -52,6 +53,7 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="predictive">Predictive Analytics</TabsTrigger>
               <TabsTrigger value="operations">Operations</TabsTrigger>
+              <TabsTrigger value="health">System Health</TabsTrigger>
               <TabsTrigger value="custom">Custom View</TabsTrigger>
             </TabsList>
 
@@ -74,6 +76,10 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
                   Operational dashboards and controls will appear here
                 </p>
               </div>
+            </TabsContent>
+
+            <TabsContent value="health" className="mt-6">
+              <SystemHealthDashboard userPersona="navigator" />
             </TabsContent>
 
             <TabsContent value="custom" className="space-y-6 mt-6">

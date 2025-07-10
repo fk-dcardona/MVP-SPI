@@ -108,7 +108,7 @@ export function SpeedDashboard() {
       id: 'lightning-fast',
       title: 'Lightning Fast',
       description: 'Maintain sub-1hr average for a week',
-      icon: Lightning,
+      icon: Zap,
       unlocked: true,
       progress: 7,
       target: 7,
@@ -267,7 +267,7 @@ export function SpeedDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Lightning className="h-5 w-5 text-amber-500" />
+              <Zap className="h-5 w-5 text-amber-500" />
               Recent Speed Wins
             </CardTitle>
             <CardDescription>
