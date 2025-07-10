@@ -2,7 +2,7 @@
 
 ## 🌳 Documentation Map & Ecosystem Philosophy
 
-This project’s documentation is organized like a healthy forest ecosystem:
+This project's documentation is organized like a healthy forest ecosystem:
 - **Canopy Layer**: High-level orientation and philosophy
 - **Understory**: Operational guides and health monitoring
 - **Forest Floor**: Deep knowledge, milestones, and field guides
@@ -13,8 +13,8 @@ This project’s documentation is organized like a healthy forest ecosystem:
 | Layer         | File(s)                                 | Purpose/Analogy                        |
 |---------------|----------------------------------------|----------------------------------------|
 | Canopy        | README.production.md, CLAUDE.md         | Orientation, philosophy, big picture   |
-| Understory    | DEPLOYMENT_CHECKLIST.md, LOCAL_TESTING_GUIDE.md, COMPREHENSIVE_TESTING_CHECKLIST.md, COMPREHENSIVE_TEST_REPORT.md | Operational guides, health monitoring  |
-| Forest Floor  | PHASE_4_5_CHECKLIST.md, PHASE-4-OPTIMIZATION-STRATEGY.md, DEPLOYMENT_STATUS.md, TEST_PROMPTS.md | Deep knowledge, milestones, field guide|
+| Understory    | DEPLOYMENT_CHECKLIST.md, LOCAL_TESTING_GUIDE.md, COMPREHENSIVE_TESTING_CHECKLIST.md, COMPREHENSIVE_TEST_REPORT.md, UX_UI_REVIEW_ANALYSIS.md, UX_Implementation_Guide.md | Operational guides, health monitoring  |
+| Forest Floor  | PHASE_4_5_CHECKLIST.md, PHASE-4-OPTIMIZATION-STRATEGY.md, DEPLOYMENT_STATUS.md, TEST_PROMPTS.md, User_Personas.md | Deep knowledge, milestones, field guide|
 | Seeds/Saplings| .env.example, .env.production.example, .env.local, generate-test-data.js, test-comprehensive-features.js, setup-test.sh, test-data/ | Config, data, automation               |
 
 ---
