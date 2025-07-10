@@ -1,5 +1,5 @@
 import { BaseAgent, AgentExecutionResult, OptimizationEngineConfig } from '../types';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseAdmin } from '@/lib/db/connection';
 
 interface InventoryItem {
   sku: string;
@@ -33,7 +33,7 @@ export class OptimizationEngine extends BaseAgent {
   async execute(context?: any): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as OptimizationEngineConfig;
-      const supabase = createClientComponentClient();
+      const supabase = getSupabaseAdmin();
       
       console.log('OptimizationEngine: Starting execution with config:', config.optimizationType);
       
@@ -101,7 +101,7 @@ export class OptimizationEngine extends BaseAgent {
   }
 
   private async loadCurrentState(config: OptimizationEngineConfig, companyId: string): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     try {
       switch (config.optimizationType) {
@@ -124,7 +124,7 @@ export class OptimizationEngine extends BaseAgent {
   }
 
   private async loadInventoryState(companyId: string): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     // Load inventory data
     const { data: inventory, error: inventoryError } = await supabase
@@ -147,7 +147,7 @@ export class OptimizationEngine extends BaseAgent {
     }
     
     // Calculate total inventory cost
-    const totalCost = inventory?.reduce((sum, item) => sum + (item.quantity * item.unit_cost), 0) || 0;
+    const totalCost = inventory?.reduce((sum, item) => sum + ((item.quantity as number) * (item.unit_cost as number)), 0) || 0;
     
     return {
       items: inventory || [],
@@ -158,7 +158,7 @@ export class OptimizationEngine extends BaseAgent {
   }
 
   private async loadSupplyChainState(companyId: string): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     // Load inventory metrics
     const { data: inventoryMetrics } = await supabase
@@ -193,7 +193,7 @@ export class OptimizationEngine extends BaseAgent {
   }
 
   private async loadCostState(companyId: string): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     // Load cost-related data
     const { data: inventoryMetrics } = await supabase
@@ -526,7 +526,7 @@ export class OptimizationEngine extends BaseAgent {
   }
 
   private async storeOptimizationResults(results: OptimizationResult, companyId: string, config: OptimizationEngineConfig): Promise<void> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     try {
       await supabase

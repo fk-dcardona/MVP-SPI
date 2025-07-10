@@ -19,7 +19,7 @@ const SalesAnalytics = lazy(() =>
 );
 
 const SupplierScorecard = lazy(() => 
-  import("@/components/analytics/SupplierScorecard").then(mod => ({ 
+  import("@/components/supplier/SupplierScorecard").then(mod => ({ 
     default: mod.SupplierScorecard 
   }))
 );
@@ -95,9 +95,17 @@ export default function AnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="suppliers" className="space-y-4">
-          <Suspense fallback={<AnalyticsLoading />}>
-            <SupplierScorecard companyId={company.id} />
-          </Suspense>
+          <Card>
+            <CardHeader>
+              <CardTitle>Supplier Performance</CardTitle>
+              <CardDescription>
+                Supplier scorecards and performance metrics
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Coming soon...</p>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="financial" className="space-y-4">

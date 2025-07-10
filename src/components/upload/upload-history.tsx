@@ -1,70 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { FileSpreadsheet, Calendar, Package, TrendingUp } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { formatDistanceToNow } from 'date-fns'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-
-interface UploadRecord {
-  id: string
-  file_name: string
-  file_type: 'inventory' | 'sales'
-  row_count: number
-  uploaded_at: string
-  status: 'processing' | 'completed' | 'failed'
-}
+import { useUploadHistory } from '@/hooks/useUploadHistory'
 
 export function UploadHistory() {
-  const [uploads, setUploads] = useState<UploadRecord[]>([])
-  const [loading, setLoading] = useState(true)
-  const supabase = createClientComponentClient()
-
-  useEffect(() => {
-    fetchUploadHistory()
-
-    // Subscribe to real-time updates
-    const channel = supabase
-      .channel('upload-history')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'data_uploads',
-        },
-        (payload) => {
-          fetchUploadHistory()
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
-
-  const fetchUploadHistory = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      const { data, error } = await supabase
-        .from('data_uploads')
-        .select('*')
-        .order('uploaded_at', { ascending: false })
-        .limit(10)
-
-      if (error) throw error
-
-      setUploads(data || [])
-    } catch (error) {
-      console.error('Error fetching upload history:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { uploads, loading, error } = useUploadHistory()
 
   if (loading) {
     return (

@@ -1,11 +1,11 @@
 import { BaseAgent, AgentExecutionResult, InventoryMonitorConfig } from '../types';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseAdmin } from '@/lib/db/connection';
 
 export class InventoryMonitor extends BaseAgent {
   async execute(context?: any): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as InventoryMonitorConfig;
-      const supabase = createClientComponentClient();
+      const supabase = getSupabaseAdmin();
       
       // Get company ID from agent configuration
       const companyId = this.agent.company_id;
@@ -60,7 +60,7 @@ export class InventoryMonitor extends BaseAgent {
   }
 
   private async checkInventoryLevels(companyId: string): Promise<any[]> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     const { data, error } = await supabase
       .from('inventory_items')
@@ -77,7 +77,7 @@ export class InventoryMonitor extends BaseAgent {
   }
 
   private async calculateSalesVelocity(companyId: string): Promise<Map<string, number>> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     const velocityMap = new Map<string, number>();
     
     // Get sales data from last 30 days
@@ -98,8 +98,8 @@ export class InventoryMonitor extends BaseAgent {
     // Calculate velocity per SKU
     if (data) {
       data.forEach(sale => {
-        const current = velocityMap.get(sale.sku) || 0;
-        velocityMap.set(sale.sku, current + sale.quantity);
+        const current = velocityMap.get(sale.sku as string) || 0;
+        velocityMap.set(sale.sku as string, current + (sale.quantity as number));
       });
       
       // Convert to daily velocity
@@ -117,7 +117,7 @@ export class InventoryMonitor extends BaseAgent {
     config: InventoryMonitorConfig
   ): Promise<any[]> {
     const alerts = [];
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     for (const item of inventoryData) {
       const dailyVelocity = salesVelocity.get(item.sku) || 0;
@@ -171,7 +171,7 @@ export class InventoryMonitor extends BaseAgent {
   }
 
   private async storeAlerts(alerts: any[], companyId: string): Promise<void> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     // Store alerts in a dedicated alerts table (if exists)
     // For now, we'll just log them

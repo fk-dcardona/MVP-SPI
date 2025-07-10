@@ -1,5 +1,5 @@
 import { BaseAgent, AgentExecutionResult, DataProcessorConfig } from '../types';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseAdmin } from '@/lib/db/connection';
 
 interface ProcessingContext {
   uploadId?: string;
@@ -31,7 +31,7 @@ export class DataProcessor extends BaseAgent {
   async execute(context?: ProcessingContext): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as DataProcessorConfig;
-      const supabase = createClientComponentClient();
+      const supabase = getSupabaseAdmin();
       
       console.log('DataProcessor: Starting execution with context:', context);
       
@@ -60,7 +60,7 @@ export class DataProcessor extends BaseAgent {
         const results = [];
         for (const upload of recentUploads) {
           try {
-            const result = await this.processUpload(upload.id, upload.file_type, upload.company_id);
+            const result = await this.processUpload(upload.id as string, upload.file_type as string, upload.company_id as string);
             results.push({ uploadId: upload.id, ...result });
             
             // Update upload status to completed
@@ -114,7 +114,7 @@ export class DataProcessor extends BaseAgent {
         };
       }
       
-      const results = await this.processUpload(context.uploadId, upload.file_type, upload.company_id);
+      const results = await this.processUpload(context.uploadId, upload.file_type as string, upload.company_id as string);
       
       // Update upload status to completed
       await supabase
@@ -158,7 +158,7 @@ export class DataProcessor extends BaseAgent {
   }
 
   private async processUpload(uploadId: string, fileType: string, companyId: string): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     const results: any = {
       recordsProcessed: 0,
       recordsValidated: 0,
@@ -179,7 +179,7 @@ export class DataProcessor extends BaseAgent {
   }
 
   private async processInventoryData(uploadId: string, companyId: string, results: any): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     // Fetch inventory data from the upload
     const { data: inventory, error } = await supabase
@@ -251,7 +251,7 @@ export class DataProcessor extends BaseAgent {
   }
 
   private async processSalesData(uploadId: string, companyId: string, results: any): Promise<any> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     // Fetch sales data from the upload
     const { data: sales, error } = await supabase
@@ -512,7 +512,7 @@ export class DataProcessor extends BaseAgent {
   }
 
   private async loadData(source: string, format: string): Promise<any[]> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     if (source.startsWith('inventory:')) {
       const { data } = await supabase
@@ -624,7 +624,7 @@ export class DataProcessor extends BaseAgent {
   }
 
   private async saveData(data: any[], destination: string, format: string): Promise<void> {
-    const supabase = createClientComponentClient();
+    const supabase = getSupabaseAdmin();
     
     if (destination.startsWith('table:')) {
       const tableName = destination.slice(6);
