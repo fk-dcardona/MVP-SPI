@@ -132,6 +132,7 @@ npm run destroy
    - Check existing code patterns in the project
    - Look for project-specific conventions
    - Review any existing tests
+   - Follow branch strategy in `/CONTRIBUTING.md`
 
 2. **Code Quality**:
    - Always run lint before committing
@@ -149,6 +150,13 @@ npm run destroy
    - Use environment variables for configuration
    - Validate all user inputs
    - Implement proper authentication where needed
+
+5. **Branch Management**:
+   - Follow GitHub Flow (see `/CONTRIBUTING.md`)
+   - Keep branches short-lived (3-5 days max)
+   - Use conventional commit messages
+   - Delete branches immediately after merging
+   - Never commit directly to main
 
 ## Cursor-Specific Configuration
 
