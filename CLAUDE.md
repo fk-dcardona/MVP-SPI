@@ -37,8 +37,8 @@ Finkargo Analytics MVP - A Supply Chain Intelligence Platform that transforms CS
 ## Development Commands
 
 ```bash
-# Navigate to the correct working directory
-cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence/mvp-spi
+# The project is now in the root directory (not mvp-spi subdirectory)
+cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence
 
 # Install dependencies
 npm install
@@ -132,7 +132,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 3. **Port Conflicts**: If port 3000 is in use, Next.js will automatically try port 3001.
 
-4. **Build Errors**: Some TypeScript errors exist due to the duplicate file structure. Always ensure you're working in the mvp-spi subdirectory.
+4. **Build Errors**: Some TypeScript errors exist due to the duplicate file structure. The project is now in the root directory, not the mvp-spi subdirectory.
 
 ## Performance Targets
 
@@ -150,7 +150,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 ## Development Workflow
 
-1. Always work within the `mvp-spi` subdirectory
+1. Work in the root directory (the project was moved from mvp-spi subdirectory)
 2. Check TypeScript errors with `npm run type-check` before committing
 3. Ensure all new components follow the existing patterns
 4. Use Server Components by default, Client Components only when necessary
@@ -377,6 +377,12 @@ The agent system is a core architectural component that handles background proce
 - **Main Branch Status**: ✅ Now the single source of truth
 - **Repository State**: Clean and production-ready
 
+### **Directory Structure Update**
+- **Project Location**: Moved from `mvp-spi/` subdirectory to root directory
+- **Working Directory**: `/Users/helpdesk/Cursor/MVP - Supply Chain Intelligence`
+- **Development Commands**: Updated to reflect root directory location
+- **Documentation**: Updated CLAUDE.md with correct paths
+
 ### **Branches Deleted**
 #### Local Branches
 - `feat/background-agents` ✅ Deleted
@@ -543,7 +549,7 @@ supabase db push
 
 ```bash
 # 1. Start development server
-cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence/mvp-spi
+cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence
 npm run dev
 
 # 2. Complete agent implementations
