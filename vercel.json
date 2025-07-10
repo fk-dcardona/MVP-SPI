@@ -1,8 +1,52 @@
 {
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/cron/agents/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/agents/[id]/execute/route.ts": {
+      "maxDuration": 60
+    }
+  },
   "crons": [
     {
       "path": "/api/cron/agents",
       "schedule": "*/5 * * * *"
+    }
+  ],
+  "env": {
+    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
     }
   ]
 }

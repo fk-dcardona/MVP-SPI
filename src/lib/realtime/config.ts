@@ -1,4 +1,4 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 
 export const REALTIME_TABLES = [
   'inventory_items',
@@ -8,7 +8,7 @@ export const REALTIME_TABLES = [
 ] as const;
 
 export function setupRealtimeSubscriptions(onUpdate: (table: string, payload: any) => void) {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   
   // Subscribe to inventory changes
   const inventoryChannel = supabase

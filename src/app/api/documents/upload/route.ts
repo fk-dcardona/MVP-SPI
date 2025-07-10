@@ -64,8 +64,7 @@ export async function POST(req: NextRequest) {
         // Map to inventory items
         const inventoryItems = DocumentDataMapper.mapToInventoryItem(extractedFields);
         
-        if (Array.isArray(inventoryItems)) {
-          for (const item of inventoryItems) {
+        for (const item of inventoryItems) {
           const { error } = await supabase
             .from('inventory_items')
             .upsert({
@@ -76,7 +75,6 @@ export async function POST(req: NextRequest) {
             });
           
           if (!error) processedCount++;
-          }
         }
         
         // Also create sales transaction if invoice
