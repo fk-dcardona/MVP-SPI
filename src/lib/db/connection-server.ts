@@ -1,4 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { cache } from 'react';
 
 // Singleton pattern for database client
 let supabaseAdmin: ReturnType<typeof createClient> | null = null;
@@ -32,6 +35,12 @@ export function getSupabaseAdmin() {
 
   return supabaseAdmin;
 }
+
+// Server component client with caching
+export const getSupabaseServer = cache(() => {
+  const cookieStore = cookies();
+  return createServerComponentClient({ cookies: () => cookieStore });
+});
 
 // Utility function for retrying failed queries
 export async function withRetry<T>(
@@ -124,4 +133,4 @@ export const preparedQueries = {
     select: '*',
     filter: { company_id: companyId },
   }),
-};
+}; 
