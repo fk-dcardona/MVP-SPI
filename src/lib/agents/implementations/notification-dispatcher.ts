@@ -1,6 +1,10 @@
 import { BaseAgent, AgentExecutionResult, NotificationDispatcherConfig } from '../types';
+import { WhatsAppService } from '@/lib/notifications/whatsapp-service';
+import { createServerClient } from '@/lib/supabase/server';
 
 export class NotificationDispatcher extends BaseAgent {
+  private whatsappService: WhatsAppService | null = null;
+
   async execute(context?: any): Promise<AgentExecutionResult> {
     try {
       const config = this.agent.config as NotificationDispatcherConfig;
@@ -31,7 +35,7 @@ export class NotificationDispatcher extends BaseAgent {
 
   validate(): boolean {
     const config = this.agent.config as NotificationDispatcherConfig;
-    const validChannels = ['email', 'sms', 'webhook', 'in-app'];
+    const validChannels = ['email', 'sms', 'whatsapp', 'webhook', 'in-app'];
     
     if (!Array.isArray(config.channels) || config.channels.length === 0) {
       return false;
@@ -140,6 +144,10 @@ export class NotificationDispatcher extends BaseAgent {
         await this.sendSMS(notification.recipient, message);
         break;
         
+      case 'whatsapp':
+        await this.sendWhatsApp(notification.recipient, message, notification.data);
+        break;
+        
       case 'webhook':
         await this.sendWebhook(notification.recipient, message, notification.data);
         break;
@@ -187,6 +195,38 @@ export class NotificationDispatcher extends BaseAgent {
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  private async sendWhatsApp(recipient: string, message: string, data: any): Promise<void> {
+    try {
+      // Initialize WhatsApp service if not already done
+      if (!this.whatsappService) {
+        this.whatsappService = new WhatsAppService();
+      }
+
+      // Get user persona for personalized messaging
+      const supabase = createServerClient();
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('phone', recipient)
+        .single();
+
+      // Send via WhatsApp service
+      await this.whatsappService.sendNotification({
+        type: data.notificationType || 'update',
+        recipient,
+        title: data.title || 'Notification',
+        body: message,
+        priority: data.priority || 'medium',
+        data
+      });
+
+      console.log(`WhatsApp notification sent to ${recipient}`);
+    } catch (error) {
+      console.error('Failed to send WhatsApp notification:', error);
+      throw error;
+    }
   }
 
   private async sendInApp(userId: string, message: string, data: any): Promise<void> {
