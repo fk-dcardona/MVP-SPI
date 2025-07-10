@@ -465,7 +465,7 @@ function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboa
                 <div className="p-4 bg-amber-50 rounded-lg">
                   <p className="text-sm text-amber-800">
                     💡 <strong>Practice Mode:</strong> All changes here are temporary. 
-                    Feel free to experiment - you can't break anything!
+                    Feel free to experiment - you can&apos;t break anything!
                   </p>
                 </div>
               </CardContent>

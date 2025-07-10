@@ -376,7 +376,7 @@ export function SpeedDashboard() {
             <div>
               <h3 className="text-lg font-semibold">Keep up the momentum!</h3>
               <p className="text-sm opacity-90 mt-1">
-                You're 3 tasks away from beating your daily record
+                You&apos;re 3 tasks away from beating your daily record
               </p>
             </div>
             <Button variant="secondary" className="gap-2">

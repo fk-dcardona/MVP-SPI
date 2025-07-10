@@ -88,7 +88,7 @@ export default function OnboardingPage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">Welcome to Finkargo</h1>
             <p className="text-xl text-gray-600">
-              Let's personalize your trade finance experience
+              Let&apos;s personalize your trade finance experience
             </p>
           </div>
 

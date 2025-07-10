@@ -445,7 +445,7 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium">We're learning about you...</p>
+                  <p className="text-sm font-medium">We&apos;re learning about you...</p>
                   <p className="text-xs opacity-90">
                     Your responses suggest a {getEmergingPersona()} profile
                   </p>
@@ -574,7 +574,7 @@ export function ASKMethodOnboarding({ onComplete }: ASKMethodOnboardingProps) {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium">We're learning about you...</p>
+                        <p className="text-sm font-medium">We&apos;re learning about you...</p>
                         <p className="text-xs opacity-90">
                           Your responses suggest a {getEmergingPersona()} profile
                         </p>

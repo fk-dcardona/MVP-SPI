@@ -1,7 +1,7 @@
 // Persona tracking and adaptation service
 // Following the Merging Philosophy: One system that learns from behavior
 
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/client';
 import type { 
   UserPersona, 
   UserBehaviorSignal, 
@@ -44,6 +44,7 @@ export class PersonaService {
     }
     
     try {
+      const supabase = createClient();
       const { error } = await supabase.rpc('track_user_behavior', {
         p_user_id: this.userId,
         p_action_type: action,
@@ -87,6 +88,7 @@ export class PersonaService {
     if (!this.userId) return null;
     
     try {
+      const supabase = createClient();
       const { data, error } = await supabase.rpc('calculate_user_persona', {
         p_user_id: this.userId
       });

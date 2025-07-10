@@ -237,7 +237,7 @@ export default function TestLocalStoragePage() {
         {storageItems.length === 0 && (
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
-              No data found in localStorage. Try interacting with the features or click "Set Test Data".
+              No data found in localStorage. Try interacting with the features or click &quot;Set Test Data&quot;.
             </CardContent>
           </Card>
         )}

@@ -57,7 +57,7 @@ export default function TestOnboardingPage() {
             <div className="space-y-2">
               <h3 className="font-semibold">Test Instructions:</h3>
               <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Click "Start Onboarding" to begin the wizard</li>
+                <li>Click &quot;Start Onboarding&quot; to begin the wizard</li>
                 <li>Complete each step by providing information</li>
                 <li>Test navigation between steps</li>
                 <li>Check progress persistence in localStorage</li>

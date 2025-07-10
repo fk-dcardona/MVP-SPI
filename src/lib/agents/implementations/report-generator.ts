@@ -1,5 +1,5 @@
 import { BaseAgent, AgentExecutionResult, ReportGeneratorConfig } from '../types';
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 import { WhatsAppService } from '@/lib/notifications/whatsapp-service';
 
 export class ReportGenerator extends BaseAgent {
@@ -57,7 +57,7 @@ export class ReportGenerator extends BaseAgent {
   }
 
   private async gatherReportData(config: ReportGeneratorConfig): Promise<any> {
-    const supabase = createServerClient();
+    const supabase = createClient();
     const period = this.getReportPeriod(config.schedule);
     
     // Gather real data based on report type
@@ -156,7 +156,7 @@ export class ReportGenerator extends BaseAgent {
 
   private async distributeReport(report: any, config: ReportGeneratorConfig): Promise<void> {
     const whatsappService = new WhatsAppService();
-    const supabase = createServerClient();
+    const supabase = createClient();
     
     // Store report in database
     const { data: storedReport } = await supabase
