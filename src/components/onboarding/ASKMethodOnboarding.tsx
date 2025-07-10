@@ -84,7 +84,7 @@ const DEEP_DIVE_QUESTIONS: ASKQuestion[] = [
       {
         value: 'coordination',
         label: 'Managing multiple entities/partners is chaos',
-        subtext: 'Left hand doesn't know what right hand is doing',
+        subtext: "Left hand doesn't know what right hand is doing",
         personaWeights: { streamliner: 2, navigator: 3, hub: 10, spring: 1, processor: 2 }
       },
       {
@@ -184,7 +184,7 @@ const SEGMENTATION_QUESTIONS: ASKQuestion[] = [
     answers: [
       {
         value: 'gut',
-        label: 'Trust my gut - if it feels fast, I'm in',
+        label: "Trust my gut - if it feels fast, I'm in",
         personaWeights: { streamliner: 10, navigator: 1, hub: 3, spring: 2, processor: 1 }
       },
       {
