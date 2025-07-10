@@ -57,7 +57,7 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
             <TabsContent value="overview" className="space-y-6 mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <QuickAccessGrid variant="navigator" />
-                <SupplyChainTriangleOverview score={metrics?.overallScore || 78} />
+                <SupplyChainTriangleOverview />
               </div>
               <RecentActivity activities={recentActivity} />
             </TabsContent>

@@ -25,6 +25,8 @@ import { NavigatorControlPanel } from './NavigatorControlPanel';
 import { NavigatorDashboard } from './NavigatorDashboard';
 import { MobileDashboard } from './MobileDashboard';
 import { MobileDashboardEnhanced } from './MobileDashboardEnhanced';
+import { EntitySwitcher } from '@/components/hub/EntitySwitcher';
+import { OnboardingWizard } from '@/components/spring/OnboardingWizard';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import type { Profile, Company } from '@/types';
@@ -170,32 +172,29 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
   return (
     <div className="space-y-6">
       {/* Multi-Entity Switcher */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>Entity Network Overview</span>
-            <Button size="sm">Switch Entity</Button>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 border rounded-lg">
-              <p className="text-sm text-gray-600">Active Entities</p>
-              <p className="text-2xl font-bold">3</p>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <p className="text-sm text-gray-600">Network Value</p>
-              <p className="text-2xl font-bold">$2.4M</p>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <p className="text-sm text-gray-600">Connections</p>
-              <p className="text-2xl font-bold">12</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <EntitySwitcher currentEntityId={company.id} />
 
-      {/* Standard Components */}
+      {/* Quick Actions for Multi-Entity Management */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Button variant="outline" className="h-24 flex-col gap-2">
+          <Users className="h-6 w-6" />
+          <span>Entity Comparison</span>
+        </Button>
+        <Button variant="outline" className="h-24 flex-col gap-2">
+          <BarChart3 className="h-6 w-6" />
+          <span>Network Reports</span>
+        </Button>
+        <Button variant="outline" className="h-24 flex-col gap-2">
+          <Package className="h-6 w-6" />
+          <span>Cross-Entity Inventory</span>
+        </Button>
+        <Button variant="outline" className="h-24 flex-col gap-2">
+          <AlertCircle className="h-6 w-6" />
+          <span>Compliance Overview</span>
+        </Button>
+      </div>
+
+      {/* Standard Components with Hub Context */}
       <QuickAccessGrid persona="hub" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SupplyChainTriangleOverview />
@@ -207,73 +206,100 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
 
 // Spring Dashboard - Learning focused
 function SpringDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
-  return (
-    <div className="space-y-6">
-      {/* Welcome & Progress */}
-      <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
-        <CardHeader>
-          <CardTitle className="text-xl">Your Journey Progress</CardTitle>
-          <CardDescription>You're doing great! Here's what to focus on today.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span>Setup Completion</span>
-              <div className="flex items-center gap-2">
-                <div className="w-32 bg-gray-200 rounded-full h-2">
-                  <div className="bg-amber-600 h-2 rounded-full" style={{ width: '65%' }} />
-                </div>
-                <span className="text-sm font-medium">65%</span>
-              </div>
-            </div>
-            
-            <div className="pt-2">
-              <p className="text-sm font-medium mb-2">Next Steps:</p>
-              <ul className="space-y-1 text-sm">
-                <li className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-amber-600" />
-                  Upload your first CSV file
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
-                  Configure your first agent
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
-                  Invite team members
-                </li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  
+  // Check if user needs onboarding
+  useEffect(() => {
+    const hasCompletedOnboarding = localStorage.getItem('spring-onboarding-complete');
+    if (hasCompletedOnboarding !== 'true') {
+      setShowOnboarding(true);
+    }
+  }, []);
 
-      {/* Guided Actions */}
-      <QuickAccessGrid persona="spring" />
+  return (
+    <>
+      {showOnboarding && <OnboardingWizard />}
       
-      {/* Learning Resources */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SupplyChainTriangleOverview />
-        <Card>
+      <div className="space-y-6">
+        {/* Welcome & Progress */}
+        <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
           <CardHeader>
-            <CardTitle className="text-lg">Learning Resources</CardTitle>
+            <CardTitle className="text-xl">Your Journey Progress</CardTitle>
+            <CardDescription>You're doing great! Here's what to focus on today.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
-                📚 Supply Chain Basics
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                🎥 Video: First Import Guide
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                💬 Schedule Expert Call
-              </Button>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span>Setup Completion</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-32 bg-gray-200 rounded-full h-2">
+                    <div className="bg-amber-600 h-2 rounded-full" style={{ width: '65%' }} />
+                  </div>
+                  <span className="text-sm font-medium">65%</span>
+                </div>
+              </div>
+              
+              <div className="pt-2">
+                <p className="text-sm font-medium mb-2">Next Steps:</p>
+                <ul className="space-y-1 text-sm">
+                  <li className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-amber-600" />
+                    Upload your first CSV file
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
+                    Configure your first agent
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
+                    Invite team members
+                  </li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Quick Tutorial Button */}
+        <div className="flex justify-center">
+          <Button 
+            variant="outline" 
+            size="lg"
+            onClick={() => setShowOnboarding(true)}
+            className="gap-2"
+          >
+            <Target className="h-5 w-5" />
+            Restart Guided Setup
+          </Button>
+        </div>
+
+        {/* Guided Actions */}
+        <QuickAccessGrid persona="spring" />
+        
+        {/* Learning Resources */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SupplyChainTriangleOverview />
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Learning Resources</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <Button variant="outline" className="w-full justify-start">
+                  📚 Supply Chain Basics
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  🎥 Video: First Import Guide
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  💬 Schedule Expert Call
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

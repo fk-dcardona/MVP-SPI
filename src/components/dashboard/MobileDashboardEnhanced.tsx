@@ -156,7 +156,7 @@ export function MobileDashboardEnhanced({
             <div>
               <h1 className="text-lg font-semibold">{currentView.title}</h1>
               <p className="text-xs text-muted-foreground">
-                Hello, {user.first_name} 👋
+                Hello, {user.full_name || 'there'} 👋
               </p>
             </div>
           </div>
