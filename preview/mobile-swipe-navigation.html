@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mobile Swipe Navigation - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            overflow-x: hidden;
+            touch-action: pan-y;
+        }
+        
+        /* Mobile Container */
+        .mobile-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-button:active {
+            transform: scale(0.95);
+            background: #e5e7eb;
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .header-title h1 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .header-title p {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            padding: 0 1rem 0.5rem;
+            background: white;
+        }
+        
+        .progress-bar {
+            height: 2px;
+            background: #e5e7eb;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .view-tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .view-tab {
+            font-size: 0.625rem;
+            color: #9ca3af;
+            background: none;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .view-tab.active {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        /* Content Area */
+        .content-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: calc(100vh - 140px);
+        }
+        
+        .content-slider {
+            display: flex;
+            transition: transform 0.3s ease-out;
+            height: 100%;
+        }
+        
+        .view-panel {
+            width: 100%;
+            flex-shrink: 0;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        /* Quick Access Grid */
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .quick-access-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .quick-access-item:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quick-access-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.5rem;
+            background: #eff6ff;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .quick-access-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .quick-access-count {
+            font-size: 0.625rem;
+            color: #6b7280;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.625rem;
+            font-weight: bold;
+        }
+        
+        /* Supply Chain Triangle */
+        .triangle-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .triangle-svg {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* Activity Feed */
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .activity-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .metric-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-decoration {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        
+        .metric-decoration.blue { background: #3b82f6; }
+        .metric-decoration.green { background: #10b981; }
+        .metric-decoration.purple { background: #8b5cf6; }
+        .metric-decoration.amber { background: #f59e0b; }
+        
+        .metric-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-icon.blue { color: #3b82f6; }
+        .metric-icon.green { color: #10b981; }
+        .metric-icon.purple { color: #8b5cf6; }
+        .metric-icon.amber { color: #f59e0b; }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0.25rem 0;
+        }
+        
+        .metric-change {
+            font-size: 0.75rem;
+        }
+        
+        .metric-change.positive { color: #10b981; }
+        .metric-change.neutral { color: #6b7280; }
+        
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 5;
+        }
+        
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: all 0.3s;
+        }
+        
+        .nav-dot.active {
+            width: 32px;
+            border-radius: 4px;
+            background: #3b82f6;
+        }
+        
+        /* Swipe Hint */
+        .swipe-hint {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            animation: fadeIn 0.3s;
+        }
+        
+        .swipe-hint-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            animation: slideUp 0.3s;
+        }
+        
+        .swipe-hint-arrows {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .swipe-arrow {
+            font-size: 1.5rem;
+            animation: pulse 1s infinite;
+        }
+        
+        .swipe-line {
+            width: 60px;
+            height: 2px;
+            background: #3b82f6;
+            border-radius: 1px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Touch Feedback */
+        .touch-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <button class="nav-button" id="prevBtn">
+                    <span>←</span>
+                </button>
+                
+                <div class="header-title">
+                    <h1 id="viewTitle">Quick Access</h1>
+                    <p>Hello, John 👋</p>
+                </div>
+                
+                <button class="nav-button" id="nextBtn">
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 25%;"></div>
+            </div>
+            <div class="view-tabs">
+                <button class="view-tab active" data-view="0">Quick Access</button>
+                <button class="view-tab" data-view="1">Supply Chain</button>
+                <button class="view-tab" data-view="2">Activity</button>
+                <button class="view-tab" data-view="3">Metrics</button>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-wrapper">
+            <div class="content-slider" id="contentSlider">
+                <!-- View 1: Quick Access -->
+                <div class="view-panel">
+                    <div class="quick-access-grid">
+                        <div class="quick-access-item">
+                            <div class="quick-access-icon">📦</div>
+                            <div class="quick-access-label">Inventory</div>
+                            <div class="quick-access-count">1,234</div>
+                        </div>
+                        <div class="quick-access-item">
+                            <div class="quick-access-icon">📈</div>
+                            <div class="quick-access-label">Sales</div>
+                            <div class="quick-access-count">$45K</div>
+                        </div>
+                        <div class="quick-access-item">
+                            <div class="quick-access-icon">🛡️</div>
+                            <div class="quick-access-label">Agents</div>
+                            <div class="quick-access-count">5</div>
+                            <div class="notification-badge">3</div>
+                        </div>
+                        <div class="quick-access-item">
+                            <div class="quick-access-icon">👥</div>
+                            <div class="quick-access-label">Suppliers</div>
+                            <div class="quick-access-count">24</div>
+                        </div>
+                        <div class="quick-access-item">
+                            <div class="quick-access-icon">📄</div>
+                            <div class="quick-access-label">Documents</div>
+                            <div class="quick-access-count">156</div>
+                        </div>
+                        <div class="quick-access-item">
+                            <div class="quick-access-icon">⬆️</div>
+                            <div class="quick-access-label">Upload</div>
+                            <div class="quick-access-count">New</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View 2: Supply Chain Triangle -->
+                <div class="view-panel">
+                    <div class="triangle-card">
+                        <h3 style="margin-bottom: 1rem;">Supply Chain Score: 78</h3>
+                        <svg class="triangle-svg" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="150,30 50,220 250,220" fill="none" stroke="#d1d5db" stroke-width="2"/>
+                            <polygon points="150,60 80,190 220,180" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="2"/>
+                            <text x="150" y="20" text-anchor="middle" font-size="14" font-weight="600">Service</text>
+                            <text x="40" y="240" text-anchor="middle" font-size="14" font-weight="600">Cost</text>
+                            <text x="260" y="240" text-anchor="middle" font-size="14" font-weight="600">Capital</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- View 3: Recent Activity -->
+                <div class="view-panel">
+                    <h3 style="margin-bottom: 1rem;">Recent Activity</h3>
+                    <div class="activity-item">
+                        <div class="activity-icon">📦</div>
+                        <div class="activity-content">
+                            <div class="activity-title">New inventory uploaded</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">✅</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Agent task completed</div>
+                            <div class="activity-time">15 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📊</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Weekly report generated</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View 4: Key Metrics -->
+                <div class="view-panel">
+                    <h3 style="margin-bottom: 1rem;">Key Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-decoration blue"></div>
+                            <div class="metric-icon blue">📦</div>
+                            <div class="metric-label">Total Inventory</div>
+                            <div class="metric-value">$1.2M</div>
+                            <div class="metric-change positive">+12% vs last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-decoration green"></div>
+                            <div class="metric-icon green">📈</div>
+                            <div class="metric-label">Monthly Sales</div>
+                            <div class="metric-value">$450K</div>
+                            <div class="metric-change positive">+8% vs last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-decoration purple"></div>
+                            <div class="metric-icon purple">🛡️</div>
+                            <div class="metric-label">Active Agents</div>
+                            <div class="metric-value">5</div>
+                            <div class="metric-change neutral">0 vs last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-decoration amber"></div>
+                            <div class="metric-icon amber">⚡</div>
+                            <div class="metric-label">Efficiency Score</div>
+                            <div class="metric-value">87%</div>
+                            <div class="metric-change positive">+3% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Dots -->
+        <div class="nav-dots">
+            <div class="nav-dot active" data-dot="0"></div>
+            <div class="nav-dot" data-dot="1"></div>
+            <div class="nav-dot" data-dot="2"></div>
+            <div class="nav-dot" data-dot="3"></div>
+        </div>
+        
+        <!-- Swipe Hint (shown initially) -->
+        <div class="swipe-hint" id="swipeHint">
+            <div class="swipe-hint-content">
+                <p>Swipe left or right to navigate</p>
+                <div class="swipe-hint-arrows">
+                    <span class="swipe-arrow">←</span>
+                    <div class="swipe-line"></div>
+                    <span class="swipe-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // View management
+        const views = [
+            { title: 'Quick Access', index: 0 },
+            { title: 'Supply Chain', index: 1 },
+            { title: 'Recent Activity', index: 2 },
+            { title: 'Key Metrics', index: 3 }
+        ];
+        
+        let currentView = 0;
+        const totalViews = views.length;
+        
+        // Elements
+        const slider = document.getElementById('contentSlider');
+        const progressBar = document.getElementById('progressBar');
+        const viewTitle = document.getElementById('viewTitle');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const viewTabs = document.querySelectorAll('.view-tab');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const swipeHint = document.getElementById('swipeHint');
+        
+        // Hide swipe hint after 3 seconds
+        setTimeout(() => {
+            swipeHint.style.display = 'none';
+        }, 3000);
+        
+        // Update view
+        function updateView(index) {
+            currentView = Math.max(0, Math.min(index, totalViews - 1));
+            
+            // Update slider position
+            slider.style.transform = `translateX(-${currentView * 100}%)`;
+            
+            // Update progress bar
+            progressBar.style.width = `${((currentView + 1) / totalViews) * 100}%`;
+            
+            // Update title
+            viewTitle.textContent = views[currentView].title;
+            
+            // Update navigation buttons
+            prevBtn.disabled = currentView === 0;
+            nextBtn.disabled = currentView === totalViews - 1;
+            
+            // Update tabs
+            viewTabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === currentView);
+            });
+            
+            // Update dots
+            navDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentView);
+            });
+        }
+        
+        // Navigation button handlers
+        prevBtn.addEventListener('click', () => updateView(currentView - 1));
+        nextBtn.addEventListener('click', () => updateView(currentView + 1));
+        
+        // Tab handlers
+        viewTabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => updateView(index));
+        });
+        
+        // Touch handling for swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const minSwipeDistance = 50;
+        
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const distance = touchStartX - touchEndX;
+            
+            if (Math.abs(distance) > minSwipeDistance) {
+                if (distance > 0 && currentView < totalViews - 1) {
+                    // Swipe left - next view
+                    updateView(currentView + 1);
+                } else if (distance < 0 && currentView > 0) {
+                    // Swipe right - previous view
+                    updateView(currentView - 1);
+                }
+            }
+        }
+        
+        // Add touch feedback
+        document.querySelectorAll('.quick-access-item, .nav-button, .view-tab').forEach(element => {
+            element.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.className = 'touch-ripple';
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        // Keyboard navigation for testing
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') updateView(currentView - 1);
+            if (e.key === 'ArrowRight') updateView(currentView + 1);
+        });
+    </script>
+</body>
+</html>

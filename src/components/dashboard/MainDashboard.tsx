@@ -24,6 +24,7 @@ import { StreamlinerQuickActions } from './StreamlinerQuickActions';
 import { NavigatorControlPanel } from './NavigatorControlPanel';
 import { NavigatorDashboard } from './NavigatorDashboard';
 import { MobileDashboard } from './MobileDashboard';
+import { MobileDashboardEnhanced } from './MobileDashboardEnhanced';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import type { Profile, Company } from '@/types';
@@ -69,7 +70,8 @@ export function MainDashboard({ user, company, recentActivity, metrics }: MainDa
 
   // Render mobile dashboard if on mobile device
   if (isMobile) {
-    return <MobileDashboard user={user} company={company} recentActivity={recentActivity} metrics={metrics} />;
+    // Use enhanced mobile dashboard for better touch experience
+    return <MobileDashboardEnhanced user={user} company={company} recentActivity={recentActivity} metrics={metrics} />;
   }
 
   // Render persona-specific dashboard for desktop
