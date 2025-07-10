@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Dashboard - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+        }
+        
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 256px;
+            background: #111827;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+        }
+        
+        .nav-item.active {
+            background: #374151;
+            color: white;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        /* Progress Hero */
+        .progress-hero {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-hero::before {
+            content: "🌱";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+        }
+        
+        .progress-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-text {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 1.5rem;
+        }
+        
+        .progress-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #92400e;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #d97706;
+        }
+        
+        /* Journey Progress */
+        .journey-progress {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .journey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .journey-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .level-badge {
+            background: #d97706;
+            color: white;
+            padding: 0.375rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: #f3f4f6;
+            height: 1rem;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(to right, #f59e0b, #d97706);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 1rem 1rem;
+            animation: progress-animation 1s linear infinite;
+        }
+        
+        @keyframes progress-animation {
+            0% { background-position: 0 0; }
+            100% { background-position: 1rem 1rem; }
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        /* Milestones */
+        .milestones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .milestones::before {
+            content: "";
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 0;
+        }
+        
+        .milestone {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .milestone-icon {
+            width: 2rem;
+            height: 2rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .milestone.completed .milestone-icon {
+            background: #059669;
+            border-color: #059669;
+            color: white;
+        }
+        
+        .milestone.active .milestone-icon {
+            background: #f59e0b;
+            border-color: #f59e0b;
+            color: white;
+        }
+        
+        .milestone-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            max-width: 80px;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        /* Next Steps */
+        .step-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .step-item:hover {
+            background: #f9fafb;
+        }
+        
+        .step-number {
+            width: 2rem;
+            height: 2rem;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .step-desc {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .step-action {
+            color: #f59e0b;
+            font-size: 1.25rem;
+        }
+        
+        /* Resources */
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .resource-item:hover {
+            background: #f9fafb;
+            border-color: #f59e0b;
+        }
+        
+        .resource-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #fef3c7;
+            color: #d97706;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .resource-content {
+            flex: 1;
+        }
+        
+        .resource-title {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .resource-desc {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .resource-duration {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+        
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .achievement {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .achievement.unlocked {
+            background: #fef3c7;
+            cursor: pointer;
+        }
+        
+        .achievement.unlocked:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .achievement.locked {
+            opacity: 0.5;
+        }
+        
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* Help Widget */
+        .help-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #f59e0b;
+            color: white;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .help-widget:hover {
+            transform: scale(1.1);
+            background: #d97706;
+        }
+        
+        /* Icons */
+        .icon { font-size: 1.25rem; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="font-size: 1.25rem; font-weight: bold;">Finkargo Analytics</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span class="icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📚</span>
+                    <span>Learning Center</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⬆️</span>
+                    <span>Upload Data</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">🎯</span>
+                    <span>Goals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: #6b7280; font-size: 0.875rem;">
+                    <span>🏠</span>
+                    <span>›</span>
+                    <span style="color: #111827; font-weight: 500;">Dashboard</span>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Progress Hero -->
+                <div class="progress-hero">
+                    <div class="progress-content">
+                        <h1 class="welcome-text">Welcome to your learning journey, Emma! 🌱</h1>
+                        <p style="color: #d97706; margin-bottom: 1rem;">You're making great progress on mastering supply chain intelligence</p>
+                        
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <div class="stat-value">Day 12</div>
+                                <div class="stat-label">of your journey</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="stat-value">68%</div>
+                                <div class="stat-label">modules completed</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="stat-value">Level 3</div>
+                                <div class="stat-label">Supply Chain Apprentice</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Journey Progress -->
+                <div class="journey-progress">
+                    <div class="journey-header">
+                        <h2 class="journey-title">Your Learning Journey</h2>
+                        <span class="level-badge">Level 3: Supply Chain Apprentice</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 68%;"></div>
+                    </div>
+                    <div class="progress-text">680 / 1000 XP to Level 4</div>
+                    
+                    <div class="milestones">
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-label">Getting Started</div>
+                        </div>
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-label">Basic Analytics</div>
+                        </div>
+                        <div class="milestone active">
+                            <div class="milestone-icon">3</div>
+                            <div class="milestone-label">Data Upload Master</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-icon">4</div>
+                            <div class="milestone-label">Agent Commander</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-icon">5</div>
+                            <div class="milestone-label">Supply Chain Expert</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cards Grid -->
+                <div class="cards-grid">
+                    <!-- Next Steps -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🎯</span>
+                                <span>Next Steps</span>
+                            </h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="step-item">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <div class="step-title">Complete Data Upload Tutorial</div>
+                                    <div class="step-desc">Learn how to import your CSV files</div>
+                                </div>
+                                <div class="step-action">→</div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <div class="step-title">Configure Your First Agent</div>
+                                    <div class="step-desc">Set up automated monitoring</div>
+                                </div>
+                                <div class="step-action">→</div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <div class="step-title">Explore Analytics Dashboard</div>
+                                    <div class="step-desc">Understand your data insights</div>
+                                </div>
+                                <div class="step-action">→</div>
+                            </div>
+                            
+                            <button style="width: 100%; margin-top: 1rem; padding: 0.75rem; background: #f59e0b; color: white; border: none; border-radius: 0.375rem; font-weight: 500; cursor: pointer;">
+                                Continue Learning →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Learning Resources -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📚</span>
+                                <span>Recommended Resources</span>
+                            </h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="resource-item">
+                                <div class="resource-icon">🎥</div>
+                                <div class="resource-content">
+                                    <div class="resource-title">Supply Chain Basics</div>
+                                    <div class="resource-desc">Introduction to key concepts</div>
+                                </div>
+                                <div class="resource-duration">15 min</div>
+                            </div>
+                            
+                            <div class="resource-item">
+                                <div class="resource-icon">📄</div>
+                                <div class="resource-content">
+                                    <div class="resource-title">Data Format Guide</div>
+                                    <div class="resource-desc">CSV formatting best practices</div>
+                                </div>
+                                <div class="resource-duration">5 min</div>
+                            </div>
+                            
+                            <div class="resource-item">
+                                <div class="resource-icon">🎮</div>
+                                <div class="resource-content">
+                                    <div class="resource-title">Interactive Tutorial</div>
+                                    <div class="resource-desc">Practice with sample data</div>
+                                </div>
+                                <div class="resource-duration">20 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Achievements -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🏆</span>
+                            <span>Recent Achievements</span>
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="achievements-grid">
+                            <div class="achievement unlocked">
+                                <div class="achievement-icon">🎉</div>
+                                <div class="achievement-name">First Login</div>
+                            </div>
+                            <div class="achievement unlocked">
+                                <div class="achievement-icon">📊</div>
+                                <div class="achievement-name">Data Explorer</div>
+                            </div>
+                            <div class="achievement unlocked">
+                                <div class="achievement-icon">⬆️</div>
+                                <div class="achievement-name">First Upload</div>
+                            </div>
+                            <div class="achievement locked">
+                                <div class="achievement-icon">🔒</div>
+                                <div class="achievement-name">Agent Master</div>
+                            </div>
+                            <div class="achievement locked">
+                                <div class="achievement-icon">🔒</div>
+                                <div class="achievement-name">Speed Demon</div>
+                            </div>
+                            <div class="achievement locked">
+                                <div class="achievement-icon">🔒</div>
+                                <div class="achievement-name">Data Wizard</div>
+                            </div>
+                            <div class="achievement locked">
+                                <div class="achievement-icon">🔒</div>
+                                <div class="achievement-name">Supply Chain Pro</div>
+                            </div>
+                            <div class="achievement locked">
+                                <div class="achievement-icon">🔒</div>
+                                <div class="achievement-name">30 Day Streak</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Help Widget -->
+        <div class="help-widget">
+            💬
+        </div>
+    </div>
+</body>
+</html>

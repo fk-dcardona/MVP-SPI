@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigator Dashboard - Finkargo Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+        }
+        
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 256px;
+            background: #111827;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+        }
+        
+        .nav-item.active {
+            background: #374151;
+            color: white;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 1.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-section p {
+            color: #6b7280;
+        }
+        
+        /* Control Panel */
+        .control-panel-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        /* System Health */
+        .health-badge {
+            background: #059669;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        .health-badge.warning {
+            background: #dc2626;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .progress-bar {
+            height: 0.5rem;
+            background: #e5e7eb;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .status-item.warning { color: #d97706; }
+        .status-item.info { color: #2563eb; }
+        
+        /* Quick Controls */
+        .control-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+        
+        .control-button:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+        }
+        
+        .control-badge {
+            margin-left: auto;
+            background: #dc2626;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-list {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: -1px;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+        
+        .tab:hover {
+            color: #111827;
+        }
+        
+        .tab.active {
+            color: #2563eb;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #2563eb;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Triangle Visualization */
+        .triangle-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+        
+        .triangle-svg {
+            width: 250px;
+            height: 250px;
+        }
+        
+        /* Icons */
+        .icon { font-size: 1.25rem; }
+        .icon-sm { font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="font-size: 1.25rem; font-weight: bold;">Finkargo Analytics</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span class="icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⬆️</span>
+                    <span>Upload Data</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">🛡️</span>
+                    <span>Control Tower</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">📦</span>
+                    <span>Inventory</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: #6b7280; font-size: 0.875rem;">
+                    <span>🏠</span>
+                    <span>›</span>
+                    <span style="color: #111827; font-weight: 500;">Dashboard</span>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h1>Welcome back, Sarah! 👋</h1>
+                    <p>Here's your Supply Chain Intelligence overview for today</p>
+                </div>
+                
+                <!-- Control Panel Overview -->
+                <div class="control-panel-grid">
+                    <!-- System Health Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">System Health Overview</h2>
+                            <span class="health-badge">92% Healthy</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-grid">
+                                <div class="metric-item">
+                                    <div class="metric-header">
+                                        <span>Agent Status</span>
+                                        <span style="font-weight: 500;">5/6 Active</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 83%;"></div>
+                                    </div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-header">
+                                        <span>Data Quality</span>
+                                        <span style="font-weight: 500;">88%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 88%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="status-row">
+                                <div style="display: flex; gap: 1rem;">
+                                    <div class="status-item warning">
+                                        <span class="icon-sm">⚠️</span>
+                                        <span>3 Alerts</span>
+                                    </div>
+                                    <div class="status-item info">
+                                        <span class="icon-sm">⏰</span>
+                                        <span>7 Pending</span>
+                                    </div>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #9ca3af;">Last update: 2 minutes ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Controls -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title" style="font-size: 1rem;">Quick Controls</h2>
+                        </div>
+                        <div class="card-content" style="padding: 1rem;">
+                            <button class="control-button">
+                                <span class="icon-sm">⚙️</span>
+                                <span style="flex: 1;">System Settings</span>
+                            </button>
+                            <button class="control-button">
+                                <span class="icon-sm">🛡️</span>
+                                <span style="flex: 1;">Risk Management</span>
+                                <span class="control-badge">!</span>
+                            </button>
+                            <button class="control-button">
+                                <span class="icon-sm">📈</span>
+                                <span style="flex: 1;">Performance Tuning</span>
+                            </button>
+                            <button class="control-button">
+                                <span class="icon-sm">📊</span>
+                                <span style="flex: 1;">Custom Reports</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customizable Dashboard Tabs -->
+                <div class="tabs">
+                    <div class="tab-list">
+                        <button class="tab active">Overview</button>
+                        <button class="tab">Analytics</button>
+                        <button class="tab">Operations</button>
+                        <button class="tab">Custom View</button>
+                    </div>
+                </div>
+                
+                <!-- Tab Content - Overview -->
+                <div class="dashboard-grid">
+                    <!-- Quick Access Grid -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Quick Access</h2>
+                        </div>
+                        <div class="card-content">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">📦</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Inventory</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Track stock levels</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">📈</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Sales</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Monitor revenue</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">🛡️</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Control Tower</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Manage agents</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">👥</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Suppliers</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Vendor scorecards</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">📄</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Documents</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Import/export docs</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">📊</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Analytics</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Deep insights</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">⬆️</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Upload</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Import CSV data</div>
+                                </div>
+                                <div style="border: 1px solid #e5e7eb; padding: 1rem; border-radius: 0.375rem; text-align: center; cursor: pointer;">
+                                    <div class="icon" style="margin-bottom: 0.5rem;">⚙️</div>
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Settings</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Customize</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Supply Chain Triangle -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Supply Chain Triangle</h2>
+                            <span style="background: #059669; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; font-size: 0.875rem;">Overall Score: 78</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="triangle-container">
+                                <svg class="triangle-svg" viewBox="0 0 250 250">
+                                    <!-- Triangle Grid -->
+                                    <polygon points="125,40 40,200 210,200" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                                    <polygon points="125,80 70,180 180,180" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                                    <polygon points="125,120 100,160 150,160" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                                    
+                                    <!-- Data Triangle -->
+                                    <polygon points="125,60 80,170 170,170" fill="#3b82f6" fill-opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+                                    
+                                    <!-- Labels -->
+                                    <text x="125" y="30" text-anchor="middle" font-size="14" font-weight="600">Service</text>
+                                    <text x="125" y="50" text-anchor="middle" font-size="20" font-weight="bold" fill="#059669">85</text>
+                                    
+                                    <text x="35" y="210" text-anchor="middle" font-size="14" font-weight="600">Cost</text>
+                                    <text x="35" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#d97706">72</text>
+                                    
+                                    <text x="215" y="210" text-anchor="middle" font-size="14" font-weight="600">Capital</text>
+                                    <text x="215" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#d97706">78</text>
+                                </svg>
+                            </div>
+                            
+                            <button style="width: 100%; margin-top: 1rem; padding: 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; cursor: pointer;">
+                                Analyze Performance →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Activity</h2>
+                    </div>
+                    <div class="card-content">
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div style="display: flex; gap: 0.75rem; align-items: start;">
+                                <div style="width: 2rem; height: 2rem; background: #dbeafe; color: #2563eb; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">⬆️</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500; font-size: 0.875rem;">CSV Upload Complete</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">2,450 inventory records processed</div>
+                                    <div style="font-size: 0.75rem; color: #9ca3af;">2 minutes ago</div>
+                                </div>
+                                <span style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem;">System</span>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.75rem; align-items: start;">
+                                <div style="width: 2rem; height: 2rem; background: #fef3c7; color: #d97706; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">⚠️</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Low Stock Alert</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">SKU-12345 below reorder point</div>
+                                    <div style="font-size: 0.75rem; color: #9ca3af;">15 minutes ago</div>
+                                </div>
+                                <span style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem;">Inventory Agent</span>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.75rem; align-items: start;">
+                                <div style="width: 2rem; height: 2rem; background: #d1fae5; color: #059669; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✓</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500; font-size: 0.875rem;">Optimization Complete</div>
+                                    <div style="font-size: 0.75rem; color: #6b7280;">Saved $12,500 in inventory costs</div>
+                                    <div style="font-size: 0.75rem; color: #9ca3af;">1 hour ago</div>
+                                </div>
+                                <span style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem;">Optimization Engine</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -22,7 +22,10 @@ import { RecentActivity } from './RecentActivity';
 import { PersonaDetector } from './PersonaDetector';
 import { StreamlinerQuickActions } from './StreamlinerQuickActions';
 import { NavigatorControlPanel } from './NavigatorControlPanel';
+import { NavigatorDashboard } from './NavigatorDashboard';
+import { MobileDashboard } from './MobileDashboard';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import type { Profile, Company } from '@/types';
 
 interface MainDashboardProps {
@@ -37,8 +40,9 @@ type UserPersona = 'streamliner' | 'navigator' | 'hub' | 'spring' | 'processor';
 export function MainDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
   const [detectedPersona, setDetectedPersona] = useState<UserPersona | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
-  // Enable keyboard shortcuts
+  // Enable keyboard shortcuts (desktop only)
   useKeyboardShortcuts();
 
   useEffect(() => {
@@ -63,7 +67,12 @@ export function MainDashboard({ user, company, recentActivity, metrics }: MainDa
     );
   }
 
-  // Render persona-specific dashboard
+  // Render mobile dashboard if on mobile device
+  if (isMobile) {
+    return <MobileDashboard user={user} company={company} recentActivity={recentActivity} metrics={metrics} />;
+  }
+
+  // Render persona-specific dashboard for desktop
   switch (detectedPersona) {
     case 'streamliner':
       return <StreamlinerDashboard {...{ user, company, recentActivity, metrics }} />;
@@ -153,57 +162,6 @@ function StreamlinerDashboard({ user, company, recentActivity, metrics }: MainDa
   );
 }
 
-// Navigator Dashboard - Control focused
-function NavigatorDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
-  return (
-    <div className="space-y-6">
-      {/* Control Panel Overview */}
-      <NavigatorControlPanel />
-
-      {/* Customizable Dashboard Grid */}
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="operations">Operations</TabsTrigger>
-          <TabsTrigger value="custom">Custom View</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <QuickAccessGrid persona="navigator" />
-            <SupplyChainTriangleOverview />
-          </div>
-          <RecentActivity activities={recentActivity} />
-        </TabsContent>
-
-        <TabsContent value="analytics">
-          <Card>
-            <CardContent className="py-12 text-center text-gray-500">
-              Advanced analytics view - Configure your preferred metrics
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="operations">
-          <Card>
-            <CardContent className="py-12 text-center text-gray-500">
-              Operations control center - Manage all workflows
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="custom">
-          <Card>
-            <CardContent className="py-12 text-center text-gray-500">
-              Drag and drop widgets to create your custom dashboard
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-}
 
 // Hub Dashboard - Network focused
 function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardProps) {
