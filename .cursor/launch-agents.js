@@ -8,7 +8,7 @@ const agents = config.agents;
 console.log('📋 Loading development plan...');
 console.log('📁 Context files loaded:');
 console.log('   - ./Cursor One Shot Prompt');
-console.log('   - ./CLAUDE.md');
+console.log('   - docs/CLAUDE.md');
 console.log('   - ./DEVELOPMENT_PLAN.md\n');
 
 console.log('🚀 Starting agents:\n');

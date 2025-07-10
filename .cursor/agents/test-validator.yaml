@@ -4,7 +4,7 @@ version: 1.0.0
 
 context:
   - file: ./Cursor One Shot Prompt
-  - file: ./CLAUDE.md
+  - file: docs/CLAUDE.md
   - file: ./DEVELOPMENT_PLAN.md
 
 responsibilities:

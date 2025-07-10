@@ -6,7 +6,7 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}🚀 Setting up test environment for MVP-SPI${NC}\n"
+echo -e "${BLUE}🚀 Setting up test environment for Supply Chain Intelligence (root)${NC}\n"
 
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then

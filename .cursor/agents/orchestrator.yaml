@@ -4,7 +4,7 @@ version: 1.0.0
 
 context:
   - file: ./DEVELOPMENT_PLAN.md
-  - file: ./CLAUDE.md
+  - file: docs/CLAUDE.md
   - directory: ./.cursor/agents/
 
 orchestration:

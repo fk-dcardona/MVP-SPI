@@ -4,7 +4,7 @@
 
 ```bash
 # Terminal 1 - Start the development server
-cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence/mvp-spi
+cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence
 npm run dev
 
 # Terminal 2 - Run these test scenarios

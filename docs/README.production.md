@@ -1,5 +1,24 @@
 # Finkargo Analytics MVP - Production Deployment Guide
 
+## 🌳 Documentation Map & Ecosystem Philosophy
+
+This project’s documentation is organized like a healthy forest ecosystem:
+- **Canopy Layer**: High-level orientation and philosophy
+- **Understory**: Operational guides and health monitoring
+- **Forest Floor**: Deep knowledge, milestones, and field guides
+- **Seeds & Saplings**: Config, data, and automation scripts
+
+**All documentation is now in the `/docs/` directory.**
+
+| Layer         | File(s)                                 | Purpose/Analogy                        |
+|---------------|----------------------------------------|----------------------------------------|
+| Canopy        | README.production.md, CLAUDE.md         | Orientation, philosophy, big picture   |
+| Understory    | DEPLOYMENT_CHECKLIST.md, LOCAL_TESTING_GUIDE.md, COMPREHENSIVE_TESTING_CHECKLIST.md, COMPREHENSIVE_TEST_REPORT.md | Operational guides, health monitoring  |
+| Forest Floor  | PHASE_4_5_CHECKLIST.md, PHASE-4-OPTIMIZATION-STRATEGY.md, DEPLOYMENT_STATUS.md, TEST_PROMPTS.md | Deep knowledge, milestones, field guide|
+| Seeds/Saplings| .env.example, .env.production.example, .env.local, generate-test-data.js, test-comprehensive-features.js, setup-test.sh, test-data/ | Config, data, automation               |
+
+---
+
 ## 🚀 Quick Start
 
 This guide will walk you through deploying the Finkargo Analytics MVP to production using Supabase (database) and Vercel (hosting).
@@ -166,7 +185,7 @@ supabase db push
 
 ## 📞 Support Resources
 
-- **Technical Issues**: Check `/DEPLOYMENT_CHECKLIST.md`
+- **Technical Issues**: Check `/docs/DEPLOYMENT_CHECKLIST.md`
 - **Supabase Docs**: https://supabase.com/docs
 - **Vercel Docs**: https://vercel.com/docs
 - **Next.js Docs**: https://nextjs.org/docs
@@ -199,4 +218,4 @@ supabase db push
 
 ---
 
-**Need help?** Review the comprehensive documentation in `/CLAUDE.md` or check the troubleshooting guide in `/DEPLOYMENT_CHECKLIST.md`.
+**Need help?** Review the comprehensive documentation in `/docs/CLAUDE.md` or check the troubleshooting guide in `/docs/DEPLOYMENT_CHECKLIST.md`.

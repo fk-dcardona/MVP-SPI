@@ -1,16 +1,15 @@
 {
-  "workingDirectory": "mvp-spi",
-  "description": "All development MUST happen in the mvp-spi subdirectory",
-  "rules": [
-    "NEVER create or edit files outside of mvp-spi directory",
-    "ALWAYS cd to mvp-spi before running any commands",
-    "If you find yourself in the root directory, immediately cd to mvp-spi",
-    "The root directory is only for workspace-level configuration"
+  "workingDirectory": ".",
+  "description": "All development MUST happen in the root directory",
+  "notes": [
+    "NEVER create or edit files outside of the root directory",
+    "ALWAYS cd to the project root before running any commands",
+    "If you find yourself in a subdirectory, immediately cd to the root"
   ],
   "correctPaths": {
-    "src": "/mvp-spi/src/",
-    "supabase": "/mvp-spi/supabase/",
-    "public": "/mvp-spi/public/",
-    "tests": "/mvp-spi/src/__tests__/"
+    "src": "./src/",
+    "supabase": "./supabase/",
+    "public": "./public/",
+    "tests": "./src/__tests__/"
   }
 }

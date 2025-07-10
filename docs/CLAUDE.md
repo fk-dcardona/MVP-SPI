@@ -1,5 +1,24 @@
 # CLAUDE.md
 
+## 🌳 Documentation Map & Ecosystem Philosophy
+
+This project’s documentation is organized like a healthy forest ecosystem:
+- **Canopy Layer**: High-level orientation and philosophy
+- **Understory**: Operational guides and health monitoring
+- **Forest Floor**: Deep knowledge, milestones, and field guides
+- **Seeds & Saplings**: Config, data, and automation scripts
+
+**All documentation is now in the `/docs/` directory.**
+
+| Layer         | File(s)                                 | Purpose/Analogy                        |
+|---------------|----------------------------------------|----------------------------------------|
+| Canopy        | README.production.md, CLAUDE.md         | Orientation, philosophy, big picture   |
+| Understory    | DEPLOYMENT_CHECKLIST.md, LOCAL_TESTING_GUIDE.md, COMPREHENSIVE_TESTING_CHECKLIST.md, COMPREHENSIVE_TEST_REPORT.md | Operational guides, health monitoring  |
+| Forest Floor  | PHASE_4_5_CHECKLIST.md, PHASE-4-OPTIMIZATION-STRATEGY.md, DEPLOYMENT_STATUS.md, TEST_PROMPTS.md | Deep knowledge, milestones, field guide|
+| Seeds/Saplings| .env.example, .env.production.example, .env.local, generate-test-data.js, test-comprehensive-features.js, setup-test.sh, test-data/ | Config, data, automation               |
+
+---
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository Overview
@@ -40,7 +59,7 @@ Finkargo Analytics MVP - A Supply Chain Intelligence Platform that transforms CS
 
 ```bash
 # Navigate to the correct working directory
-cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence/mvp-spi
+cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence
 
 # Install dependencies
 npm install
@@ -134,7 +153,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 3. **Port Conflicts**: If port 3000 is in use, Next.js will automatically try port 3001.
 
-4. **Build Errors**: Some TypeScript errors exist due to the duplicate file structure. Always ensure you're working in the mvp-spi subdirectory.
+4. **Build Errors**: Some TypeScript errors exist due to the duplicate file structure. Always ensure you're working in the project root directory.
 
 ## Performance Targets
 
@@ -152,7 +171,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 ## Development Workflow
 
-1. Always work within the `mvp-spi` subdirectory
+1. Always work within the project root directory
 2. Check TypeScript errors with `npm run type-check` before committing
 3. Ensure all new components follow the existing patterns
 4. Use Server Components by default, Client Components only when necessary
@@ -179,7 +198,7 @@ The agent system is a core architectural component that handles background proce
   - `.env.example`: Combined actual values from HEAD with placeholder structure from branch
   - `.gitignore`: Kept comprehensive version from branch, added archive/ directory
   - `CLAUDE.md`: Preserved from HEAD (deleted in branch)
-  - `mvp-spi/`: Removed submodule reference (not critical)
+  - `mvp-spi/`: (Removed; all code now lives in the root directory)
   - App files: Restored deleted files from branch (canonical code)
 - **New Features Added**:
   - Complete agent system with 6 agent implementations
@@ -545,7 +564,7 @@ supabase db push
 
 ```bash
 # 1. Start development server
-cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence/mvp-spi
+cd /Users/helpdesk/Cursor/MVP\ -\ Supply\ Chain\ Intelligence
 npm run dev
 
 # 2. Complete agent implementations
