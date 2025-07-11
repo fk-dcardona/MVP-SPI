@@ -31,7 +31,8 @@ export async function middleware(req: NextRequest) {
   const isProtectedRoute = req.nextUrl.pathname.startsWith('/dashboard') || 
                           req.nextUrl.pathname.startsWith('/api/') && 
                           !req.nextUrl.pathname.startsWith('/api/auth') &&
-                          !req.nextUrl.pathname.startsWith('/api/test-auth')
+                          !req.nextUrl.pathname.startsWith('/api/test-auth') &&
+                          !req.nextUrl.pathname.startsWith('/api/webhooks/')
 
   if (isProtectedRoute && !session) {
     const redirectUrl = req.nextUrl.clone()
