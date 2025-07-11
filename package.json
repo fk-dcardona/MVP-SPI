@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.3.5",
+    "@supabase/mcp-server-postgrest": "^0.1.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/canvas-confetti": "^1.9.0",
@@ -65,14 +66,20 @@
     "eslint": "^8.0.0",
     "eslint-config-next": "14.0.0",
     "postcss": "^8.0.0",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "supabase-mcp": "^1.5.0"
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
     "moduleNameMapping": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },
-    "testPathIgnorePatterns": ["<rootDir>/.next/", "<rootDir>/node_modules/"]
+    "testPathIgnorePatterns": [
+      "<rootDir>/.next/",
+      "<rootDir>/node_modules/"
+    ]
   }
 }

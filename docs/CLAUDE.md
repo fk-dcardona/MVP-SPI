@@ -8,6 +8,18 @@ This is a unified Next.js-based **Supply Chain Intelligence Platform** called "F
 
 ## Development Commands
 
+### MCP (Model Context Protocol) Testing
+```bash
+# Test Supabase MCP connection
+node execute-sql-setup.js
+
+# Direct SQL execution with MCP
+node execute-sql-direct.js
+
+# Note: MCP requires SUPABASE_SERVICE_KEY in .env.local
+# The connection validates but needs exec_sql function in Supabase
+```
+
 ### Primary Commands
 ```bash
 # Navigate to project directory
@@ -48,6 +60,21 @@ npm run test:coverage  # Generate coverage report
 supabase db push              # Deploy migrations
 supabase migration new <name> # Create new migration
 supabase db reset             # Reset database
+```
+
+### Testing Scripts
+```bash
+# WhatsApp Intelligence Testing
+node test-whatsapp-intelligence.js
+# - Simulates 5 persona types with test phone numbers
+# - Test scenarios: inventory_check, alert_management, learning_scenario, proactive_testing
+# - Dashboard: http://localhost:3000/dashboard
+# - Webhook: POST to /api/webhooks/whatsapp
+
+# Comprehensive Feature Testing
+node test-comprehensive-features.js
+# - Tests: Auth, Agents, CSV Processing, Alerts, Reports
+# - Requires: Dev server running (npm run dev)
 ```
 
 ### Agent System
@@ -407,6 +434,26 @@ This project's documentation is organized like a healthy forest ecosystem:
 - Production environment setup
 - WhatsApp webhook configuration
 
+## Flow State Development Philosophy
+
+### Emergent Architecture Principles
+- **Let patterns flow naturally**: Don't force architectural decisions, let them emerge from actual needs
+- **Composable simplicity**: Build small, focused components that combine elegantly
+- **Trust the system's intelligence**: The codebase has inherent wisdom - listen to what it's telling you
+- **Apply the Essence Excavator**: Before coding, find the core purpose and essential nature of what you're building
+
+### Water Way Development
+- **Flow like water**: Code should find the path of least resistance
+- **Remove obstacles, don't force solutions**: When stuck, step back and find what's blocking the flow
+- **Embrace natural rhythms**: Work with the codebase's patterns, not against them
+- **Let code evolve organically**: Allow solutions to emerge rather than imposing them
+
+### Practical Application
+1. **Start with intention**: What does this code want to become?
+2. **Listen to resistance**: If implementation feels forced, reconsider the approach
+3. **Seek elegant simplicity**: The best solution often requires the least code
+4. **Trust emergence**: Let patterns reveal themselves through usage
+
 ## Development Workflow
 
 1. Always work within the project root directory
@@ -417,6 +464,8 @@ This project's documentation is organized like a healthy forest ecosystem:
 6. Test WhatsApp conversation flows in development
 7. Maintain type safety for all Supabase queries
 8. Follow persona-adaptive design principles
+9. Apply Flow State principles: Let solutions emerge naturally
+10. Use the Essence Excavator: Find core purpose before implementing
 
 ## Recent Major Achievements
 

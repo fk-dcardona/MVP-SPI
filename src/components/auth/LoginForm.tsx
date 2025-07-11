@@ -27,17 +27,37 @@ export default function LoginForm() {
     setError("");
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      console.log("Attempting login with:", email);
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
+        console.error("Login error:", error);
         setError(error.message);
       } else {
-        router.push("/dashboard");
+        console.log("Login successful:", data);
+        
+        // Check if we actually have a session
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        console.log("Current session after login:", currentSession);
+        
+        // Try to get the user to verify auth
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        console.log("Current user after login:", currentUser);
+        
+        // Add a message to show login was successful
+        setMessage("Login successful! Redirecting...");
+        
+        // Force a hard navigation to ensure middleware picks up the session
+        setTimeout(() => {
+          console.log("Attempting redirect to dashboard...");
+          window.location.href = "/dashboard-client";
+        }, 1000);
       }
     } catch (err) {
+      console.error("Unexpected error:", err);
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);

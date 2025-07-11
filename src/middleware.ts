@@ -1,10 +1,27 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
+  let res = NextResponse.next()
+  
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return req.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options) {
+          res.cookies.set({ name, value, ...options })
+        },
+        remove(name: string, options) {
+          res.cookies.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
   
   const {
     data: { session },
@@ -13,7 +30,8 @@ export async function middleware(req: NextRequest) {
   // Protected routes
   const isProtectedRoute = req.nextUrl.pathname.startsWith('/dashboard') || 
                           req.nextUrl.pathname.startsWith('/api/') && 
-                          !req.nextUrl.pathname.startsWith('/api/auth')
+                          !req.nextUrl.pathname.startsWith('/api/auth') &&
+                          !req.nextUrl.pathname.startsWith('/api/test-auth')
 
   if (isProtectedRoute && !session) {
     const redirectUrl = req.nextUrl.clone()
@@ -22,6 +40,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl)
   }
 
+  // Ensure we return the response with updated cookies
   return res
 }
 
