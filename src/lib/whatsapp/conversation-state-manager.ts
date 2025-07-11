@@ -68,7 +68,7 @@ export class ConversationStateManager {
   private personaService: PersonaService;
 
   constructor() {
-    this.personaService = new PersonaService();
+    this.personaService = PersonaService.getInstance();
     this.startMemoryPersistence();
   }
 

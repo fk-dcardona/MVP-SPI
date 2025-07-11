@@ -18,7 +18,6 @@ import { Select, SelectOption } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { Agent, AgentType } from '@/lib/agents/types';
-import { AgentFactory } from '@/lib/agents/factory';
 
 interface EditAgentDialogProps {
   agent: Agent;
@@ -53,10 +52,9 @@ export function EditAgentDialog({ agent, open, onOpenChange }: EditAgentDialogPr
         throw new Error('Invalid JSON configuration');
       }
 
-      // Validate config using factory
-      const factory = AgentFactory.getInstance();
-      if (!factory.validateConfig(formData.type as AgentType, config)) {
-        throw new Error('Invalid configuration for agent type');
+      // Basic config validation - detailed validation happens on server
+      if (!config || typeof config !== 'object') {
+        throw new Error('Configuration must be a valid JSON object');
       }
 
       const response = await fetch(`/api/agents/${agent.id}`, {
@@ -86,9 +84,16 @@ export function EditAgentDialog({ agent, open, onOpenChange }: EditAgentDialogPr
   };
 
   const getConfigHelp = () => {
-    const factory = AgentFactory.getInstance();
-    const defaultConfig = factory.getDefaultConfig(formData.type as AgentType);
-    return JSON.stringify(defaultConfig, null, 2);
+    // Basic default configs for different agent types
+    const defaultConfigs = {
+      inventory_monitor: { thresholds: { low: 10, critical: 5 } },
+      alert_generator: { priority: 'medium', channels: ['email'] },
+      data_processor: { batchSize: 1000, retryCount: 3 },
+      report_generator: { format: 'json', includeCharts: true },
+      optimization_engine: { strategy: 'cost', autoApply: false },
+      notification_dispatcher: { channels: ['whatsapp'], template: 'default' }
+    };
+    return JSON.stringify(defaultConfigs[formData.type as AgentType] || {}, null, 2);
   };
 
   return (

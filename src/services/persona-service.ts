@@ -121,6 +121,7 @@ export class PersonaService {
     if (!this.userId) return null;
     
     try {
+      const supabase = createClient();
       const { data, error } = await supabase
         .from('user_preferences')
         .select('*')
@@ -148,6 +149,7 @@ export class PersonaService {
     if (!this.userId) return false;
     
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('user_preferences')
         .upsert({
@@ -176,6 +178,7 @@ export class PersonaService {
     if (!this.userId) return null;
     
     try {
+      const supabase = createClient();
       const { data, error } = await supabase
         .from('system_health_preferences')
         .select('*')
@@ -212,6 +215,7 @@ export class PersonaService {
     };
     
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('system_health_preferences')
         .upsert({
@@ -236,10 +240,39 @@ export class PersonaService {
   /**
    * Get persona scores
    */
+  async getPersona(userId?: string): Promise<UserPersona> {
+    if (userId) this.setUserId(userId);
+    const scores = await this.getPersonaScores();
+    if (!scores) return 'streamliner';
+    
+    // Find the persona with the highest score
+    const personas: { key: keyof PersonaScores; persona: UserPersona }[] = [
+      { key: 'streamliner_score', persona: 'streamliner' },
+      { key: 'navigator_score', persona: 'navigator' },
+      { key: 'hub_score', persona: 'hub' },
+      { key: 'spring_score', persona: 'spring' },
+      { key: 'processor_score', persona: 'processor' }
+    ];
+    
+    let topPersona: UserPersona = 'streamliner';
+    let highestScore = 0;
+    
+    for (const { key, persona } of personas) {
+      const score = scores[key];
+      if (typeof score === 'number' && score > highestScore) {
+        highestScore = score;
+        topPersona = persona;
+      }
+    }
+    
+    return topPersona;
+  }
+
   async getPersonaScores(): Promise<PersonaScores | null> {
     if (!this.userId) return null;
     
     try {
+      const supabase = createClient();
       const { data, error } = await supabase
         .from('persona_scores')
         .select('*')

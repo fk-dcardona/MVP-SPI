@@ -25,7 +25,7 @@ This guide will walk you through deploying the Finkargo Analytics MVP to product
 
 ### Current Development Status
 
-**Platform State**: Core functionality complete with advanced onboarding system
+**Platform State**: Core functionality complete with advanced WhatsApp conversational intelligence
 - ✅ Agent system with complete business logic
 - ✅ Data processing pipeline with validation
 - ✅ Supply Chain Triangle optimization engine
@@ -34,6 +34,7 @@ This guide will walk you through deploying the Finkargo Analytics MVP to product
 - ✅ Comprehensive mobile optimization with gesture support
 - ✅ Complete test coverage for onboarding flows
 - ✅ Dual-path onboarding: Deep (5-7 min) and Quick (2-3 min)
+- ✅ **WhatsApp Conversational Intelligence**: Complete AI system with memory, learning, and proactive insights
 - 🚧 Navigator predictive analytics in development
 - ⏳ Production deployment pending
 
@@ -77,10 +78,15 @@ This guide will walk you through deploying the Finkargo Analytics MVP to product
 
 ### 2. External Services Setup
 
-#### Twilio (WhatsApp Notifications)
+#### Twilio (WhatsApp Conversational Intelligence)
 1. Sign up at https://www.twilio.com
-2. Get credentials from Console Dashboard
+2. Get credentials from Console Dashboard:
+   - Account SID
+   - Auth Token
+   - WhatsApp Phone Number
 3. Set up WhatsApp Sandbox (Messaging > Try it out)
+4. Configure webhook URL: `https://your-domain.vercel.app/api/webhooks/whatsapp`
+5. Set webhook method to POST
 
 #### Currency API
 1. Sign up at https://app.exchangerate-api.com
@@ -135,6 +141,10 @@ After running seed data:
 - **Mobile Gestures**: Swipe navigation, pinch-to-zoom, long-press tooltips
 - **Behavior Tracking**: Real-time persona detection with confidence scoring
 - **Early Completion**: Smart onboarding allows finishing early when pattern is clear
+- **🤖 WhatsApp Conversational Intelligence**: Advanced AI system with memory, learning, and proactive business insights
+- **🧠 Adaptive Responses**: AI learns user preferences and improves over time
+- **💡 Proactive Insights**: System initiates helpful business conversations
+- **📱 Natural Language Processing**: Understands business intent and context
 
 ## 🛠️ Configuration Options
 
@@ -171,17 +181,25 @@ npm run build
 - Verify cron job configuration
 - Ensure AGENT_SCHEDULER_SECRET matches
 
+**WhatsApp integration issues**
+- Verify Twilio webhook URL is correctly configured
+- Check TWILIO_AUTH_TOKEN and TWILIO_ACCOUNT_SID
+- Test webhook signature validation
+- Monitor conversation processing logs
+
 ## 📈 Monitoring
 
 ### Built-in Monitoring
 - Vercel Dashboard: Deployment status, logs, analytics
 - Supabase Dashboard: Database metrics, API logs
 - Application: Agent status page at `/dashboard/agents`
+- WhatsApp Analytics: Conversation intelligence metrics and learning progress
 
 ### Recommended Add-ons
 - **Sentry**: Error tracking (free tier available)
 - **UptimeRobot**: Availability monitoring (free)
 - **Segment**: Analytics tracking (optional)
+- **WhatsApp Business API**: For production WhatsApp integration (upgrade from sandbox)
 
 ## 🔄 Updates & Maintenance
 

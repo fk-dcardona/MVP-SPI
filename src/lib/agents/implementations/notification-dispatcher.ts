@@ -1,6 +1,6 @@
 import { BaseAgent, AgentExecutionResult, NotificationDispatcherConfig } from '../types';
 import { WhatsAppService } from '@/lib/notifications/whatsapp-service';
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 
 export class NotificationDispatcher extends BaseAgent {
   private whatsappService: WhatsAppService | null = null;
@@ -205,7 +205,7 @@ export class NotificationDispatcher extends BaseAgent {
       }
 
       // Get user persona for personalized messaging
-      const supabase = createServerClient();
+      const supabase = createClient();
       const { data: profile } = await supabase
         .from('profiles')
         .select('id')

@@ -117,7 +117,45 @@ const INTENT_PATTERNS: Record<IntentType, RegExp[]> = {
     /agent (?:status|info)/i,
     /(?:show|list) (?:running )?agents/i,
     /what agents are running/i
-  ]
+  ],
+  
+  [IntentType.UPDATE_STOCK]: [
+    /update (?:stock|inventory) (.+)/i,
+    /set (?:stock|inventory) (.+) (?:to )?(\d+)/i,
+    /adjust (?:stock|inventory) (.+)/i
+  ],
+  
+  [IntentType.RESOLVE_ALERT]: [
+    /resolve alert (\w+)/i,
+    /mark alert (\w+) (?:as )?resolved/i,
+    /fix alert (\w+)/i
+  ],
+  
+  [IntentType.VIEW_METRICS]: [
+    /show (?:me )?metrics/i,
+    /view (?:performance )?metrics/i,
+    /^metrics$/i
+  ],
+  
+  [IntentType.SUPPLIER_PERFORMANCE]: [
+    /supplier performance (.+)/i,
+    /how is supplier (.+) (?:doing|performing)/i,
+    /(.+) supplier (?:scorecard|rating)/i
+  ],
+  
+  [IntentType.RUN_AGENT]: [
+    /run agent (.+)/i,
+    /start agent (.+)/i,
+    /execute agent (.+)/i
+  ],
+  
+  [IntentType.STOP_AGENT]: [
+    /stop agent (.+)/i,
+    /pause agent (.+)/i,
+    /halt agent (.+)/i
+  ],
+  
+  [IntentType.UNKNOWN]: []
 };
 
 // Agent mappings for each intent
@@ -171,7 +209,7 @@ export class WhatsAppMessageProcessor {
   constructor() {
     this.whatsappService = new WhatsAppService();
     this.agentManager = AgentManager.getInstance();
-    this.personaService = new PersonaService();
+    this.personaService = PersonaService.getInstance();
     this.conversationManager = new ConversationStateManager();
     this.responseGenerator = new AdaptiveResponseGenerator();
     this.insightEngine = new ProactiveInsightEngine();
