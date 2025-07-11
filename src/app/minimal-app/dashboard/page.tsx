@@ -21,7 +21,7 @@ export default function MinimalDashboard() {
         setLoading(false);
       })
       .catch(() => {
-        router.push('/minimal/login');
+        router.push('/minimal-app/login');
       });
   }, [router]);
 
@@ -46,7 +46,7 @@ export default function MinimalDashboard() {
 
   const handleLogout = () => {
     fetch('/api/minimal/auth/logout', { method: 'POST' })
-      .then(() => router.push('/minimal/login'));
+      .then(() => router.push('/minimal-app/login'));
   };
 
   if (loading) {

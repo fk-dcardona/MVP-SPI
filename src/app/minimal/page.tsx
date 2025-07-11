@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function MinimalRoot() {
-  redirect('/minimal/login');
+  redirect('/minimal-app/login');
 }

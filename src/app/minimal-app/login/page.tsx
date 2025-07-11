@@ -25,7 +25,7 @@ export default function MinimalLogin() {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/minimal/dashboard');
+        router.push('/minimal-app/dashboard');
       } else {
         setError(data.error || 'Login failed');
       }
