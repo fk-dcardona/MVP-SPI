@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 
 export default function Error({
   error,
@@ -15,40 +14,90 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 text-center">
+    <div style={{ 
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#f9fafb',
+      fontFamily: 'system-ui, sans-serif'
+    }}>
+      <div style={{ 
+        maxWidth: '400px',
+        width: '100%',
+        textAlign: 'center',
+        padding: '2rem'
+      }}>
         <div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 style={{ 
+            marginTop: '1.5rem',
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            color: '#111827'
+          }}>
             Something went wrong!
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p style={{ 
+            marginTop: '0.5rem',
+            fontSize: '0.875rem',
+            color: '#6b7280'
+          }}>
             We encountered an unexpected error. Please try again.
           </p>
         </div>
         
-        <div className="space-y-4">
-          <Button
+        <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <button
             onClick={reset}
-            className="w-full"
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              backgroundColor: '#0070f3',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '1rem'
+            }}
           >
             Try again
-          </Button>
+          </button>
           
-          <Button
-            variant="outline"
+          <button
             onClick={() => window.location.href = '/'}
-            className="w-full"
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              backgroundColor: 'transparent',
+              color: '#0070f3',
+              border: '1px solid #0070f3',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '1rem'
+            }}
           >
             Go to home
-          </Button>
+          </button>
         </div>
         
         {process.env.NODE_ENV === 'development' && (
-          <details className="mt-4 text-left">
-            <summary className="cursor-pointer text-sm text-gray-500">
+          <details style={{ marginTop: '1rem', textAlign: 'left' }}>
+            <summary style={{ 
+              cursor: 'pointer',
+              fontSize: '0.875rem',
+              color: '#6b7280'
+            }}>
               Error details (development only)
             </summary>
-            <pre className="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded overflow-auto">
+            <pre style={{ 
+              marginTop: '0.5rem',
+              fontSize: '0.75rem',
+              color: '#dc2626',
+              backgroundColor: '#fef2f2',
+              padding: '0.5rem',
+              borderRadius: '4px',
+              overflow: 'auto'
+            }}>
               {error.message}
               {error.stack && `\n\n${error.stack}`}
             </pre>
