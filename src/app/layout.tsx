@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ClientProvider from "./ClientProvider";
 // Temporarily removed complex components for clean refactor
 // import { AgentSystemInitializer } from "@/components/agents/AgentSystemInitializer";
 // import { Toaster } from "@/components/ui/toaster";
@@ -21,11 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} antialiased`}
+        suppressHydrationWarning
       >
-        {children}
+        <ClientProvider>
+          {children}
+        </ClientProvider>
         {/* <Toaster /> */}
       </body>
     </html>
