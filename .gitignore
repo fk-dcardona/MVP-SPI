@@ -17,6 +17,9 @@ dist/
 .env.test.local
 .env.production.local
 
+# MCP configuration (contains secrets)
+.mcp.json
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts

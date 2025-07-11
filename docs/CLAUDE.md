@@ -31,10 +31,15 @@ npm run type-check
 # Linting
 npm run lint
 
-# Testing
-npm run test
+# Testing (Note: test scripts need to be added to package.json)
+npm test               # Run all tests once
 npm run test:watch     # Run tests in watch mode
 npm run test:coverage  # Generate coverage report
+
+# To add test scripts, update package.json with:
+# "test": "jest",
+# "test:watch": "jest --watch",
+# "test:coverage": "jest --coverage"
 ```
 
 ### Database Operations

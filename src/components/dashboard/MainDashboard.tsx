@@ -19,7 +19,8 @@ import {
   Clock,
   Target,
   Shield,
-  CheckCircle
+  CheckCircle,
+  BrainCircuit
 } from 'lucide-react';
 import { QuickAccessGrid } from './QuickAccessGrid';
 import { SupplyChainTriangleOverview } from './SupplyChainTriangleOverview';
@@ -33,6 +34,7 @@ import { MobileDashboardEnhanced } from './MobileDashboardEnhanced';
 import { EntitySwitcher } from '@/components/hub/EntitySwitcher';
 import { NetworkVisualization } from '@/components/hub/NetworkVisualization';
 import { ConsolidatedReports } from '@/components/hub/ConsolidatedReports';
+import { HubPredictiveAnalytics } from '@/components/hub/HubPredictiveAnalytics';
 import { OnboardingWizard } from '@/components/spring/OnboardingWizardWrapper';
 import { ProgressTracking } from '@/components/spring/ProgressTracking';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
@@ -260,6 +262,10 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
       <Tabs value={activeView} onValueChange={setActiveView}>
         <TabsList>
           <TabsTrigger value="network">Network Overview</TabsTrigger>
+          <TabsTrigger value="intelligence" className="flex items-center gap-2">
+            <BrainCircuit className="h-4 w-4" />
+            Predictive Intelligence
+          </TabsTrigger>
           <TabsTrigger value="operations">Multi-Entity Ops</TabsTrigger>
           <TabsTrigger value="consolidated">Consolidated View</TabsTrigger>
           <TabsTrigger value="health">System Health</TabsTrigger>
@@ -268,6 +274,10 @@ function HubDashboard({ user, company, recentActivity, metrics }: MainDashboardP
 
         <TabsContent value="network" className="mt-6">
           <NetworkVisualization />
+        </TabsContent>
+
+        <TabsContent value="intelligence" className="mt-6">
+          <HubPredictiveAnalytics />
         </TabsContent>
 
         <TabsContent value="operations" className="mt-6 space-y-6">
