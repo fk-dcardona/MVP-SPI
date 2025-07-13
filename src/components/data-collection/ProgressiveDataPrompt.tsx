@@ -291,7 +291,7 @@ export function ProgressiveDataPrompt({
 
                     {/* Unlocked Features */}
                     <div>
-                      <p className="text-sm font-medium mb-2">What you'll unlock:</p>
+                      <p className="text-sm font-medium mb-2">What you&apos;ll unlock:</p>
                       <div className="grid grid-cols-2 gap-2">
                         {level.unlockedFeatures.map((feature, index) => (
                           <div key={index} className="flex items-start gap-2 text-sm">

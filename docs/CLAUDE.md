@@ -1,6 +1,19 @@
-# CLAUDE.md
+# CLAUDE.md - Supply Chain Intelligence + SuperClaude Configuration
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 🌊 SuperClaude + Flow State Activation
+
+To activate enhanced capabilities:
+1. **Flow State**: "Please review CLAUDE_PERSONAL_PROFILE.md and enter flow state"
+2. **SuperClaude**: "Apply SuperClaude configuration for maximum efficiency"
+3. **Session Intent**: "Today's archetype: [Hacker/Architect/Craftsperson/Explorer]"
+
+## Core Philosophy
+- **Code > docs**: Show working code, minimal explanation
+- **Simple → complex**: Start with essence, evolve naturally
+- **Evidence-based**: "Testing confirms" > "should work"
+- **Flow like water**: Let solutions emerge, don't force them
 
 ## Repository Overview
 
@@ -255,6 +268,44 @@ This is a sophisticated emergent AI system that represents cutting-edge conversa
 - **Agent System**: Proactive agent execution based on conversations
 - **Real-time Updates**: Live conversation monitoring and analytics
 
+## SuperClaude Command System
+
+### Quick Commands (Use these for efficiency)
+```bash
+# Build with AI components
+/build --react --magic --tdd
+
+# Security-focused review
+/review --files src/ --persona-security --evidence
+
+# Production debugging
+/troubleshoot --prod --five-whys --think-hard
+
+# Performance analysis
+/analyze --performance --persona-performance
+```
+
+### Thinking Modes
+- `--think`: Multi-file analysis (~4K tokens)
+- `--think-hard`: Architecture decisions (~10K tokens)
+- `--ultrathink`: Critical operations (~32K tokens)
+- `--uc`: Ultra-compressed mode (70% token reduction)
+
+### Personas
+- `--persona-architect`: System design
+- `--persona-frontend`: UI/UX focus
+- `--persona-backend`: API reliability
+- `--persona-security`: Threat modeling
+- `--persona-performance`: Optimization
+
+## Flow State Decision Filters
+
+Apply these in sequence:
+1. **"What wants to emerge here?"** (before starting)
+2. **"Simple, flowing, alive"** (while building)
+3. **"The solution is already here"** (when stuck)
+4. **"How does this teach me?"** (after completion)
+
 ## Development Best Practices
 
 1. **Before Making Changes**:
@@ -297,6 +348,19 @@ This is a sophisticated emergent AI system that represents cutting-edge conversa
    - Memory management should clean up inactive conversations
    - Database queries should use proper indexing for conversation data
    - Rate limiting is implemented for WhatsApp webhooks
+
+## Task Management Protocol
+
+**ALWAYS use TodoWrite for:**
+- Tasks with 3+ steps
+- Complex implementations
+- Multiple user requests
+- After new instructions
+
+**Task states:**
+- `pending`: Not started
+- `in_progress`: Currently working (ONE at a time)
+- `completed`: Finished successfully
 
 ## Environment Configuration
 
@@ -406,6 +470,20 @@ This project's documentation is organized like a healthy forest ecosystem:
 | Forest Floor  | PHASE_4_5_CHECKLIST.md, PHASE-4-OPTIMIZATION-STRATEGY.md, DEPLOYMENT_STATUS.md, TEST_PROMPTS.md, User_Personas.md | Deep knowledge, milestones, field guide|
 | Seeds/Saplings| .env.example, .env.production.example, .env.local, generate-test-data.js, test-comprehensive-features.js, setup-test.sh, test-data/ | Config, data, automation               |
 
+## Supply Chain Intelligence Specific Patterns
+
+### When Working on Features:
+1. **Apply Supply Chain Triangle**: Service-Cost-Capital optimization
+2. **Consider 5 Personas**: Streamliner, Navigator, Hub, Spring, Processor
+3. **Test WhatsApp AI**: Conversation flows and learning
+4. **Monitor Agents**: Impact on 6 autonomous agents
+5. **Performance Target**: <3 second response times
+
+### Philosophical Prompts for This Project:
+- **Essence Excavator**: "What's the core truth of supply chain optimization?"
+- **Water Way**: "How would inventory flow naturally through the system?"
+- **Kintsugi**: "How can supply chain breaks strengthen the system?"
+
 ## Implementation Status
 
 ### ✅ Completed
@@ -456,16 +534,29 @@ This project's documentation is organized like a healthy forest ecosystem:
 
 ## Development Workflow
 
-1. Always work within the project root directory
-2. Check TypeScript errors with `npm run type-check` before committing
-3. Ensure all new components follow the existing patterns
-4. Use Server Components by default, Client Components only when necessary
-5. Test agent implementations in isolation before integration
-6. Test WhatsApp conversation flows in development
-7. Maintain type safety for all Supabase queries
-8. Follow persona-adaptive design principles
-9. Apply Flow State principles: Let solutions emerge naturally
-10. Use the Essence Excavator: Find core purpose before implementing
+### SuperClaude Enhanced Workflow:
+1. **Start with essence**: Use Essence Excavator before coding
+2. **TodoWrite first**: Track complex tasks proactively
+3. **Type-check always**: `npm run type-check` before commits
+4. **Flow state coding**: Let patterns emerge, don't force
+5. **Test continuously**: Especially WhatsApp AI flows
+6. **Evidence-based**: Back decisions with testing/metrics
+7. **Persona awareness**: Consider all 5 user types
+8. **Agent impact**: Check effects on background agents
+9. **Performance first**: Monitor <3 second targets
+10. **Simple → complex**: Start minimal, add only when needed
+
+### Emergency Protocols:
+```bash
+# When stuck
+"The solution is already here. What am I not seeing?"
+
+# Production issue
+/troubleshoot --prod --five-whys --force
+
+# Overwhelmed
+"Apply Water Way: How would this flow naturally?"
+```
 
 ## Recent Major Achievements
 
