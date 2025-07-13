@@ -12,12 +12,6 @@
       "maxDuration": 60
     }
   },
-  "crons": [
-    {
-      "path": "/api/cron/agents",
-      "schedule": "*/5 * * * *"
-    }
-  ],
   "env": {
     "ENABLE_EXPERIMENTAL_COREPACK": "1"
   },

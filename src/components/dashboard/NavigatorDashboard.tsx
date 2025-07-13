@@ -10,6 +10,8 @@ import { SystemHealthDashboard } from './SystemHealthDashboard';
 import { QuickAccessGrid } from './QuickAccessGrid';
 import { SupplyChainTriangleOverview } from './SupplyChainTriangleOverview';
 import { RecentActivity } from './RecentActivity';
+import ExtendedAnalyticsDashboard from '@/components/analytics/ExtendedAnalyticsDashboard';
+import ErrorBoundary from '@/components/ui/error-boundary';
 
 interface NavigatorDashboardProps {
   user: any;
@@ -24,10 +26,10 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Welcome back, {user?.name || 'Navigator'}! 👋</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Welcome back, {user?.name || 'Navigator'}! 👋</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Here&apos;s your Supply Chain Intelligence overview for today
           </p>
         </div>
@@ -49,8 +51,9 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
 
           {/* Customizable Dashboard Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList>
+            <TabsList className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 w-full">
               <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics">Advanced Analytics</TabsTrigger>
               <TabsTrigger value="predictive">Predictive Analytics</TabsTrigger>
               <TabsTrigger value="operations">Operations</TabsTrigger>
               <TabsTrigger value="health">System Health</TabsTrigger>
@@ -58,11 +61,17 @@ export function NavigatorDashboard({ user, company, recentActivity, metrics }: N
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                 <QuickAccessGrid persona="navigator" />
                 <SupplyChainTriangleOverview />
               </div>
               <RecentActivity activities={recentActivity} />
+            </TabsContent>
+
+            <TabsContent value="analytics" className="mt-6">
+              <ErrorBoundary>
+                <ExtendedAnalyticsDashboard companyId={company?.id} />
+              </ErrorBoundary>
             </TabsContent>
 
             <TabsContent value="predictive" className="space-y-6 mt-6">
