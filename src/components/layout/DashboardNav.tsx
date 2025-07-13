@@ -38,6 +38,12 @@ export function DashboardNav() {
       icon: <LayoutDashboard className="h-5 w-5" />
     },
     {
+      title: 'Quick Insights',
+      href: '/dashboard/quick-insights',
+      icon: <TrendingUp className="h-5 w-5" />,
+      badge: 'NEW'
+    },
+    {
       title: 'Analytics',
       href: '/dashboard/analytics',
       icon: <BarChart3 className="h-5 w-5" />,
